@@ -23,7 +23,6 @@ html, body {
     overflow: hidden;
 }
 
-/* TAMANHO DO CELULAR NA TELA DO JOGO */
 :root {
     --phone-w: clamp(170px, 19vw, 215px);
     --phone-h: calc(var(--phone-w) * 2.07);
@@ -97,13 +96,12 @@ html, body {
     z-index: 300;
 }
 
-/* INTERFACE INTERNA FIXA, O JS ESCALA ELA */
 #phone-ui {
     position: absolute;
     left: 0;
     top: 0;
-    width: 390px;
-    height: 812px;
+    width: 340px;
+    height: 708px;
     transform-origin: top left;
     overflow: hidden;
 }
@@ -112,25 +110,24 @@ html, body {
     max-width: 100%;
 }
 
-/* IPHONE */
 .notch {
     position: absolute;
     top: 0;
     left: 50%;
-    width: 156px;
-    height: 42px;
+    width: 136px;
+    height: 38px;
     transform: translateX(-50%);
     background: #020203;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
     z-index: 350;
 }
 
 .speaker {
     position: absolute;
-    top: 14px;
+    top: 13px;
     left: 50%;
-    width: 55px;
+    width: 48px;
     height: 6px;
     transform: translateX(-50%);
     background: #222;
@@ -140,34 +137,33 @@ html, body {
 .camera {
     position: absolute;
     top: 12px;
-    right: 30px;
-    width: 9px;
-    height: 9px;
+    right: 25px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #101827;
 }
 
 .status-bar {
     position: absolute;
-    top: 14px;
-    left: 20px;
-    right: 20px;
-    height: 25px;
+    top: 13px;
+    left: 18px;
+    right: 18px;
+    height: 24px;
     z-index: 330;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 .status-icons {
     display: flex;
-    gap: 8px;
+    gap: 7px;
 }
 
-/* HOME */
 #home-screen {
     position: absolute;
     inset: 0;
@@ -176,7 +172,7 @@ html, body {
 
 .clock-area {
     position: absolute;
-    top: 75px;
+    top: 65px;
     width: 100%;
     text-align: center;
     color: white;
@@ -184,26 +180,26 @@ html, body {
 }
 
 .clock {
-    font-size: 67px;
-    line-height: 60px;
+    font-size: 60px;
+    line-height: 54px;
     font-weight: 500;
     letter-spacing: 4px;
 }
 
 .date {
-    margin-top: 12px;
-    font-size: 16px;
+    margin-top: 10px;
+    font-size: 14px;
     opacity: 0.9;
 }
 
 .apps {
     position: absolute;
-    top: 265px;
-    left: 35px;
-    right: 35px;
+    top: 225px;
+    left: 28px;
+    right: 28px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 34px 18px;
+    gap: 28px 16px;
 }
 
 .app {
@@ -211,20 +207,20 @@ html, body {
     flex-direction: column;
     align-items: center;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     text-shadow: 0 1px 4px #000;
     cursor: pointer;
 }
 
 .icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
-    margin-bottom: 8px;
+    width: 58px;
+    height: 58px;
+    border-radius: 17px;
+    margin-bottom: 7px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 31px;
+    font-size: 28px;
     font-weight: bold;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.55);
@@ -237,32 +233,31 @@ html, body {
 
 .dock {
     position: absolute;
-    left: 24px;
-    right: 24px;
-    bottom: 28px;
-    height: 82px;
-    border-radius: 28px;
+    left: 20px;
+    right: 20px;
+    bottom: 24px;
+    height: 74px;
+    border-radius: 25px;
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.12);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 14px;
     overflow: hidden;
 }
 
 .dock .icon {
-    width: 56px;
-    height: 56px;
-    min-width: 56px;
-    min-height: 56px;
-    font-size: 28px;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    font-size: 25px;
     margin: 0;
-    border-radius: 17px;
+    border-radius: 15px;
 }
 
-/* TELAS */
 .app-screen {
     position: absolute;
     inset: 0;
@@ -277,7 +272,6 @@ html, body {
     display: block;
 }
 
-/* LOADING WHATSAPP */
 #wa-loading-screen {
     position: absolute;
     inset: 0;
@@ -294,20 +288,20 @@ html, body {
 }
 
 .wa-logo-big {
-    width: 90px;
-    height: 90px;
+    width: 78px;
+    height: 78px;
     border-radius: 50%;
     background: #25d366;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 50px;
+    font-size: 44px;
     color: white;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .wa-loader-line {
-    width: 115px;
+    width: 105px;
     height: 4px;
     background: rgba(255,255,255,0.14);
     border-radius: 10px;
@@ -325,7 +319,7 @@ html, body {
 
 .wa-loading-bottom {
     position: absolute;
-    bottom: 70px;
+    bottom: 58px;
     left: 0;
     right: 0;
     text-align: center;
@@ -333,12 +327,12 @@ html, body {
 
 .wa-loading-text {
     color: #7e8b91;
-    font-size: 14px;
-    margin-bottom: 8px;
+    font-size: 13px;
+    margin-bottom: 7px;
 }
 
 .wa-meta {
-    font-size: 18px;
+    font-size: 16px;
     color: #25d366;
     font-weight: bold;
 }
@@ -348,7 +342,6 @@ html, body {
     100% { transform: translateX(250%); }
 }
 
-/* WHATSAPP */
 #whatsapp-screen.theme-dark {
     background: #071015;
     color: white;
@@ -360,28 +353,28 @@ html, body {
 }
 
 .wa-header {
-    height: 122px;
+    height: 106px;
     background: #071015;
     border-bottom: 1px solid rgba(0,255,180,0.15);
-    padding: 48px 18px 0 18px;
+    padding: 42px 16px 0 16px;
 }
 
 .wa-top {
-    height: 36px;
+    height: 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .wa-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 
 .wa-actions {
     display: flex;
-    gap: 18px;
-    font-size: 22px;
+    gap: 16px;
+    font-size: 20px;
 }
 
 .wa-actions span {
@@ -389,11 +382,11 @@ html, body {
 }
 
 .wa-tabs {
-    margin-top: 12px;
+    margin-top: 9px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     color: #7f8c94;
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
     font-weight: bold;
 }
@@ -401,12 +394,12 @@ html, body {
 .wa-tab.active {
     color: #00c79a;
     border-bottom: 3px solid #00c79a;
-    padding-bottom: 11px;
+    padding-bottom: 9px;
 }
 
 .wa-list {
     position: absolute;
-    top: 122px;
+    top: 106px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -415,10 +408,10 @@ html, body {
 }
 
 .chat-item {
-    height: 92px;
-    padding: 12px 18px;
+    height: 80px;
+    padding: 10px 16px;
     display: flex;
-    gap: 14px;
+    gap: 12px;
     align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.04);
     cursor: pointer;
@@ -439,8 +432,8 @@ html, body {
 }
 
 .avatar {
-    width: 62px;
-    height: 62px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     background: linear-gradient(145deg, #209cff, #004d87);
     display: flex;
@@ -448,7 +441,7 @@ html, body {
     justify-content: center;
     font-weight: bold;
     flex-shrink: 0;
-    font-size: 24px;
+    font-size: 21px;
 }
 
 .chat-info {
@@ -463,7 +456,7 @@ html, body {
 }
 
 .chat-name {
-    font-size: 22px;
+    font-size: 19px;
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
@@ -471,13 +464,13 @@ html, body {
 }
 
 .chat-time {
-    font-size: 15px;
+    font-size: 13px;
     color: #00c79a;
 }
 
 .chat-last {
-    margin-top: 6px;
-    font-size: 16px;
+    margin-top: 5px;
+    font-size: 14px;
     color: #9aa5aa;
     overflow: hidden;
     white-space: nowrap;
@@ -485,18 +478,17 @@ html, body {
 }
 
 .badge {
-    min-width: 22px;
-    height: 22px;
+    min-width: 20px;
+    height: 20px;
     background: #00c79a;
     color: #071015;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 11px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* CONVERSA */
 #conversation {
     position: absolute;
     inset: 0;
@@ -511,22 +503,22 @@ html, body {
 }
 
 .conv-header {
-    height: 104px;
-    padding: 45px 12px 8px 12px;
+    height: 92px;
+    padding: 40px 10px 8px 10px;
     background: #0a171f;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .back {
-    font-size: 34px;
+    font-size: 30px;
     cursor: pointer;
 }
 
 .conv-avatar {
-    width: 56px;
-    height: 56px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #005c8a;
     display: flex;
@@ -534,12 +526,12 @@ html, body {
     align-items: center;
     font-weight: bold;
     flex-shrink: 0;
-    font-size: 23px;
+    font-size: 20px;
 }
 
 .conv-name {
     flex: 1;
-    font-size: 21px;
+    font-size: 19px;
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
@@ -548,22 +540,22 @@ html, body {
 
 .messages {
     position: absolute;
-    top: 104px;
+    top: 92px;
     left: 0;
     right: 0;
-    bottom: 82px;
+    bottom: 72px;
     overflow-y: auto;
-    padding: 14px;
+    padding: 12px;
     background: #071015;
 }
 
 .msg {
     max-width: 78%;
-    padding: 12px 15px;
-    margin-bottom: 12px;
-    font-size: 19px;
-    line-height: 25px;
-    border-radius: 16px;
+    padding: 10px 13px;
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 23px;
+    border-radius: 15px;
     word-wrap: break-word;
 }
 
@@ -582,14 +574,14 @@ html, body {
 .msg span.msg-time {
     display: block;
     text-align: right;
-    font-size: 13px;
+    font-size: 12px;
     opacity: 0.65;
     margin-top: 5px;
 }
 
 .msg-image {
-    width: 220px;
-    max-height: 250px;
+    width: 190px;
+    max-height: 220px;
     border-radius: 12px;
     object-fit: cover;
     display: block;
@@ -599,46 +591,45 @@ html, body {
 .receipt-box {
     background: rgba(255,255,255,0.08);
     border-radius: 13px;
-    padding: 12px;
+    padding: 11px;
     border: 1px solid rgba(255,255,255,0.08);
 }
 
 .receipt-title {
-    font-size: 19px;
+    font-size: 17px;
     font-weight: bold;
     margin-bottom: 8px;
 }
 
 .receipt-line {
-    font-size: 15px;
+    font-size: 14px;
     margin: 5px 0;
     opacity: 0.9;
 }
 
-/* INPUT WHATSAPP */
 .input-area {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 82px;
+    height: 72px;
     display: flex;
     align-items: center;
-    gap: 9px;
-    padding: 10px 12px;
+    gap: 8px;
+    padding: 9px 10px;
     background: #071015;
 }
 
 .message-box {
     flex: 1;
-    height: 60px;
+    height: 52px;
     min-width: 0;
-    border-radius: 32px;
+    border-radius: 28px;
     background: #202c33;
     display: flex;
     align-items: center;
-    padding: 0 10px;
-    gap: 8px;
+    padding: 0 8px;
+    gap: 6px;
 }
 
 .message-box input {
@@ -649,7 +640,7 @@ html, body {
     outline: none;
     background: transparent;
     color: white;
-    font-size: 22px;
+    font-size: 19px;
     padding: 0 4px;
 }
 
@@ -660,12 +651,12 @@ html, body {
 .emoji-btn,
 .attach-btn,
 .camera-btn {
-    width: 36px;
-    height: 36px;
+    width: 31px;
+    height: 31px;
     border: none;
     background: transparent;
     color: #aebac1;
-    font-size: 24px;
+    font-size: 21px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -673,18 +664,18 @@ html, body {
     flex-shrink: 0;
 }
 
-.attach-btn { font-size: 27px; }
-.camera-btn { font-size: 24px; }
+.attach-btn { font-size: 24px; }
+.camera-btn { font-size: 21px; }
 
 .mic-btn,
 .send-btn {
-    width: 62px;
-    height: 62px;
+    width: 54px;
+    height: 54px;
     border: none;
     border-radius: 50%;
     background: #00c853;
     color: #06210f;
-    font-size: 28px;
+    font-size: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -695,7 +686,7 @@ html, body {
 .send-btn {
     display: none;
     color: white;
-    font-size: 26px;
+    font-size: 23px;
 }
 
 .mic-btn.recording {
@@ -709,58 +700,57 @@ html, body {
     50% { transform: scale(1.08); box-shadow: 0 0 10px rgba(255,48,48,0.8); }
 }
 
-/* ÁUDIO */
 .audio-bubble {
     display: flex;
     align-items: center;
-    gap: 10px;
-    min-width: 190px;
+    gap: 8px;
+    min-width: 165px;
 }
 
 .audio-play {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,0.18);
     color: white;
-    font-size: 18px;
+    font-size: 15px;
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .audio-wave {
     flex: 1;
-    height: 28px;
+    height: 24px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
 }
 
 .audio-wave span {
-    width: 5px;
+    width: 4px;
     border-radius: 4px;
     background: rgba(255,255,255,0.75);
     display: block;
 }
 
-.audio-wave span:nth-child(1) { height: 10px; }
-.audio-wave span:nth-child(2) { height: 20px; }
-.audio-wave span:nth-child(3) { height: 14px; }
-.audio-wave span:nth-child(4) { height: 26px; }
-.audio-wave span:nth-child(5) { height: 12px; }
-.audio-wave span:nth-child(6) { height: 22px; }
-.audio-wave span:nth-child(7) { height: 16px; }
-.audio-wave span:nth-child(8) { height: 24px; }
+.audio-wave span:nth-child(1) { height: 9px; }
+.audio-wave span:nth-child(2) { height: 18px; }
+.audio-wave span:nth-child(3) { height: 13px; }
+.audio-wave span:nth-child(4) { height: 24px; }
+.audio-wave span:nth-child(5) { height: 11px; }
+.audio-wave span:nth-child(6) { height: 20px; }
+.audio-wave span:nth-child(7) { height: 15px; }
+.audio-wave span:nth-child(8) { height: 22px; }
 
 .audio-duration {
-    font-size: 13px;
+    font-size: 12px;
     opacity: 0.75;
-    min-width: 30px;
+    min-width: 28px;
     text-align: right;
 }
 
-/* TEMA BRANCO WHATSAPP */
+/* TEMA BRANCO */
 #whatsapp-screen.theme-light .wa-header,
 #whatsapp-screen.theme-light .conv-header {
     background: #ffffff;
@@ -838,7 +828,7 @@ html, body {
     background: #7c1bbd;
     color: white;
     overflow-y: auto;
-    padding: 55px 22px 22px;
+    padding: 48px 18px 18px;
 }
 
 .bank-top {
@@ -848,49 +838,49 @@ html, body {
 }
 
 .bank-title {
-    font-size: 25px;
+    font-size: 22px;
     font-weight: bold;
 }
 
 .bank-card {
-    margin-top: 24px;
+    margin-top: 20px;
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 25px;
-    padding: 22px;
+    border-radius: 22px;
+    padding: 18px;
 }
 
 .bank-label {
-    font-size: 16px;
+    font-size: 15px;
     opacity: 0.82;
 }
 
 .bank-balance {
-    margin-top: 10px;
-    font-size: 36px;
+    margin-top: 9px;
+    font-size: 32px;
     font-weight: bold;
 }
 
 .bank-actions {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 22px;
+    gap: 10px;
+    margin-top: 18px;
 }
 
 .bank-action {
-    height: 70px;
-    border-radius: 20px;
+    height: 62px;
+    border-radius: 18px;
     border: none;
     background: rgba(255,255,255,0.18);
     color: white;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .pix-form {
-    margin-top: 22px;
+    margin-top: 18px;
     display: none;
 }
 
@@ -900,58 +890,57 @@ html, body {
 
 .bank-input {
     width: 100%;
-    height: 50px;
-    margin-top: 12px;
+    height: 45px;
+    margin-top: 10px;
     border: none;
     outline: none;
-    border-radius: 14px;
-    padding: 0 14px;
-    font-size: 16px;
+    border-radius: 13px;
+    padding: 0 12px;
+    font-size: 15px;
     color: #111;
 }
 
 .bank-btn {
     width: 100%;
-    height: 52px;
-    margin-top: 16px;
+    height: 48px;
+    margin-top: 14px;
     border: none;
-    border-radius: 14px;
+    border-radius: 13px;
     background: #ffffff;
     color: #7c1bbd;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .bank-history {
-    margin-top: 24px;
+    margin-top: 20px;
 }
 
 .bank-history-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .bank-item {
     background: rgba(0,0,0,0.15);
-    border-radius: 17px;
-    padding: 13px;
-    margin-bottom: 10px;
+    border-radius: 15px;
+    padding: 12px;
+    margin-bottom: 9px;
 }
 
 .bank-item-title {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 .bank-item-desc {
-    font-size: 13px;
+    font-size: 12px;
     opacity: 0.78;
     margin-top: 5px;
 }
 
-/* COMPROVANTE */
 #receipt-modal {
     position: absolute;
     inset: 0;
@@ -960,7 +949,7 @@ html, body {
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 25px;
+    padding: 22px;
 }
 
 #receipt-modal.active {
@@ -971,36 +960,36 @@ html, body {
     width: 100%;
     background: #fff;
     color: #111;
-    border-radius: 25px;
-    padding: 22px;
+    border-radius: 22px;
+    padding: 18px;
 }
 
 .receipt-modal-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
     color: #7c1bbd;
-    margin-bottom: 18px;
+    margin-bottom: 15px;
 }
 
 .receipt-modal-line {
-    font-size: 16px;
-    margin: 10px 0;
+    font-size: 15px;
+    margin: 9px 0;
 }
 
 .receipt-modal-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 22px;
+    gap: 10px;
+    margin-top: 18px;
 }
 
 .receipt-modal-actions button {
-    height: 50px;
+    height: 45px;
     border: none;
-    border-radius: 15px;
+    border-radius: 13px;
     background: #7c1bbd;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -1011,49 +1000,49 @@ html, body {
 /* CALCULADORA */
 #calc-screen {
     background: #09090b;
-    padding: 55px 22px 22px;
+    padding: 48px 18px 18px;
 }
 
 .calc-top {
-    height: 55px;
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 
 .small-btn {
     background: rgba(255,255,255,0.1);
-    padding: 8px 14px;
-    border-radius: 12px;
-    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 11px;
+    font-size: 14px;
     cursor: pointer;
 }
 
 .calc-display {
-    height: 180px;
+    height: 155px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
-    font-size: 55px;
-    padding-bottom: 16px;
+    font-size: 48px;
+    padding-bottom: 14px;
     overflow: hidden;
 }
 
 .calc-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 9px;
 }
 
 .calc-btn {
-    height: 65px;
+    height: 58px;
     border: none;
     border-radius: 50%;
     background: #2b2b2d;
     color: white;
-    font-size: 28px;
+    font-size: 25px;
 }
 
 .calc-btn.gray { background: #a5a5a5; color: black; }
@@ -1061,113 +1050,113 @@ html, body {
 
 .calc-btn.zero {
     grid-column: span 2;
-    border-radius: 35px;
+    border-radius: 32px;
     text-align: left;
-    padding-left: 28px;
+    padding-left: 24px;
 }
 
 /* SETTINGS */
 .settings-screen {
     background: #0b0b0d;
-    padding: 55px 22px 22px;
+    padding: 48px 18px 18px;
 }
 
 .settings-top {
-    height: 55px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .settings-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 
 .profile-preview {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 18px 0;
+    gap: 13px;
+    padding: 16px 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .my-photo {
-    width: 65px;
-    height: 65px;
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
     background: #00a884;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 27px;
+    font-size: 24px;
 }
 
 .preview-name {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .preview-desc {
     margin-top: 5px;
-    font-size: 14px;
+    font-size: 13px;
     color: #8b9499;
 }
 
 .setting-group {
-    margin-top: 18px;
+    margin-top: 16px;
 }
 
 .setting-label {
-    font-size: 15px;
+    font-size: 14px;
     color: #8b9499;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 .setting-input,
 .setting-select {
     width: 100%;
-    height: 48px;
+    height: 44px;
     border: none;
     outline: none;
-    border-radius: 14px;
+    border-radius: 13px;
     background: #18191d;
     color: white;
-    font-size: 16px;
-    padding: 0 14px;
+    font-size: 15px;
+    padding: 0 12px;
 }
 
 .save-btn {
     width: 100%;
-    height: 52px;
+    height: 48px;
     border: none;
-    border-radius: 14px;
-    margin-top: 22px;
+    border-radius: 13px;
+    margin-top: 18px;
     background: #00a884;
     color: white;
     font-weight: bold;
-    font-size: 17px;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .reset-btn {
     width: 100%;
-    height: 48px;
+    height: 44px;
     border: none;
-    border-radius: 14px;
-    margin-top: 12px;
+    border-radius: 13px;
+    margin-top: 10px;
     background: #2b2b2b;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
 }
 
 .home-line {
     position: absolute;
     left: 50%;
-    bottom: 12px;
+    bottom: 10px;
     transform: translateX(-50%);
-    width: 105px;
+    width: 90px;
     height: 6px;
     border-radius: 10px;
     background: rgba(255,255,255,0.65);
@@ -1249,7 +1238,6 @@ html, body {
                     </div>
                 </div>
 
-                <!-- HOME -->
                 <div id="home-screen">
                     <div class="clock-area">
                         <div class="clock">
@@ -1289,7 +1277,6 @@ html, body {
                     </div>
                 </div>
 
-                <!-- WHATSAPP -->
                 <div class="app-screen theme-dark" id="whatsapp-screen">
 
                     <div id="wa-loading-screen">
@@ -1361,7 +1348,6 @@ html, body {
                     <div class="home-line" onclick="voltarHome()"></div>
                 </div>
 
-                <!-- BANCO -->
                 <div class="app-screen" id="bank-screen">
                     <div class="bank-top">
                         <div class="bank-title">Banco Roxo</div>
@@ -1392,7 +1378,6 @@ html, body {
                     </div>
                 </div>
 
-                <!-- COMPROVANTE -->
                 <div id="receipt-modal">
                     <div class="receipt-modal-card">
                         <div class="receipt-modal-title">Comprovante Pix</div>
@@ -1405,7 +1390,6 @@ html, body {
                     </div>
                 </div>
 
-                <!-- CALCULADORA -->
                 <div class="app-screen" id="calc-screen">
                     <div class="calc-top">
                         <span>Calculadora</span>
@@ -1443,7 +1427,6 @@ html, body {
                     <div class="home-line" onclick="voltarHome()"></div>
                 </div>
 
-                <!-- CONFIG WHATSAPP -->
                 <div class="app-screen settings-screen" id="wa-settings-screen">
                     <div class="settings-top">
                         <div class="settings-title">Config. WhatsApp</div>
@@ -1482,7 +1465,6 @@ html, body {
                     <div class="home-line" onclick="voltarHome()"></div>
                 </div>
 
-                <!-- CONFIG CELULAR -->
                 <div class="app-screen settings-screen" id="phone-settings-screen">
                     <div class="settings-top">
                         <div class="settings-title">Config. Celular</div>
@@ -1541,20 +1523,21 @@ let audioStartTime = 0;
 let audioAtual = null;
 let audioSegurando = false;
 
-/* ESCALA INTERNA */
 function ajustarInterfaceCelular() {
     const screen = document.getElementById("phoneScreen");
     const ui = document.getElementById("phone-ui");
 
     if (!screen || !ui) return;
 
-    const baseW = 390;
-    const baseH = 812;
+    const baseW = 340;
+    const baseH = 708;
 
     const sw = screen.clientWidth;
     const sh = screen.clientHeight;
 
-    const scale = Math.min(sw / baseW, sh / baseH);
+    let scale = Math.min(sw / baseW, sh / baseH);
+
+    scale = scale * 1.06;
 
     ui.style.transform = `scale(${scale})`;
 
