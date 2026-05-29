@@ -23,7 +23,6 @@ html, body {
     overflow: hidden;
 }
 
-/* TAMANHO CORRIGIDO: maior que antes, mas sem ficar gigante */
 :root {
     --phone-w: clamp(170px, 19vw, 215px);
     --phone-h: calc(var(--phone-w) * 2.07);
@@ -92,7 +91,7 @@ html, body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04) 20%, transparent 42%);
+    background: linear-gradient(120deg, rgba(255,255,255,0.13), rgba(255,255,255,0.04) 20%, transparent 42%);
     pointer-events: none;
     z-index: 300;
 }
@@ -129,7 +128,6 @@ html, body {
     height: 6px;
     border-radius: 50%;
     background: #101827;
-    box-shadow: inset 0 0 2px #355;
 }
 
 .status-bar {
@@ -143,7 +141,7 @@ html, body {
     align-items: center;
     justify-content: space-between;
     color: white;
-    font-size: calc(var(--phone-w) * 0.035);
+    font-size: 8px;
     font-weight: bold;
 }
 
@@ -168,26 +166,26 @@ html, body {
 }
 
 .clock {
-    font-size: calc(var(--phone-w) * 0.18);
-    line-height: calc(var(--phone-w) * 0.16);
+    font-size: 36px;
+    line-height: 33px;
     font-weight: 500;
     letter-spacing: 2px;
 }
 
 .date {
     margin-top: 5px;
-    font-size: calc(var(--phone-w) * 0.033);
+    font-size: 8px;
     opacity: 0.9;
 }
 
 .apps {
     position: absolute;
     top: 31%;
-    left: 9%;
-    right: 9%;
+    left: 8%;
+    right: 8%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 14px 9px;
+    gap: 13px 8px;
 }
 
 .app {
@@ -195,14 +193,14 @@ html, body {
     flex-direction: column;
     align-items: center;
     color: white;
-    font-size: calc(var(--phone-w) * 0.035);
+    font-size: 9px;
     text-shadow: 0 1px 4px #000;
     cursor: pointer;
 }
 
 .icon {
-    width: calc(var(--phone-w) * 0.24);
-    height: calc(var(--phone-w) * 0.24);
+    width: 38px;
+    height: 38px;
     min-width: 38px;
     min-height: 38px;
     border-radius: 11px;
@@ -210,7 +208,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: calc(var(--phone-w) * 0.11);
+    font-size: 18px;
     font-weight: bold;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.55);
@@ -223,10 +221,10 @@ html, body {
 
 .dock {
     position: absolute;
-    left: 7%;
-    right: 7%;
-    bottom: 3%;
-    height: 12%;
+    left: 6%;
+    right: 6%;
+    bottom: 4%;
+    height: 52px;
     border-radius: 16px;
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.12);
@@ -234,17 +232,18 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
+    gap: 5px;
+    overflow: hidden;
 }
 
 .dock .icon {
-    width: calc(var(--phone-w) * 0.22);
-    height: calc(var(--phone-w) * 0.22);
-    min-width: 34px;
-    min-height: 34px;
-    font-size: calc(var(--phone-w) * 0.10);
+    width: 31px;
+    height: 31px;
+    min-width: 31px;
+    min-height: 31px;
+    font-size: 15px;
     margin: 0;
-    border-radius: 10px;
+    border-radius: 9px;
 }
 
 .app-screen {
@@ -254,6 +253,7 @@ html, body {
     display: none;
     color: white;
     background: #071015;
+    overflow: hidden;
 }
 
 .app-screen.active {
@@ -277,19 +277,16 @@ html, body {
 }
 
 .wa-logo-big {
-    width: calc(var(--phone-w) * 0.28);
-    height: calc(var(--phone-w) * 0.28);
-    min-width: 44px;
-    min-height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: #25d366;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: calc(var(--phone-w) * 0.15);
+    font-size: 27px;
     color: white;
     margin-bottom: 16px;
-    box-shadow: 0 0 16px rgba(37,211,102,0.35);
 }
 
 .wa-loader-line {
@@ -346,10 +343,10 @@ html, body {
 }
 
 .wa-header {
-    height: 15%;
+    height: 72px;
     background: #071015;
     border-bottom: 1px solid rgba(0,255,180,0.15);
-    padding: 11% 5% 0 5%;
+    padding: 28px 10px 0 10px;
 }
 
 .wa-top {
@@ -360,14 +357,14 @@ html, body {
 }
 
 .wa-title {
-    font-size: calc(var(--phone-w) * 0.055);
+    font-size: 13px;
     font-weight: bold;
 }
 
 .wa-actions {
     display: flex;
     gap: 8px;
-    font-size: calc(var(--phone-w) * 0.05);
+    font-size: 12px;
 }
 
 .wa-actions span {
@@ -375,11 +372,11 @@ html, body {
 }
 
 .wa-tabs {
-    margin-top: 5px;
+    margin-top: 6px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     color: #7f8c94;
-    font-size: calc(var(--phone-w) * 0.03);
+    font-size: 8px;
     text-align: center;
     font-weight: bold;
 }
@@ -392,7 +389,7 @@ html, body {
 
 .wa-list {
     position: absolute;
-    top: 15%;
+    top: 72px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -401,8 +398,8 @@ html, body {
 }
 
 .chat-item {
-    height: 52px;
-    padding: 7px 9px;
+    height: 58px;
+    padding: 7px 10px;
     display: flex;
     gap: 8px;
     align-items: center;
@@ -425,8 +422,8 @@ html, body {
 }
 
 .avatar {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: linear-gradient(145deg, #209cff, #004d87);
     display: flex;
@@ -434,7 +431,7 @@ html, body {
     justify-content: center;
     font-weight: bold;
     flex-shrink: 0;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .chat-info {
@@ -449,7 +446,7 @@ html, body {
 }
 
 .chat-name {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
@@ -457,13 +454,13 @@ html, body {
 }
 
 .chat-time {
-    font-size: 7px;
+    font-size: 8px;
     color: #00c79a;
 }
 
 .chat-last {
     margin-top: 4px;
-    font-size: 8px;
+    font-size: 9px;
     color: #9aa5aa;
     overflow: hidden;
     white-space: nowrap;
@@ -488,6 +485,7 @@ html, body {
     display: none;
     background: #071015;
     z-index: 90;
+    overflow: hidden;
 }
 
 #conversation.active {
@@ -495,53 +493,58 @@ html, body {
 }
 
 .conv-header {
-    height: 13%;
-    padding: 10.5% 6px 4px 6px;
+    height: 58px;
+    padding: 25px 7px 5px 7px;
     background: #0a171f;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
 }
 
 .back {
-    font-size: 19px;
+    font-size: 20px;
     cursor: pointer;
 }
 
 .conv-avatar {
-    width: 27px;
-    height: 27px;
+    width: 31px;
+    height: 31px;
     border-radius: 50%;
     background: #005c8a;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    flex-shrink: 0;
+    font-size: 14px;
 }
 
 .conv-name {
     flex: 1;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .messages {
     position: absolute;
-    top: 13%;
+    top: 58px;
     left: 0;
     right: 0;
-    bottom: 48px;
+    bottom: 50px;
     overflow-y: auto;
-    padding: 7px;
+    padding: 8px;
     background: #071015;
 }
 
 .msg {
-    max-width: 78%;
-    padding: 6px 7px;
+    max-width: 76%;
+    padding: 7px 8px;
     margin-bottom: 6px;
-    font-size: 9px;
-    line-height: 12px;
+    font-size: 10px;
+    line-height: 13px;
     border-radius: 9px;
     word-wrap: break-word;
 }
@@ -561,7 +564,7 @@ html, body {
 .msg span.msg-time {
     display: block;
     text-align: right;
-    font-size: 6px;
+    font-size: 7px;
     opacity: 0.65;
     margin-top: 4px;
 }
@@ -600,24 +603,24 @@ html, body {
     left: 0;
     right: 0;
     bottom: 0;
-    height: 48px;
+    height: 50px;
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 5px 5px;
+    gap: 5px;
+    padding: 5px 6px;
     background: #071015;
 }
 
 .message-box {
     flex: 1;
-    height: 36px;
+    height: 37px;
     min-width: 0;
-    border-radius: 22px;
+    border-radius: 20px;
     background: #202c33;
     display: flex;
     align-items: center;
-    padding: 0 4px;
-    gap: 2px;
+    padding: 0 5px;
+    gap: 3px;
 }
 
 .message-box input {
@@ -628,8 +631,8 @@ html, body {
     outline: none;
     background: transparent;
     color: white;
-    font-size: 11px;
-    padding: 0 2px;
+    font-size: 12px;
+    padding: 0 3px;
 }
 
 .message-box input::placeholder {
@@ -639,25 +642,26 @@ html, body {
 .emoji-btn,
 .attach-btn,
 .camera-btn {
-    width: 21px;
-    height: 21px;
+    width: 22px;
+    height: 22px;
     border: none;
     background: transparent;
     color: #aebac1;
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
-.attach-btn { font-size: 15px; }
-.camera-btn { font-size: 13px; }
+.attach-btn { font-size: 16px; }
+.camera-btn { font-size: 14px; }
 
 .mic-btn,
 .send-btn {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border: none;
     border-radius: 50%;
     background: #00c853;
@@ -691,12 +695,12 @@ html, body {
     display: flex;
     align-items: center;
     gap: 5px;
-    min-width: 110px;
+    min-width: 105px;
 }
 
 .audio-play {
-    width: 22px;
-    height: 22px;
+    width: 23px;
+    height: 23px;
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,0.18);
@@ -733,7 +737,7 @@ html, body {
 .audio-duration {
     font-size: 7px;
     opacity: 0.75;
-    min-width: 19px;
+    min-width: 20px;
     text-align: right;
 }
 
@@ -815,7 +819,7 @@ html, body {
     background: #7c1bbd;
     color: white;
     overflow-y: auto;
-    padding: 12% 6% 6%;
+    padding: 32px 12px 12px;
 }
 
 .bank-top {
@@ -835,7 +839,6 @@ html, body {
     border: 1px solid rgba(255,255,255,0.16);
     border-radius: 16px;
     padding: 11px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.18);
 }
 
 .bank-label {
@@ -857,7 +860,7 @@ html, body {
 }
 
 .bank-action {
-    height: 40px;
+    height: 42px;
     border-radius: 12px;
     border: none;
     background: rgba(255,255,255,0.18);
@@ -989,11 +992,11 @@ html, body {
 /* CALCULADORA */
 #calc-screen {
     background: #09090b;
-    padding: 12% 6% 6%;
+    padding: 32px 12px 12px;
 }
 
 .calc-top {
-    height: 36px;
+    height: 34px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1010,11 +1013,11 @@ html, body {
 }
 
 .calc-display {
-    height: 100px;
+    height: 95px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
-    font-size: 32px;
+    font-size: 31px;
     padding-bottom: 8px;
     overflow: hidden;
 }
@@ -1026,12 +1029,12 @@ html, body {
 }
 
 .calc-btn {
-    height: 40px;
+    height: 39px;
     border: none;
     border-radius: 50%;
     background: #2b2b2d;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .calc-btn.gray { background: #a5a5a5; color: black; }
@@ -1046,7 +1049,7 @@ html, body {
 /* CONFIG */
 .settings-screen {
     background: #0b0b0d;
-    padding: 12% 6% 6%;
+    padding: 32px 12px 12px;
 }
 
 .settings-top {
@@ -1104,7 +1107,7 @@ html, body {
 .setting-input,
 .setting-select {
     width: 100%;
-    height: 28px;
+    height: 29px;
     border: none;
     outline: none;
     border-radius: 8px;
@@ -1230,7 +1233,7 @@ html, body {
                         <div id="hourText">06</div>
                         <div id="minuteText">36</div>
                     </div>
-                    <div class="date" id="dateText">7 de Novembro de 2022</div>
+                    <div class="date" id="dateText">29 de Maio de 2026</div>
                 </div>
 
                 <div class="apps">
@@ -1724,7 +1727,6 @@ function aplicarConfigCelular() {
     screen.style.backgroundPosition = "center";
 
     location.innerText = phoneConfig.location;
-
     wrapper.style.transform = "none";
 }
 
