@@ -23,6 +23,7 @@ html, body {
     overflow: hidden;
 }
 
+/* TAMANHO DO CELULAR NA TELA DO JOGO */
 :root {
     --phone-w: clamp(170px, 19vw, 215px);
     --phone-h: calc(var(--phone-w) * 2.07);
@@ -96,25 +97,41 @@ html, body {
     z-index: 300;
 }
 
+/* INTERFACE INTERNA FIXA, O JS ESCALA ELA */
+#phone-ui {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 390px;
+    height: 812px;
+    transform-origin: top left;
+    overflow: hidden;
+}
+
+#phone-ui * {
+    max-width: 100%;
+}
+
+/* IPHONE */
 .notch {
     position: absolute;
     top: 0;
     left: 50%;
-    width: 40%;
-    height: 5.2%;
+    width: 156px;
+    height: 42px;
     transform: translateX(-50%);
     background: #020203;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
     z-index: 350;
 }
 
 .speaker {
     position: absolute;
-    top: 30%;
+    top: 14px;
     left: 50%;
-    width: 38%;
-    height: 16%;
+    width: 55px;
+    height: 6px;
     transform: translateX(-50%);
     background: #222;
     border-radius: 10px;
@@ -122,34 +139,35 @@ html, body {
 
 .camera {
     position: absolute;
-    top: 28%;
-    right: 17%;
-    width: 6px;
-    height: 6px;
+    top: 12px;
+    right: 30px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: #101827;
 }
 
 .status-bar {
     position: absolute;
-    top: 1.7%;
-    left: 5.5%;
-    right: 5.5%;
-    height: 4%;
+    top: 14px;
+    left: 20px;
+    right: 20px;
+    height: 25px;
     z-index: 330;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     color: white;
-    font-size: 8px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 .status-icons {
     display: flex;
-    gap: 3px;
+    gap: 8px;
 }
 
+/* HOME */
 #home-screen {
     position: absolute;
     inset: 0;
@@ -158,7 +176,7 @@ html, body {
 
 .clock-area {
     position: absolute;
-    top: 9%;
+    top: 75px;
     width: 100%;
     text-align: center;
     color: white;
@@ -166,26 +184,26 @@ html, body {
 }
 
 .clock {
-    font-size: 36px;
-    line-height: 33px;
+    font-size: 67px;
+    line-height: 60px;
     font-weight: 500;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
 }
 
 .date {
-    margin-top: 5px;
-    font-size: 8px;
+    margin-top: 12px;
+    font-size: 16px;
     opacity: 0.9;
 }
 
 .apps {
     position: absolute;
-    top: 31%;
-    left: 8%;
-    right: 8%;
+    top: 265px;
+    left: 35px;
+    right: 35px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 13px 8px;
+    gap: 34px 18px;
 }
 
 .app {
@@ -193,22 +211,20 @@ html, body {
     flex-direction: column;
     align-items: center;
     color: white;
-    font-size: 9px;
+    font-size: 16px;
     text-shadow: 0 1px 4px #000;
     cursor: pointer;
 }
 
 .icon {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    min-height: 38px;
-    border-radius: 11px;
-    margin-bottom: 4px;
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 31px;
     font-weight: bold;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.55);
@@ -221,31 +237,32 @@ html, body {
 
 .dock {
     position: absolute;
-    left: 6%;
-    right: 6%;
-    bottom: 4%;
-    height: 52px;
-    border-radius: 16px;
+    left: 24px;
+    right: 24px;
+    bottom: 28px;
+    height: 82px;
+    border-radius: 28px;
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.12);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 18px;
     overflow: hidden;
 }
 
 .dock .icon {
-    width: 31px;
-    height: 31px;
-    min-width: 31px;
-    min-height: 31px;
-    font-size: 15px;
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    font-size: 28px;
     margin: 0;
-    border-radius: 9px;
+    border-radius: 17px;
 }
 
+/* TELAS */
 .app-screen {
     position: absolute;
     inset: 0;
@@ -260,7 +277,7 @@ html, body {
     display: block;
 }
 
-/* WHATSAPP LOADING */
+/* LOADING WHATSAPP */
 #wa-loading-screen {
     position: absolute;
     inset: 0;
@@ -277,21 +294,21 @@ html, body {
 }
 
 .wa-logo-big {
-    width: 48px;
-    height: 48px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     background: #25d366;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 27px;
+    font-size: 50px;
     color: white;
-    margin-bottom: 16px;
+    margin-bottom: 28px;
 }
 
 .wa-loader-line {
-    width: 72px;
-    height: 3px;
+    width: 115px;
+    height: 4px;
     background: rgba(255,255,255,0.14);
     border-radius: 10px;
     overflow: hidden;
@@ -308,7 +325,7 @@ html, body {
 
 .wa-loading-bottom {
     position: absolute;
-    bottom: 9%;
+    bottom: 70px;
     left: 0;
     right: 0;
     text-align: center;
@@ -316,12 +333,12 @@ html, body {
 
 .wa-loading-text {
     color: #7e8b91;
-    font-size: 8px;
-    margin-bottom: 5px;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
 .wa-meta {
-    font-size: 10px;
+    font-size: 18px;
     color: #25d366;
     font-weight: bold;
 }
@@ -343,28 +360,28 @@ html, body {
 }
 
 .wa-header {
-    height: 72px;
+    height: 122px;
     background: #071015;
     border-bottom: 1px solid rgba(0,255,180,0.15);
-    padding: 28px 10px 0 10px;
+    padding: 48px 18px 0 18px;
 }
 
 .wa-top {
-    height: 22px;
+    height: 36px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .wa-title {
-    font-size: 13px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .wa-actions {
     display: flex;
-    gap: 8px;
-    font-size: 12px;
+    gap: 18px;
+    font-size: 22px;
 }
 
 .wa-actions span {
@@ -372,24 +389,24 @@ html, body {
 }
 
 .wa-tabs {
-    margin-top: 6px;
+    margin-top: 12px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     color: #7f8c94;
-    font-size: 8px;
+    font-size: 14px;
     text-align: center;
     font-weight: bold;
 }
 
 .wa-tab.active {
     color: #00c79a;
-    border-bottom: 2px solid #00c79a;
-    padding-bottom: 5px;
+    border-bottom: 3px solid #00c79a;
+    padding-bottom: 11px;
 }
 
 .wa-list {
     position: absolute;
-    top: 72px;
+    top: 122px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -398,10 +415,10 @@ html, body {
 }
 
 .chat-item {
-    height: 58px;
-    padding: 7px 10px;
+    height: 92px;
+    padding: 12px 18px;
     display: flex;
-    gap: 8px;
+    gap: 14px;
     align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.04);
     cursor: pointer;
@@ -422,8 +439,8 @@ html, body {
 }
 
 .avatar {
-    width: 38px;
-    height: 38px;
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
     background: linear-gradient(145deg, #209cff, #004d87);
     display: flex;
@@ -431,7 +448,7 @@ html, body {
     justify-content: center;
     font-weight: bold;
     flex-shrink: 0;
-    font-size: 14px;
+    font-size: 24px;
 }
 
 .chat-info {
@@ -442,11 +459,11 @@ html, body {
 .chat-row {
     display: flex;
     justify-content: space-between;
-    gap: 5px;
+    gap: 8px;
 }
 
 .chat-name {
-    font-size: 12px;
+    font-size: 22px;
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
@@ -454,13 +471,13 @@ html, body {
 }
 
 .chat-time {
-    font-size: 8px;
+    font-size: 15px;
     color: #00c79a;
 }
 
 .chat-last {
-    margin-top: 4px;
-    font-size: 9px;
+    margin-top: 6px;
+    font-size: 16px;
     color: #9aa5aa;
     overflow: hidden;
     white-space: nowrap;
@@ -468,17 +485,18 @@ html, body {
 }
 
 .badge {
-    min-width: 14px;
-    height: 14px;
+    min-width: 22px;
+    height: 22px;
     background: #00c79a;
     color: #071015;
     border-radius: 10px;
-    font-size: 7px;
+    font-size: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* CONVERSA */
 #conversation {
     position: absolute;
     inset: 0;
@@ -493,22 +511,22 @@ html, body {
 }
 
 .conv-header {
-    height: 58px;
-    padding: 25px 7px 5px 7px;
+    height: 104px;
+    padding: 45px 12px 8px 12px;
     background: #0a171f;
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 12px;
 }
 
 .back {
-    font-size: 20px;
+    font-size: 34px;
     cursor: pointer;
 }
 
 .conv-avatar {
-    width: 31px;
-    height: 31px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: #005c8a;
     display: flex;
@@ -516,12 +534,12 @@ html, body {
     align-items: center;
     font-weight: bold;
     flex-shrink: 0;
-    font-size: 14px;
+    font-size: 23px;
 }
 
 .conv-name {
     flex: 1;
-    font-size: 12px;
+    font-size: 21px;
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
@@ -530,97 +548,97 @@ html, body {
 
 .messages {
     position: absolute;
-    top: 58px;
+    top: 104px;
     left: 0;
     right: 0;
-    bottom: 50px;
+    bottom: 82px;
     overflow-y: auto;
-    padding: 8px;
+    padding: 14px;
     background: #071015;
 }
 
 .msg {
-    max-width: 76%;
-    padding: 7px 8px;
-    margin-bottom: 6px;
-    font-size: 10px;
-    line-height: 13px;
-    border-radius: 9px;
+    max-width: 78%;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    font-size: 19px;
+    line-height: 25px;
+    border-radius: 16px;
     word-wrap: break-word;
 }
 
 .msg.received {
     background: #111f27;
     margin-right: auto;
-    border-top-left-radius: 2px;
+    border-top-left-radius: 4px;
 }
 
 .msg.sent {
     background: #005c4b;
     margin-left: auto;
-    border-top-right-radius: 2px;
+    border-top-right-radius: 4px;
 }
 
 .msg span.msg-time {
     display: block;
     text-align: right;
-    font-size: 7px;
+    font-size: 13px;
     opacity: 0.65;
-    margin-top: 4px;
+    margin-top: 5px;
 }
 
 .msg-image {
-    width: 110px;
-    max-height: 130px;
-    border-radius: 8px;
+    width: 220px;
+    max-height: 250px;
+    border-radius: 12px;
     object-fit: cover;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .receipt-box {
     background: rgba(255,255,255,0.08);
-    border-radius: 9px;
-    padding: 7px;
+    border-radius: 13px;
+    padding: 12px;
     border: 1px solid rgba(255,255,255,0.08);
 }
 
 .receipt-title {
-    font-size: 10px;
+    font-size: 19px;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .receipt-line {
-    font-size: 8px;
-    margin: 3px 0;
+    font-size: 15px;
+    margin: 5px 0;
     opacity: 0.9;
 }
 
-/* INPUT */
+/* INPUT WHATSAPP */
 .input-area {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 50px;
+    height: 82px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 5px 6px;
+    gap: 9px;
+    padding: 10px 12px;
     background: #071015;
 }
 
 .message-box {
     flex: 1;
-    height: 37px;
+    height: 60px;
     min-width: 0;
-    border-radius: 20px;
+    border-radius: 32px;
     background: #202c33;
     display: flex;
     align-items: center;
-    padding: 0 5px;
-    gap: 3px;
+    padding: 0 10px;
+    gap: 8px;
 }
 
 .message-box input {
@@ -631,8 +649,8 @@ html, body {
     outline: none;
     background: transparent;
     color: white;
-    font-size: 12px;
-    padding: 0 3px;
+    font-size: 22px;
+    padding: 0 4px;
 }
 
 .message-box input::placeholder {
@@ -642,12 +660,12 @@ html, body {
 .emoji-btn,
 .attach-btn,
 .camera-btn {
-    width: 22px;
-    height: 22px;
+    width: 36px;
+    height: 36px;
     border: none;
     background: transparent;
     color: #aebac1;
-    font-size: 14px;
+    font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -655,18 +673,18 @@ html, body {
     flex-shrink: 0;
 }
 
-.attach-btn { font-size: 16px; }
-.camera-btn { font-size: 14px; }
+.attach-btn { font-size: 27px; }
+.camera-btn { font-size: 24px; }
 
 .mic-btn,
 .send-btn {
-    width: 38px;
-    height: 38px;
+    width: 62px;
+    height: 62px;
     border: none;
     border-radius: 50%;
     background: #00c853;
     color: #06210f;
-    font-size: 18px;
+    font-size: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -677,7 +695,7 @@ html, body {
 .send-btn {
     display: none;
     color: white;
-    font-size: 16px;
+    font-size: 26px;
 }
 
 .mic-btn.recording {
@@ -691,57 +709,58 @@ html, body {
     50% { transform: scale(1.08); box-shadow: 0 0 10px rgba(255,48,48,0.8); }
 }
 
+/* ÁUDIO */
 .audio-bubble {
     display: flex;
     align-items: center;
-    gap: 5px;
-    min-width: 105px;
+    gap: 10px;
+    min-width: 190px;
 }
 
 .audio-play {
-    width: 23px;
-    height: 23px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,0.18);
     color: white;
-    font-size: 9px;
+    font-size: 18px;
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .audio-wave {
     flex: 1;
-    height: 15px;
+    height: 28px;
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
 }
 
 .audio-wave span {
-    width: 3px;
+    width: 5px;
     border-radius: 4px;
     background: rgba(255,255,255,0.75);
     display: block;
 }
 
-.audio-wave span:nth-child(1) { height: 5px; }
-.audio-wave span:nth-child(2) { height: 10px; }
-.audio-wave span:nth-child(3) { height: 7px; }
-.audio-wave span:nth-child(4) { height: 14px; }
-.audio-wave span:nth-child(5) { height: 6px; }
-.audio-wave span:nth-child(6) { height: 11px; }
-.audio-wave span:nth-child(7) { height: 8px; }
-.audio-wave span:nth-child(8) { height: 13px; }
+.audio-wave span:nth-child(1) { height: 10px; }
+.audio-wave span:nth-child(2) { height: 20px; }
+.audio-wave span:nth-child(3) { height: 14px; }
+.audio-wave span:nth-child(4) { height: 26px; }
+.audio-wave span:nth-child(5) { height: 12px; }
+.audio-wave span:nth-child(6) { height: 22px; }
+.audio-wave span:nth-child(7) { height: 16px; }
+.audio-wave span:nth-child(8) { height: 24px; }
 
 .audio-duration {
-    font-size: 7px;
+    font-size: 13px;
     opacity: 0.75;
-    min-width: 20px;
+    min-width: 30px;
     text-align: right;
 }
 
-/* TEMA BRANCO */
+/* TEMA BRANCO WHATSAPP */
 #whatsapp-screen.theme-light .wa-header,
 #whatsapp-screen.theme-light .conv-header {
     background: #ffffff;
@@ -819,7 +838,7 @@ html, body {
     background: #7c1bbd;
     color: white;
     overflow-y: auto;
-    padding: 32px 12px 12px;
+    padding: 55px 22px 22px;
 }
 
 .bank-top {
@@ -829,49 +848,49 @@ html, body {
 }
 
 .bank-title {
-    font-size: 14px;
+    font-size: 25px;
     font-weight: bold;
 }
 
 .bank-card {
-    margin-top: 12px;
+    margin-top: 24px;
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 16px;
-    padding: 11px;
+    border-radius: 25px;
+    padding: 22px;
 }
 
 .bank-label {
-    font-size: 9px;
+    font-size: 16px;
     opacity: 0.82;
 }
 
 .bank-balance {
-    margin-top: 5px;
-    font-size: 20px;
+    margin-top: 10px;
+    font-size: 36px;
     font-weight: bold;
 }
 
 .bank-actions {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-top: 11px;
+    gap: 12px;
+    margin-top: 22px;
 }
 
 .bank-action {
-    height: 42px;
-    border-radius: 12px;
+    height: 70px;
+    border-radius: 20px;
     border: none;
     background: rgba(255,255,255,0.18);
     color: white;
-    font-size: 8px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .pix-form {
-    margin-top: 11px;
+    margin-top: 22px;
     display: none;
 }
 
@@ -881,55 +900,55 @@ html, body {
 
 .bank-input {
     width: 100%;
-    height: 29px;
-    margin-top: 6px;
+    height: 50px;
+    margin-top: 12px;
     border: none;
     outline: none;
-    border-radius: 9px;
-    padding: 0 8px;
-    font-size: 9px;
+    border-radius: 14px;
+    padding: 0 14px;
+    font-size: 16px;
     color: #111;
 }
 
 .bank-btn {
     width: 100%;
-    height: 31px;
-    margin-top: 9px;
+    height: 52px;
+    margin-top: 16px;
     border: none;
-    border-radius: 10px;
+    border-radius: 14px;
     background: #ffffff;
     color: #7c1bbd;
-    font-size: 10px;
+    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .bank-history {
-    margin-top: 12px;
+    margin-top: 24px;
 }
 
 .bank-history-title {
-    font-size: 11px;
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
 }
 
 .bank-item {
     background: rgba(0,0,0,0.15);
-    border-radius: 10px;
-    padding: 7px;
-    margin-bottom: 6px;
+    border-radius: 17px;
+    padding: 13px;
+    margin-bottom: 10px;
 }
 
 .bank-item-title {
-    font-size: 9px;
+    font-size: 17px;
     font-weight: bold;
 }
 
 .bank-item-desc {
-    font-size: 7px;
+    font-size: 13px;
     opacity: 0.78;
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 /* COMPROVANTE */
@@ -941,7 +960,7 @@ html, body {
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 14px;
+    padding: 25px;
 }
 
 #receipt-modal.active {
@@ -952,36 +971,36 @@ html, body {
     width: 100%;
     background: #fff;
     color: #111;
-    border-radius: 16px;
-    padding: 12px;
+    border-radius: 25px;
+    padding: 22px;
 }
 
 .receipt-modal-title {
-    font-size: 13px;
+    font-size: 24px;
     font-weight: bold;
     color: #7c1bbd;
-    margin-bottom: 8px;
+    margin-bottom: 18px;
 }
 
 .receipt-modal-line {
-    font-size: 9px;
-    margin: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
 }
 
 .receipt-modal-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 7px;
-    margin-top: 11px;
+    gap: 12px;
+    margin-top: 22px;
 }
 
 .receipt-modal-actions button {
-    height: 29px;
+    height: 50px;
     border: none;
-    border-radius: 9px;
+    border-radius: 15px;
     background: #7c1bbd;
     color: white;
-    font-size: 9px;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -992,163 +1011,164 @@ html, body {
 /* CALCULADORA */
 #calc-screen {
     background: #09090b;
-    padding: 32px 12px 12px;
+    padding: 55px 22px 22px;
 }
 
 .calc-top {
-    height: 34px;
+    height: 55px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .small-btn {
     background: rgba(255,255,255,0.1);
-    padding: 5px 8px;
-    border-radius: 8px;
-    font-size: 9px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 15px;
     cursor: pointer;
 }
 
 .calc-display {
-    height: 95px;
+    height: 180px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
-    font-size: 31px;
-    padding-bottom: 8px;
+    font-size: 55px;
+    padding-bottom: 16px;
     overflow: hidden;
 }
 
 .calc-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+    gap: 10px;
 }
 
 .calc-btn {
-    height: 39px;
+    height: 65px;
     border: none;
     border-radius: 50%;
     background: #2b2b2d;
     color: white;
-    font-size: 15px;
+    font-size: 28px;
 }
 
 .calc-btn.gray { background: #a5a5a5; color: black; }
 .calc-btn.orange { background: #ff9f0a; }
+
 .calc-btn.zero {
     grid-column: span 2;
-    border-radius: 24px;
+    border-radius: 35px;
     text-align: left;
-    padding-left: 16px;
+    padding-left: 28px;
 }
 
-/* CONFIG */
+/* SETTINGS */
 .settings-screen {
     background: #0b0b0d;
-    padding: 32px 12px 12px;
+    padding: 55px 22px 22px;
 }
 
 .settings-top {
-    height: 34px;
+    height: 55px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .settings-title {
-    font-size: 13px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .profile-preview {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 0;
+    gap: 15px;
+    padding: 18px 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .my-photo {
-    width: 38px;
-    height: 38px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     background: #00a884;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 27px;
 }
 
 .preview-name {
-    font-size: 11px;
+    font-size: 22px;
     font-weight: bold;
 }
 
 .preview-desc {
-    margin-top: 3px;
-    font-size: 8px;
+    margin-top: 5px;
+    font-size: 14px;
     color: #8b9499;
 }
 
 .setting-group {
-    margin-top: 10px;
+    margin-top: 18px;
 }
 
 .setting-label {
-    font-size: 9px;
+    font-size: 15px;
     color: #8b9499;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }
 
 .setting-input,
 .setting-select {
     width: 100%;
-    height: 29px;
+    height: 48px;
     border: none;
     outline: none;
-    border-radius: 8px;
+    border-radius: 14px;
     background: #18191d;
     color: white;
-    font-size: 9px;
-    padding: 0 8px;
+    font-size: 16px;
+    padding: 0 14px;
 }
 
 .save-btn {
     width: 100%;
-    height: 31px;
+    height: 52px;
     border: none;
-    border-radius: 10px;
-    margin-top: 12px;
+    border-radius: 14px;
+    margin-top: 22px;
     background: #00a884;
     color: white;
     font-weight: bold;
-    font-size: 10px;
+    font-size: 17px;
     cursor: pointer;
 }
 
 .reset-btn {
     width: 100%;
-    height: 29px;
+    height: 48px;
     border: none;
-    border-radius: 10px;
-    margin-top: 7px;
+    border-radius: 14px;
+    margin-top: 12px;
     background: #2b2b2b;
     color: white;
-    font-size: 9px;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .home-line {
     position: absolute;
     left: 50%;
-    bottom: 6px;
+    bottom: 12px;
     transform: translateX(-50%);
-    width: 62px;
-    height: 4px;
+    width: 105px;
+    height: 6px;
     border-radius: 10px;
     background: rgba(255,255,255,0.65);
     z-index: 180;
@@ -1213,267 +1233,278 @@ html, body {
     <div class="phone">
         <div class="screen" id="phoneScreen">
 
-            <div class="notch">
-                <div class="speaker"></div>
-                <div class="camera"></div>
-            </div>
+            <div id="phone-ui">
 
-            <div class="status-bar">
-                <div id="miniTime">06:36</div>
-                <div class="status-icons">
-                    <span>⌁</span>
-                    <span>◖</span>
-                    <span>▰</span>
-                </div>
-            </div>
-
-            <div id="home-screen">
-                <div class="clock-area">
-                    <div class="clock">
-                        <div id="hourText">06</div>
-                        <div id="minuteText">36</div>
-                    </div>
-                    <div class="date" id="dateText">29 de Maio de 2026</div>
+                <div class="notch">
+                    <div class="speaker"></div>
+                    <div class="camera"></div>
                 </div>
 
-                <div class="apps">
-                    <div class="app" onclick="abrirWhatsapp()">
-                        <div class="icon whatsapp">☎</div>
-                        <span>WhatsApp</span>
+                <div class="status-bar">
+                    <div id="miniTime">06:36</div>
+                    <div class="status-icons">
+                        <span>⌁</span>
+                        <span>◖</span>
+                        <span>▰</span>
+                    </div>
+                </div>
+
+                <!-- HOME -->
+                <div id="home-screen">
+                    <div class="clock-area">
+                        <div class="clock">
+                            <div id="hourText">06</div>
+                            <div id="minuteText">36</div>
+                        </div>
+                        <div class="date" id="dateText">29 de Maio de 2026</div>
                     </div>
 
-                    <div class="app" onclick="abrirBanco()">
-                        <div class="icon bank">Nu</div>
-                        <span>Banco</span>
+                    <div class="apps">
+                        <div class="app" onclick="abrirWhatsapp()">
+                            <div class="icon whatsapp">☎</div>
+                            <span>WhatsApp</span>
+                        </div>
+
+                        <div class="app" onclick="abrirBanco()">
+                            <div class="icon bank">Nu</div>
+                            <span>Banco</span>
+                        </div>
+
+                        <div class="app" onclick="abrirCalculadora()">
+                            <div class="icon calc">+</div>
+                            <span>Calculadora</span>
+                        </div>
+
+                        <div class="app" onclick="abrirConfigCelular()">
+                            <div class="icon settings">⚙</div>
+                            <span>Ajustes</span>
+                        </div>
                     </div>
 
-                    <div class="app" onclick="abrirCalculadora()">
-                        <div class="icon calc">+</div>
+                    <div class="dock">
+                        <div class="icon whatsapp" onclick="abrirWhatsapp()">☎</div>
+                        <div class="icon bank" onclick="abrirBanco()">Nu</div>
+                        <div class="icon calc" onclick="abrirCalculadora()">+</div>
+                        <div class="icon settings" onclick="abrirConfigCelular()">⚙</div>
+                    </div>
+                </div>
+
+                <!-- WHATSAPP -->
+                <div class="app-screen theme-dark" id="whatsapp-screen">
+
+                    <div id="wa-loading-screen">
+                        <div class="wa-logo-big">☎</div>
+                        <div class="wa-loader-line"><span></span></div>
+                        <div class="wa-loading-bottom">
+                            <div class="wa-loading-text">from</div>
+                            <div class="wa-meta">Meta</div>
+                        </div>
+                    </div>
+
+                    <div class="wa-header">
+                        <div class="wa-top">
+                            <div class="wa-title">WhatsApp</div>
+                            <div class="wa-actions">
+                                <span onclick="tirarFotoDoJogo()">📷</span>
+                                <span onclick="abrirConfigWhatsapp()">⚙</span>
+                            </div>
+                        </div>
+
+                        <div class="wa-tabs">
+                            <div class="wa-tab active">CHATS</div>
+                            <div class="wa-tab">STATUS</div>
+                            <div class="wa-tab">LIGAÇÕES</div>
+                        </div>
+                    </div>
+
+                    <div class="wa-list" id="wa-list"></div>
+
+                    <div id="conversation">
+                        <div class="conv-header">
+                            <div class="back" onclick="voltarListaWhatsapp()">‹</div>
+                            <div class="conv-avatar" id="convAvatar">A</div>
+                            <div class="conv-name" id="convName">Contato</div>
+                            <div onclick="tirarFotoDoJogo()">📷</div>
+                            <div>⋮</div>
+                        </div>
+
+                        <div class="messages" id="messages"></div>
+
+                        <div class="input-area">
+                            <div class="message-box">
+                                <button class="emoji-btn" onclick="abrirEmojiFake()">☻</button>
+
+                                <input 
+                                    id="msgInput" 
+                                    placeholder="Mensagem" 
+                                    oninput="atualizarBotaoEnvio()" 
+                                    onkeydown="enterEnviar(event)"
+                                >
+
+                                <button class="attach-btn" onclick="abrirSeletorFoto()">📎</button>
+                                <button class="camera-btn" onclick="tirarFotoDoJogo()">📷</button>
+                            </div>
+
+                            <button 
+                                class="mic-btn" 
+                                id="micBtn"
+                                onpointerdown="segurarAudio(event)"
+                                onpointerup="soltarAudio(event)"
+                                onpointercancel="cancelarAudio(event)"
+                                onpointerleave="cancelarAudio(event)"
+                            >🎙</button>
+
+                            <button class="send-btn" id="sendBtn" onclick="enviarMensagem()">➤</button>
+                        </div>
+                    </div>
+
+                    <div class="home-line" onclick="voltarHome()"></div>
+                </div>
+
+                <!-- BANCO -->
+                <div class="app-screen" id="bank-screen">
+                    <div class="bank-top">
+                        <div class="bank-title">Banco Roxo</div>
+                        <div class="small-btn" onclick="voltarHome()">Home</div>
+                    </div>
+
+                    <div class="bank-card">
+                        <div class="bank-label">Saldo disponível</div>
+                        <div class="bank-balance" id="bankBalance">R$ 2.500,00</div>
+
+                        <div class="bank-actions">
+                            <button class="bank-action" onclick="togglePixForm()">Pix</button>
+                            <button class="bank-action" onclick="mostrarSaldo()">Saldo</button>
+                            <button class="bank-action" onclick="compartilharUltimoComprovante()">Compartilhar</button>
+                        </div>
+                    </div>
+
+                    <div class="pix-form" id="pixForm">
+                        <input class="bank-input" id="pixKey" placeholder="Chave Pix / Nome">
+                        <input class="bank-input" id="pixValue" placeholder="Valor. Ex: 120.50" inputmode="decimal">
+                        <input class="bank-input" id="pixDesc" placeholder="Descrição opcional">
+                        <button class="bank-btn" onclick="enviarPix()">Enviar Pix</button>
+                    </div>
+
+                    <div class="bank-history">
+                        <div class="bank-history-title">Últimas movimentações</div>
+                        <div id="bankHistory"></div>
+                    </div>
+                </div>
+
+                <!-- COMPROVANTE -->
+                <div id="receipt-modal">
+                    <div class="receipt-modal-card">
+                        <div class="receipt-modal-title">Comprovante Pix</div>
+                        <div id="receiptContent"></div>
+
+                        <div class="receipt-modal-actions">
+                            <button onclick="compartilharComprovanteWhatsapp()">WhatsApp</button>
+                            <button onclick="fecharComprovante()">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CALCULADORA -->
+                <div class="app-screen" id="calc-screen">
+                    <div class="calc-top">
                         <span>Calculadora</span>
+                        <span class="small-btn" onclick="voltarHome()">Home</span>
                     </div>
 
-                    <div class="app" onclick="abrirConfigCelular()">
-                        <div class="icon settings">⚙</div>
-                        <span>Ajustes</span>
+                    <div class="calc-display" id="calcDisplay">0</div>
+
+                    <div class="calc-grid">
+                        <button class="calc-btn gray" onclick="calcClear()">AC</button>
+                        <button class="calc-btn gray" onclick="calcToggle()">±</button>
+                        <button class="calc-btn gray" onclick="calcPercent()">%</button>
+                        <button class="calc-btn orange" onclick="calcInput('/')">÷</button>
+
+                        <button class="calc-btn" onclick="calcInput('7')">7</button>
+                        <button class="calc-btn" onclick="calcInput('8')">8</button>
+                        <button class="calc-btn" onclick="calcInput('9')">9</button>
+                        <button class="calc-btn orange" onclick="calcInput('*')">×</button>
+
+                        <button class="calc-btn" onclick="calcInput('4')">4</button>
+                        <button class="calc-btn" onclick="calcInput('5')">5</button>
+                        <button class="calc-btn" onclick="calcInput('6')">6</button>
+                        <button class="calc-btn orange" onclick="calcInput('-')">−</button>
+
+                        <button class="calc-btn" onclick="calcInput('1')">1</button>
+                        <button class="calc-btn" onclick="calcInput('2')">2</button>
+                        <button class="calc-btn" onclick="calcInput('3')">3</button>
+                        <button class="calc-btn orange" onclick="calcInput('+')">+</button>
+
+                        <button class="calc-btn zero" onclick="calcInput('0')">0</button>
+                        <button class="calc-btn" onclick="calcInput('.')">,</button>
+                        <button class="calc-btn orange" onclick="calcResult()">=</button>
                     </div>
+
+                    <div class="home-line" onclick="voltarHome()"></div>
                 </div>
 
-                <div class="dock">
-                    <div class="icon whatsapp" onclick="abrirWhatsapp()">☎</div>
-                    <div class="icon bank" onclick="abrirBanco()">Nu</div>
-                    <div class="icon calc" onclick="abrirCalculadora()">+</div>
-                    <div class="icon settings" onclick="abrirConfigCelular()">⚙</div>
-                </div>
-            </div>
-
-            <div class="app-screen theme-dark" id="whatsapp-screen">
-
-                <div id="wa-loading-screen">
-                    <div class="wa-logo-big">☎</div>
-                    <div class="wa-loader-line"><span></span></div>
-                    <div class="wa-loading-bottom">
-                        <div class="wa-loading-text">from</div>
-                        <div class="wa-meta">Meta</div>
+                <!-- CONFIG WHATSAPP -->
+                <div class="app-screen settings-screen" id="wa-settings-screen">
+                    <div class="settings-top">
+                        <div class="settings-title">Config. WhatsApp</div>
+                        <div class="small-btn" onclick="abrirWhatsappSemLoading()">Voltar</div>
                     </div>
-                </div>
 
-                <div class="wa-header">
-                    <div class="wa-top">
-                        <div class="wa-title">WhatsApp</div>
-                        <div class="wa-actions">
-                            <span onclick="tirarFotoDoJogo()">📷</span>
-                            <span onclick="abrirConfigWhatsapp()">⚙</span>
+                    <div class="profile-preview">
+                        <div class="my-photo" id="waPreviewPhoto">D</div>
+                        <div>
+                            <div class="preview-name" id="waPreviewName">Deivyd</div>
+                            <div class="preview-desc">Perfil do WhatsApp</div>
                         </div>
                     </div>
 
-                    <div class="wa-tabs">
-                        <div class="wa-tab active">CHATS</div>
-                        <div class="wa-tab">STATUS</div>
-                        <div class="wa-tab">LIGAÇÕES</div>
-                    </div>
-                </div>
-
-                <div class="wa-list" id="wa-list"></div>
-
-                <div id="conversation">
-                    <div class="conv-header">
-                        <div class="back" onclick="voltarListaWhatsapp()">‹</div>
-                        <div class="conv-avatar" id="convAvatar">A</div>
-                        <div class="conv-name" id="convName">Contato</div>
-                        <div onclick="tirarFotoDoJogo()">📷</div>
-                        <div>⋮</div>
+                    <div class="setting-group">
+                        <div class="setting-label">Nome do WhatsApp</div>
+                        <input class="setting-input" id="waInputName" placeholder="Seu nome">
                     </div>
 
-                    <div class="messages" id="messages"></div>
-
-                    <div class="input-area">
-                        <div class="message-box">
-                            <button class="emoji-btn" onclick="abrirEmojiFake()">☻</button>
-
-                            <input 
-                                id="msgInput" 
-                                placeholder="Mensagem" 
-                                oninput="atualizarBotaoEnvio()" 
-                                onkeydown="enterEnviar(event)"
-                            >
-
-                            <button class="attach-btn" onclick="abrirSeletorFoto()">📎</button>
-                            <button class="camera-btn" onclick="tirarFotoDoJogo()">📷</button>
-                        </div>
-
-                        <button 
-                            class="mic-btn" 
-                            id="micBtn"
-                            onpointerdown="segurarAudio(event)"
-                            onpointerup="soltarAudio(event)"
-                            onpointercancel="cancelarAudio(event)"
-                            onpointerleave="cancelarAudio(event)"
-                        >🎙</button>
-
-                        <button class="send-btn" id="sendBtn" onclick="enviarMensagem()">➤</button>
+                    <div class="setting-group">
+                        <div class="setting-label">Foto do WhatsApp por link</div>
+                        <input class="setting-input" id="waInputPhoto" placeholder="https://site.com/foto.png">
                     </div>
-                </div>
 
-                <div class="home-line" onclick="voltarHome()"></div>
-            </div>
-
-            <div class="app-screen" id="bank-screen">
-                <div class="bank-top">
-                    <div class="bank-title">Banco Roxo</div>
-                    <div class="small-btn" onclick="voltarHome()">Home</div>
-                </div>
-
-                <div class="bank-card">
-                    <div class="bank-label">Saldo disponível</div>
-                    <div class="bank-balance" id="bankBalance">R$ 2.500,00</div>
-
-                    <div class="bank-actions">
-                        <button class="bank-action" onclick="togglePixForm()">Pix</button>
-                        <button class="bank-action" onclick="mostrarSaldo()">Saldo</button>
-                        <button class="bank-action" onclick="compartilharUltimoComprovante()">Compartilhar</button>
+                    <div class="setting-group">
+                        <div class="setting-label">Tema do WhatsApp</div>
+                        <select class="setting-select" id="waInputTheme">
+                            <option value="dark">Preto</option>
+                            <option value="light">Branco</option>
+                        </select>
                     </div>
+
+                    <button class="save-btn" onclick="salvarConfigWhatsapp()">Salvar WhatsApp</button>
+                    <button class="reset-btn" onclick="resetarConfigWhatsapp()">Resetar WhatsApp</button>
+
+                    <div class="home-line" onclick="voltarHome()"></div>
                 </div>
 
-                <div class="pix-form" id="pixForm">
-                    <input class="bank-input" id="pixKey" placeholder="Chave Pix / Nome">
-                    <input class="bank-input" id="pixValue" placeholder="Valor. Ex: 120.50" inputmode="decimal">
-                    <input class="bank-input" id="pixDesc" placeholder="Descrição opcional">
-                    <button class="bank-btn" onclick="enviarPix()">Enviar Pix</button>
-                </div>
-
-                <div class="bank-history">
-                    <div class="bank-history-title">Últimas movimentações</div>
-                    <div id="bankHistory"></div>
-                </div>
-            </div>
-
-            <div id="receipt-modal">
-                <div class="receipt-modal-card">
-                    <div class="receipt-modal-title">Comprovante Pix</div>
-                    <div id="receiptContent"></div>
-
-                    <div class="receipt-modal-actions">
-                        <button onclick="compartilharComprovanteWhatsapp()">WhatsApp</button>
-                        <button onclick="fecharComprovante()">Fechar</button>
+                <!-- CONFIG CELULAR -->
+                <div class="app-screen settings-screen" id="phone-settings-screen">
+                    <div class="settings-top">
+                        <div class="settings-title">Config. Celular</div>
+                        <div class="small-btn" onclick="voltarHome()">Home</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="app-screen" id="calc-screen">
-                <div class="calc-top">
-                    <span>Calculadora</span>
-                    <span class="small-btn" onclick="voltarHome()">Home</span>
-                </div>
-
-                <div class="calc-display" id="calcDisplay">0</div>
-
-                <div class="calc-grid">
-                    <button class="calc-btn gray" onclick="calcClear()">AC</button>
-                    <button class="calc-btn gray" onclick="calcToggle()">±</button>
-                    <button class="calc-btn gray" onclick="calcPercent()">%</button>
-                    <button class="calc-btn orange" onclick="calcInput('/')">÷</button>
-
-                    <button class="calc-btn" onclick="calcInput('7')">7</button>
-                    <button class="calc-btn" onclick="calcInput('8')">8</button>
-                    <button class="calc-btn" onclick="calcInput('9')">9</button>
-                    <button class="calc-btn orange" onclick="calcInput('*')">×</button>
-
-                    <button class="calc-btn" onclick="calcInput('4')">4</button>
-                    <button class="calc-btn" onclick="calcInput('5')">5</button>
-                    <button class="calc-btn" onclick="calcInput('6')">6</button>
-                    <button class="calc-btn orange" onclick="calcInput('-')">−</button>
-
-                    <button class="calc-btn" onclick="calcInput('1')">1</button>
-                    <button class="calc-btn" onclick="calcInput('2')">2</button>
-                    <button class="calc-btn" onclick="calcInput('3')">3</button>
-                    <button class="calc-btn orange" onclick="calcInput('+')">+</button>
-
-                    <button class="calc-btn zero" onclick="calcInput('0')">0</button>
-                    <button class="calc-btn" onclick="calcInput('.')">,</button>
-                    <button class="calc-btn orange" onclick="calcResult()">=</button>
-                </div>
-
-                <div class="home-line" onclick="voltarHome()"></div>
-            </div>
-
-            <div class="app-screen settings-screen" id="wa-settings-screen">
-                <div class="settings-top">
-                    <div class="settings-title">Config. WhatsApp</div>
-                    <div class="small-btn" onclick="abrirWhatsappSemLoading()">Voltar</div>
-                </div>
-
-                <div class="profile-preview">
-                    <div class="my-photo" id="waPreviewPhoto">D</div>
-                    <div>
-                        <div class="preview-name" id="waPreviewName">Deivyd</div>
-                        <div class="preview-desc">Perfil do WhatsApp</div>
+                    <div class="setting-group">
+                        <div class="setting-label">Fundo do celular por link</div>
+                        <input class="setting-input" id="phoneInputWallpaper" placeholder="https://site.com/fundo.png">
                     </div>
+
+                    <div class="setting-group">
+                        <div class="setting-label">Texto embaixo do celular</div>
+                        <input class="setting-input" id="phoneInputLocation" placeholder="New Empire Way">
+                    </div>
+
+                    <button class="save-btn" onclick="salvarConfigCelular()">Salvar Celular</button>
+                    <button class="reset-btn" onclick="resetarConfigCelular()">Resetar Celular</button>
+
+                    <div class="home-line" onclick="voltarHome()"></div>
                 </div>
 
-                <div class="setting-group">
-                    <div class="setting-label">Nome do WhatsApp</div>
-                    <input class="setting-input" id="waInputName" placeholder="Seu nome">
-                </div>
-
-                <div class="setting-group">
-                    <div class="setting-label">Foto do WhatsApp por link</div>
-                    <input class="setting-input" id="waInputPhoto" placeholder="https://site.com/foto.png">
-                </div>
-
-                <div class="setting-group">
-                    <div class="setting-label">Tema do WhatsApp</div>
-                    <select class="setting-select" id="waInputTheme">
-                        <option value="dark">Preto</option>
-                        <option value="light">Branco</option>
-                    </select>
-                </div>
-
-                <button class="save-btn" onclick="salvarConfigWhatsapp()">Salvar WhatsApp</button>
-                <button class="reset-btn" onclick="resetarConfigWhatsapp()">Resetar WhatsApp</button>
-
-                <div class="home-line" onclick="voltarHome()"></div>
-            </div>
-
-            <div class="app-screen settings-screen" id="phone-settings-screen">
-                <div class="settings-top">
-                    <div class="settings-title">Config. Celular</div>
-                    <div class="small-btn" onclick="voltarHome()">Home</div>
-                </div>
-
-                <div class="setting-group">
-                    <div class="setting-label">Fundo do celular por link</div>
-                    <input class="setting-input" id="phoneInputWallpaper" placeholder="https://site.com/fundo.png">
-                </div>
-
-                <div class="setting-group">
-                    <div class="setting-label">Texto embaixo do celular</div>
-                    <input class="setting-input" id="phoneInputLocation" placeholder="New Empire Way">
-                </div>
-
-                <button class="save-btn" onclick="salvarConfigCelular()">Salvar Celular</button>
-                <button class="reset-btn" onclick="resetarConfigCelular()">Resetar Celular</button>
-
-                <div class="home-line" onclick="voltarHome()"></div>
             </div>
 
         </div>
@@ -1509,6 +1540,32 @@ let audioChunks = [];
 let audioStartTime = 0;
 let audioAtual = null;
 let audioSegurando = false;
+
+/* ESCALA INTERNA */
+function ajustarInterfaceCelular() {
+    const screen = document.getElementById("phoneScreen");
+    const ui = document.getElementById("phone-ui");
+
+    if (!screen || !ui) return;
+
+    const baseW = 390;
+    const baseH = 812;
+
+    const sw = screen.clientWidth;
+    const sh = screen.clientHeight;
+
+    const scale = Math.min(sw / baseW, sh / baseH);
+
+    ui.style.transform = `scale(${scale})`;
+
+    const left = (sw - (baseW * scale)) / 2;
+    const top = (sh - (baseH * scale)) / 2;
+
+    ui.style.left = left + "px";
+    ui.style.top = top + "px";
+}
+
+window.addEventListener("resize", ajustarInterfaceCelular);
 
 function criarConversasPadrao() {
     contatos = [
@@ -1587,6 +1644,7 @@ function abrirTela(id) {
     document.getElementById("home-screen").style.display = "none";
     fecharTodasTelas();
     document.getElementById(id).classList.add("active");
+    setTimeout(ajustarInterfaceCelular, 30);
 }
 
 function voltarHome() {
@@ -1594,6 +1652,8 @@ function voltarHome() {
     fecharTodasTelas();
 
     if (gravandoAudio) pararGravacaoAudio(false);
+
+    setTimeout(ajustarInterfaceCelular, 30);
 }
 
 function abrirWhatsapp() {
@@ -1606,6 +1666,7 @@ function abrirWhatsapp() {
         loading.classList.remove("active");
         renderizarLista();
         atualizarBotaoEnvio();
+        ajustarInterfaceCelular();
     }, 900);
 }
 
@@ -1728,6 +1789,8 @@ function aplicarConfigCelular() {
 
     location.innerText = phoneConfig.location;
     wrapper.style.transform = "none";
+
+    setTimeout(ajustarInterfaceCelular, 30);
 }
 
 /* WHATSAPP */
@@ -1760,6 +1823,8 @@ function renderizarLista() {
 
         lista.appendChild(item);
     });
+
+    ajustarInterfaceCelular();
 }
 
 function abrirConversa(id) {
@@ -1830,6 +1895,7 @@ function renderizarMensagens() {
     });
 
     area.scrollTop = area.scrollHeight;
+    ajustarInterfaceCelular();
 }
 
 function atualizarBotaoEnvio() {
@@ -2182,6 +2248,8 @@ function renderizarBanco() {
         `;
         history.appendChild(div);
     });
+
+    ajustarInterfaceCelular();
 }
 
 function togglePixForm() {
@@ -2399,6 +2467,7 @@ function escapeAttr(t) {
 /* CEF */
 function mostrarCelular() {
     document.getElementById("phone-wrapper").style.display = "block";
+    setTimeout(ajustarInterfaceCelular, 50);
 }
 
 function fecharCelular() {
@@ -2411,6 +2480,8 @@ function toggleCelular() {
     p.style.display = p.style.display === "none" ? "block" : "none";
 
     if (p.style.display === "none" && gravandoAudio) pararGravacaoAudio(false);
+
+    setTimeout(ajustarInterfaceCelular, 50);
 }
 
 window.mostrarCelular = mostrarCelular;
@@ -2430,6 +2501,11 @@ carregarConfigCelular();
 carregarBanco();
 updateCalc();
 atualizarBotaoEnvio();
+ajustarInterfaceCelular();
+
+setTimeout(ajustarInterfaceCelular, 100);
+setTimeout(ajustarInterfaceCelular, 500);
+setTimeout(ajustarInterfaceCelular, 1000);
 </script>
 
 </body>
