@@ -23,37 +23,42 @@ html, body {
     overflow: hidden;
 }
 
+:root {
+    --phone-w: min(15vw, 120px);
+    --phone-h: calc(var(--phone-w) * 2.07);
+}
+
 #phone-wrapper {
     position: absolute;
-    right: 5vw;
-    bottom: 5vh;
-    width: 220px;
-    height: 455px;
+    right: 4vw;
+    bottom: 6vh;
+    width: var(--phone-w);
+    height: var(--phone-h);
+    transform: none !important;
     transform-origin: bottom right;
-    transform: scale(0.72);
 }
 
 .phone {
-    width: 220px;
-    height: 455px;
+    width: 100%;
+    height: 100%;
     background: #020203;
-    border-radius: 35px;
-    padding: 8px;
+    border-radius: calc(var(--phone-w) * 0.16);
+    padding: calc(var(--phone-w) * 0.035);
     position: relative;
     box-shadow:
         0 0 0 2px #151515,
-        0 0 0 5px #050505,
-        0 24px 45px rgba(0,0,0,0.9),
-        inset 0 0 9px rgba(255,255,255,0.08);
+        0 0 0 4px #050505,
+        0 18px 35px rgba(0,0,0,0.9),
+        inset 0 0 8px rgba(255,255,255,0.08);
 }
 
 .phone::before {
     content: "";
     position: absolute;
-    left: -4px;
-    top: 98px;
-    width: 4px;
-    height: 50px;
+    left: -3px;
+    top: 22%;
+    width: 3px;
+    height: 11%;
     background: #050505;
     border-radius: 6px 0 0 6px;
 }
@@ -61,10 +66,10 @@ html, body {
 .phone::after {
     content: "";
     position: absolute;
-    right: -4px;
-    top: 135px;
-    width: 4px;
-    height: 70px;
+    right: -3px;
+    top: 30%;
+    width: 3px;
+    height: 15%;
     background: #050505;
     border-radius: 0 6px 6px 0;
 }
@@ -72,7 +77,7 @@ html, body {
 .screen {
     width: 100%;
     height: 100%;
-    border-radius: 28px;
+    border-radius: calc(var(--phone-w) * 0.13);
     position: relative;
     overflow: hidden;
     background:
@@ -95,8 +100,8 @@ html, body {
     position: absolute;
     top: 0;
     left: 50%;
-    width: 88px;
-    height: 23px;
+    width: 40%;
+    height: 5.2%;
     transform: translateX(-50%);
     background: #020203;
     border-bottom-left-radius: 16px;
@@ -106,10 +111,10 @@ html, body {
 
 .speaker {
     position: absolute;
-    top: 7px;
+    top: 30%;
     left: 50%;
-    width: 34px;
-    height: 4px;
+    width: 38%;
+    height: 16%;
     transform: translateX(-50%);
     background: #222;
     border-radius: 10px;
@@ -117,8 +122,8 @@ html, body {
 
 .camera {
     position: absolute;
-    top: 6px;
-    right: 16px;
+    top: 28%;
+    right: 17%;
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -128,22 +133,22 @@ html, body {
 
 .status-bar {
     position: absolute;
-    top: 7px;
-    left: 12px;
-    right: 12px;
-    height: 18px;
+    top: 1.7%;
+    left: 5.5%;
+    right: 5.5%;
+    height: 4%;
     z-index: 330;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: white;
-    font-size: 8px;
+    font-size: calc(var(--phone-w) * 0.035);
     font-weight: bold;
 }
 
 .status-icons {
     display: flex;
-    gap: 4px;
+    gap: 3px;
 }
 
 #home-screen {
@@ -154,7 +159,7 @@ html, body {
 
 .clock-area {
     position: absolute;
-    top: 42px;
+    top: 9%;
     width: 100%;
     text-align: center;
     color: white;
@@ -162,26 +167,26 @@ html, body {
 }
 
 .clock {
-    font-size: 38px;
-    line-height: 35px;
+    font-size: calc(var(--phone-w) * 0.18);
+    line-height: calc(var(--phone-w) * 0.16);
     font-weight: 500;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 .date {
-    margin-top: 7px;
-    font-size: 8px;
+    margin-top: 5px;
+    font-size: calc(var(--phone-w) * 0.033);
     opacity: 0.9;
 }
 
 .apps {
     position: absolute;
-    top: 145px;
-    left: 18px;
-    right: 18px;
+    top: 31%;
+    left: 9%;
+    right: 9%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 17px 10px;
+    gap: 12px 8px;
 }
 
 .app {
@@ -189,23 +194,25 @@ html, body {
     flex-direction: column;
     align-items: center;
     color: white;
-    font-size: 7px;
+    font-size: calc(var(--phone-w) * 0.033);
     text-shadow: 0 1px 4px #000;
     cursor: pointer;
 }
 
 .icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    margin-bottom: 5px;
+    width: calc(var(--phone-w) * 0.20);
+    height: calc(var(--phone-w) * 0.20);
+    min-width: 27px;
+    min-height: 27px;
+    border-radius: 10px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 21px;
+    font-size: calc(var(--phone-w) * 0.09);
     font-weight: bold;
     overflow: hidden;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.55);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.55);
 }
 
 .icon.whatsapp { background: linear-gradient(145deg, #35ff75, #00993d); }
@@ -215,26 +222,28 @@ html, body {
 
 .dock {
     position: absolute;
-    left: 14px;
-    right: 14px;
-    bottom: 13px;
-    height: 53px;
-    border-radius: 18px;
+    left: 7%;
+    right: 7%;
+    bottom: 3%;
+    height: 12%;
+    border-radius: 16px;
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.12);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 8px;
 }
 
 .dock .icon {
-    width: 36px;
-    height: 36px;
-    font-size: 17px;
+    width: calc(var(--phone-w) * 0.17);
+    height: calc(var(--phone-w) * 0.17);
+    min-width: 24px;
+    min-height: 24px;
+    font-size: calc(var(--phone-w) * 0.075);
     margin: 0;
-    border-radius: 11px;
+    border-radius: 9px;
 }
 
 .app-screen {
@@ -267,21 +276,23 @@ html, body {
 }
 
 .wa-logo-big {
-    width: 60px;
-    height: 60px;
+    width: calc(var(--phone-w) * 0.28);
+    height: calc(var(--phone-w) * 0.28);
+    min-width: 40px;
+    min-height: 40px;
     border-radius: 50%;
     background: #25d366;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 34px;
+    font-size: calc(var(--phone-w) * 0.15);
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     box-shadow: 0 0 16px rgba(37,211,102,0.35);
 }
 
 .wa-loader-line {
-    width: 78px;
+    width: 72px;
     height: 3px;
     background: rgba(255,255,255,0.14);
     border-radius: 10px;
@@ -299,7 +310,7 @@ html, body {
 
 .wa-loading-bottom {
     position: absolute;
-    bottom: 38px;
+    bottom: 9%;
     left: 0;
     right: 0;
     text-align: center;
@@ -307,12 +318,12 @@ html, body {
 
 .wa-loading-text {
     color: #7e8b91;
-    font-size: 9px;
-    margin-bottom: 6px;
+    font-size: 8px;
+    margin-bottom: 5px;
 }
 
 .wa-meta {
-    font-size: 11px;
+    font-size: 10px;
     color: #25d366;
     font-weight: bold;
 }
@@ -334,28 +345,28 @@ html, body {
 }
 
 .wa-header {
-    height: 67px;
+    height: 15%;
     background: #071015;
     border-bottom: 1px solid rgba(0,255,180,0.15);
-    padding: 25px 10px 0 10px;
+    padding: 11% 5% 0 5%;
 }
 
 .wa-top {
-    height: 23px;
+    height: 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .wa-title {
-    font-size: 13px;
+    font-size: calc(var(--phone-w) * 0.055);
     font-weight: bold;
 }
 
 .wa-actions {
     display: flex;
-    gap: 9px;
-    font-size: 12px;
+    gap: 8px;
+    font-size: calc(var(--phone-w) * 0.05);
 }
 
 .wa-actions span {
@@ -363,11 +374,11 @@ html, body {
 }
 
 .wa-tabs {
-    margin-top: 7px;
+    margin-top: 5px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     color: #7f8c94;
-    font-size: 7px;
+    font-size: calc(var(--phone-w) * 0.03);
     text-align: center;
     font-weight: bold;
 }
@@ -375,12 +386,12 @@ html, body {
 .wa-tab.active {
     color: #00c79a;
     border-bottom: 2px solid #00c79a;
-    padding-bottom: 6px;
+    padding-bottom: 5px;
 }
 
 .wa-list {
     position: absolute;
-    top: 67px;
+    top: 15%;
     left: 0;
     right: 0;
     bottom: 0;
@@ -389,10 +400,10 @@ html, body {
 }
 
 .chat-item {
-    height: 56px;
-    padding: 7px 10px;
+    height: 52px;
+    padding: 7px 9px;
     display: flex;
-    gap: 9px;
+    gap: 8px;
     align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.04);
     cursor: pointer;
@@ -413,8 +424,8 @@ html, body {
 }
 
 .avatar {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     background: linear-gradient(145deg, #209cff, #004d87);
     display: flex;
@@ -433,11 +444,11 @@ html, body {
 .chat-row {
     display: flex;
     justify-content: space-between;
-    gap: 6px;
+    gap: 5px;
 }
 
 .chat-name {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
     overflow: hidden;
     white-space: nowrap;
@@ -459,8 +470,8 @@ html, body {
 }
 
 .badge {
-    min-width: 15px;
-    height: 15px;
+    min-width: 14px;
+    height: 14px;
     background: #00c79a;
     color: #071015;
     border-radius: 10px;
@@ -483,22 +494,22 @@ html, body {
 }
 
 .conv-header {
-    height: 56px;
-    padding: 24px 7px 5px 7px;
+    height: 13%;
+    padding: 10.5% 6px 4px 6px;
     background: #0a171f;
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 6px;
 }
 
 .back {
-    font-size: 20px;
+    font-size: 19px;
     cursor: pointer;
 }
 
 .conv-avatar {
-    width: 29px;
-    height: 29px;
+    width: 27px;
+    height: 27px;
     border-radius: 50%;
     background: #005c8a;
     display: flex;
@@ -509,28 +520,28 @@ html, body {
 
 .conv-name {
     flex: 1;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
 }
 
 .messages {
     position: absolute;
-    top: 56px;
+    top: 13%;
     left: 0;
     right: 0;
-    bottom: 52px;
+    bottom: 48px;
     overflow-y: auto;
-    padding: 8px;
+    padding: 7px;
     background: #071015;
 }
 
 .msg {
     max-width: 78%;
-    padding: 6px 8px;
+    padding: 6px 7px;
     margin-bottom: 6px;
     font-size: 9px;
-    line-height: 13px;
-    border-radius: 10px;
+    line-height: 12px;
+    border-radius: 9px;
     word-wrap: break-word;
 }
 
@@ -555,8 +566,8 @@ html, body {
 }
 
 .msg-image {
-    width: 120px;
-    max-height: 140px;
+    width: 110px;
+    max-height: 130px;
     border-radius: 8px;
     object-fit: cover;
     display: block;
@@ -582,30 +593,30 @@ html, body {
     opacity: 0.9;
 }
 
-/* INPUT IGUAL WHATSAPP */
+/* INPUT */
 .input-area {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 52px;
+    height: 48px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 6px 6px;
+    gap: 4px;
+    padding: 5px 5px;
     background: #071015;
 }
 
 .message-box {
     flex: 1;
-    height: 38px;
+    height: 36px;
     min-width: 0;
     border-radius: 22px;
     background: #202c33;
     display: flex;
     align-items: center;
-    padding: 0 5px;
-    gap: 3px;
+    padding: 0 4px;
+    gap: 2px;
 }
 
 .message-box input {
@@ -616,8 +627,8 @@ html, body {
     outline: none;
     background: transparent;
     color: white;
-    font-size: 12px;
-    padding: 0 3px;
+    font-size: 11px;
+    padding: 0 2px;
 }
 
 .message-box input::placeholder {
@@ -627,35 +638,30 @@ html, body {
 .emoji-btn,
 .attach-btn,
 .camera-btn {
-    width: 23px;
-    height: 23px;
+    width: 21px;
+    height: 21px;
     border: none;
     background: transparent;
     color: #aebac1;
-    font-size: 14px;
+    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
-.attach-btn {
-    font-size: 16px;
-}
-
-.camera-btn {
-    font-size: 14px;
-}
+.attach-btn { font-size: 15px; }
+.camera-btn { font-size: 13px; }
 
 .mic-btn,
 .send-btn {
-    width: 39px;
-    height: 39px;
+    width: 36px;
+    height: 36px;
     border: none;
     border-radius: 50%;
     background: #00c853;
     color: #06210f;
-    font-size: 20px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -666,7 +672,7 @@ html, body {
 .send-btn {
     display: none;
     color: white;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .mic-btn.recording {
@@ -683,25 +689,25 @@ html, body {
 .audio-bubble {
     display: flex;
     align-items: center;
-    gap: 6px;
-    min-width: 120px;
+    gap: 5px;
+    min-width: 110px;
 }
 
 .audio-play {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,0.18);
     color: white;
-    font-size: 10px;
+    font-size: 9px;
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .audio-wave {
     flex: 1;
-    height: 16px;
+    height: 15px;
     display: flex;
     align-items: center;
     gap: 2px;
@@ -715,18 +721,18 @@ html, body {
 }
 
 .audio-wave span:nth-child(1) { height: 5px; }
-.audio-wave span:nth-child(2) { height: 11px; }
-.audio-wave span:nth-child(3) { height: 8px; }
-.audio-wave span:nth-child(4) { height: 15px; }
+.audio-wave span:nth-child(2) { height: 10px; }
+.audio-wave span:nth-child(3) { height: 7px; }
+.audio-wave span:nth-child(4) { height: 14px; }
 .audio-wave span:nth-child(5) { height: 6px; }
-.audio-wave span:nth-child(6) { height: 12px; }
-.audio-wave span:nth-child(7) { height: 9px; }
-.audio-wave span:nth-child(8) { height: 14px; }
+.audio-wave span:nth-child(6) { height: 11px; }
+.audio-wave span:nth-child(7) { height: 8px; }
+.audio-wave span:nth-child(8) { height: 13px; }
 
 .audio-duration {
     font-size: 7px;
     opacity: 0.75;
-    min-width: 20px;
+    min-width: 19px;
     text-align: right;
 }
 
@@ -808,7 +814,7 @@ html, body {
     background: #7c1bbd;
     color: white;
     overflow-y: auto;
-    padding: 28px 12px 14px;
+    padding: 12% 6% 6%;
 }
 
 .bank-top {
@@ -818,16 +824,16 @@ html, body {
 }
 
 .bank-title {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 .bank-card {
-    margin-top: 13px;
+    margin-top: 12px;
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.16);
     border-radius: 16px;
-    padding: 12px;
+    padding: 11px;
     box-shadow: 0 8px 18px rgba(0,0,0,0.18);
 }
 
@@ -837,21 +843,21 @@ html, body {
 }
 
 .bank-balance {
-    margin-top: 6px;
-    font-size: 21px;
+    margin-top: 5px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .bank-actions {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
-    margin-top: 12px;
+    gap: 6px;
+    margin-top: 11px;
 }
 
 .bank-action {
-    height: 44px;
-    border-radius: 13px;
+    height: 40px;
+    border-radius: 12px;
     border: none;
     background: rgba(255,255,255,0.18);
     color: white;
@@ -861,7 +867,7 @@ html, body {
 }
 
 .pix-form {
-    margin-top: 12px;
+    margin-top: 11px;
     display: none;
 }
 
@@ -871,22 +877,22 @@ html, body {
 
 .bank-input {
     width: 100%;
-    height: 31px;
-    margin-top: 7px;
+    height: 29px;
+    margin-top: 6px;
     border: none;
     outline: none;
-    border-radius: 10px;
-    padding: 0 9px;
+    border-radius: 9px;
+    padding: 0 8px;
     font-size: 9px;
     color: #111;
 }
 
 .bank-btn {
     width: 100%;
-    height: 32px;
-    margin-top: 10px;
+    height: 31px;
+    margin-top: 9px;
     border: none;
-    border-radius: 11px;
+    border-radius: 10px;
     background: #ffffff;
     color: #7c1bbd;
     font-size: 10px;
@@ -895,19 +901,19 @@ html, body {
 }
 
 .bank-history {
-    margin-top: 13px;
+    margin-top: 12px;
 }
 
 .bank-history-title {
     font-size: 11px;
     font-weight: bold;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
 }
 
 .bank-item {
     background: rgba(0,0,0,0.15);
-    border-radius: 11px;
-    padding: 8px;
+    border-radius: 10px;
+    padding: 7px;
     margin-bottom: 6px;
 }
 
@@ -922,7 +928,7 @@ html, body {
     margin-top: 3px;
 }
 
-/* COMPROVANTE MODAL */
+/* COMPROVANTE */
 #receipt-modal {
     position: absolute;
     inset: 0;
@@ -931,7 +937,7 @@ html, body {
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 16px;
+    padding: 14px;
 }
 
 #receipt-modal.active {
@@ -942,15 +948,15 @@ html, body {
     width: 100%;
     background: #fff;
     color: #111;
-    border-radius: 17px;
-    padding: 13px;
+    border-radius: 16px;
+    padding: 12px;
 }
 
 .receipt-modal-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     color: #7c1bbd;
-    margin-bottom: 9px;
+    margin-bottom: 8px;
 }
 
 .receipt-modal-line {
@@ -962,13 +968,13 @@ html, body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 7px;
-    margin-top: 12px;
+    margin-top: 11px;
 }
 
 .receipt-modal-actions button {
-    height: 30px;
+    height: 29px;
     border: none;
-    border-radius: 10px;
+    border-radius: 9px;
     background: #7c1bbd;
     color: white;
     font-size: 9px;
@@ -982,11 +988,11 @@ html, body {
 /* CALCULADORA */
 #calc-screen {
     background: #09090b;
-    padding: 28px 11px 12px;
+    padding: 12% 6% 6%;
 }
 
 .calc-top {
-    height: 38px;
+    height: 36px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -996,85 +1002,85 @@ html, body {
 
 .small-btn {
     background: rgba(255,255,255,0.1);
-    padding: 5px 9px;
+    padding: 5px 8px;
     border-radius: 8px;
     font-size: 9px;
     cursor: pointer;
 }
 
 .calc-display {
-    height: 108px;
+    height: 100px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
-    font-size: 34px;
-    padding-bottom: 9px;
+    font-size: 32px;
+    padding-bottom: 8px;
     overflow: hidden;
 }
 
 .calc-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 7px;
+    gap: 6px;
 }
 
 .calc-btn {
-    height: 45px;
+    height: 40px;
     border: none;
     border-radius: 50%;
     background: #2b2b2d;
     color: white;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .calc-btn.gray { background: #a5a5a5; color: black; }
 .calc-btn.orange { background: #ff9f0a; }
 .calc-btn.zero {
     grid-column: span 2;
-    border-radius: 26px;
+    border-radius: 24px;
     text-align: left;
-    padding-left: 18px;
+    padding-left: 16px;
 }
 
 /* CONFIG */
 .settings-screen {
     background: #0b0b0d;
-    padding: 28px 11px 12px;
+    padding: 12% 6% 6%;
 }
 
 .settings-top {
-    height: 36px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .settings-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
 }
 
 .profile-preview {
     display: flex;
     align-items: center;
-    gap: 9px;
-    padding: 11px 0;
+    gap: 8px;
+    padding: 10px 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .my-photo {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: #00a884;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .preview-name {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
 }
 
@@ -1085,22 +1091,22 @@ html, body {
 }
 
 .setting-group {
-    margin-top: 11px;
+    margin-top: 10px;
 }
 
 .setting-label {
     font-size: 9px;
     color: #8b9499;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .setting-input,
 .setting-select {
     width: 100%;
-    height: 30px;
+    height: 28px;
     border: none;
     outline: none;
-    border-radius: 9px;
+    border-radius: 8px;
     background: #18191d;
     color: white;
     font-size: 9px;
@@ -1109,10 +1115,10 @@ html, body {
 
 .save-btn {
     width: 100%;
-    height: 32px;
+    height: 31px;
     border: none;
     border-radius: 10px;
-    margin-top: 13px;
+    margin-top: 12px;
     background: #00a884;
     color: white;
     font-weight: bold;
@@ -1122,10 +1128,10 @@ html, body {
 
 .reset-btn {
     width: 100%;
-    height: 30px;
+    height: 29px;
     border: none;
     border-radius: 10px;
-    margin-top: 8px;
+    margin-top: 7px;
     background: #2b2b2b;
     color: white;
     font-size: 9px;
@@ -1135,9 +1141,9 @@ html, body {
 .home-line {
     position: absolute;
     left: 50%;
-    bottom: 7px;
+    bottom: 6px;
     transform: translateX(-50%);
-    width: 70px;
+    width: 62px;
     height: 4px;
     border-radius: 10px;
     background: rgba(255,255,255,0.65);
@@ -1148,7 +1154,7 @@ html, body {
 .location {
     position: absolute;
     left: 50%;
-    bottom: -18px;
+    bottom: -17px;
     transform: translateX(-50%);
     color: white;
     font-size: 8px;
@@ -1160,27 +1166,36 @@ html, body {
     display: none;
 }
 
+@media (orientation: landscape) {
+    :root {
+        --phone-w: min(14vw, 120px);
+    }
+
+    #phone-wrapper {
+        right: 4vw;
+        bottom: 6vh;
+    }
+}
+
 @media (max-height: 650px) {
+    :root {
+        --phone-w: min(13vw, 110px);
+    }
+
     #phone-wrapper {
         right: 4vw;
-        bottom: 4vh;
-        transform: scale(0.68);
+        bottom: 6vh;
     }
 }
 
-@media (max-width: 1000px) {
+@media (max-height: 520px) {
+    :root {
+        --phone-w: min(12vw, 100px);
+    }
+
     #phone-wrapper {
         right: 4vw;
-        bottom: 4vh;
-        transform: scale(0.68);
-    }
-}
-
-@media (min-width: 1200px) and (max-height: 800px) {
-    #phone-wrapper {
-        right: 5vw;
-        bottom: 5vh;
-        transform: scale(0.72);
+        bottom: 7vh;
     }
 }
 </style>
@@ -1350,7 +1365,7 @@ html, body {
                 </div>
             </div>
 
-            <!-- MODAL COMPROVANTE -->
+            <!-- COMPROVANTE -->
             <div id="receipt-modal">
                 <div class="receipt-modal-card">
                     <div class="receipt-modal-title">Comprovante Pix</div>
@@ -1457,16 +1472,6 @@ html, body {
                     <input class="setting-input" id="phoneInputLocation" placeholder="New Empire Way">
                 </div>
 
-                <div class="setting-group">
-                    <div class="setting-label">Tamanho do celular</div>
-                    <select class="setting-select" id="phoneInputScale">
-                        <option value="0.62">Pequeno</option>
-                        <option value="0.72">Normal</option>
-                        <option value="0.82">Grande</option>
-                        <option value="0.92">Muito grande</option>
-                    </select>
-                </div>
-
                 <button class="save-btn" onclick="salvarConfigCelular()">Salvar Celular</button>
                 <button class="reset-btn" onclick="resetarConfigCelular()">Resetar Celular</button>
 
@@ -1491,8 +1496,7 @@ let waConfig = {
 
 let phoneConfig = {
     wallpaper: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",
-    location: "New Empire Way, Aeroporto Internacional",
-    scale: "0.72"
+    location: "New Empire Way, Aeroporto Internacional"
 };
 
 let bankData = {
@@ -1550,7 +1554,6 @@ function criarConversasPadrao() {
     ];
 }
 
-/* HORA */
 function atualizarHora() {
     const agora = new Date();
     const h = String(agora.getHours()).padStart(2, "0");
@@ -1572,7 +1575,6 @@ function atualizarHora() {
 setInterval(atualizarHora, 1000);
 atualizarHora();
 
-/* NAVEGAÇÃO */
 function fecharTodasTelas() {
     document.getElementById("whatsapp-screen").classList.remove("active");
     document.getElementById("bank-screen").classList.remove("active");
@@ -1606,7 +1608,7 @@ function abrirWhatsapp() {
         loading.classList.remove("active");
         renderizarLista();
         atualizarBotaoEnvio();
-    }, 1100);
+    }, 900);
 }
 
 function abrirWhatsappSemLoading() {
@@ -1636,7 +1638,6 @@ function abrirConfigCelular() {
     abrirTela("phone-settings-screen");
     document.getElementById("phoneInputWallpaper").value = phoneConfig.wallpaper;
     document.getElementById("phoneInputLocation").value = phoneConfig.location;
-    document.getElementById("phoneInputScale").value = phoneConfig.scale;
 }
 
 /* CONFIG WHATSAPP */
@@ -1690,21 +1691,15 @@ function atualizarPreviewWhatsapp() {
 /* CONFIG CELULAR */
 function carregarConfigCelular() {
     const salvo = localStorage.getItem("phone_config");
-
     if (salvo) {
-        try {
-            phoneConfig = JSON.parse(salvo);
-        } catch(e) {}
+        try { phoneConfig = JSON.parse(salvo); } catch(e) {}
     }
-
-    phoneConfig.scale = corrigirEscalaCelular(phoneConfig.scale);
     aplicarConfigCelular();
 }
 
 function salvarConfigCelular() {
     phoneConfig.wallpaper = document.getElementById("phoneInputWallpaper").value.trim() || phoneConfig.wallpaper;
     phoneConfig.location = document.getElementById("phoneInputLocation").value.trim() || "";
-    phoneConfig.scale = corrigirEscalaCelular(document.getElementById("phoneInputScale").value);
 
     localStorage.setItem("phone_config", JSON.stringify(phoneConfig));
     aplicarConfigCelular();
@@ -1713,24 +1708,12 @@ function salvarConfigCelular() {
 function resetarConfigCelular() {
     phoneConfig = {
         wallpaper: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",
-        location: "New Empire Way, Aeroporto Internacional",
-        scale: "0.72"
+        location: "New Empire Way, Aeroporto Internacional"
     };
 
     localStorage.removeItem("phone_config");
     aplicarConfigCelular();
     abrirConfigCelular();
-}
-
-function corrigirEscalaCelular(valor) {
-    let n = parseFloat(valor);
-
-    if (isNaN(n)) n = 0.72;
-
-    if (n > 0.92) n = 0.72;
-    if (n < 0.55) n = 0.72;
-
-    return String(n);
 }
 
 function aplicarConfigCelular() {
@@ -1746,7 +1729,8 @@ function aplicarConfigCelular() {
     screen.style.backgroundPosition = "center";
 
     location.innerText = phoneConfig.location;
-    wrapper.style.transform = `scale(${phoneConfig.scale})`;
+
+    wrapper.style.transform = "none";
 }
 
 /* WHATSAPP */
@@ -2007,7 +1991,7 @@ function receberFotoJogo(url) {
     enviarFotoWhatsapp(url, "Foto do jogo");
 }
 
-/* ÁUDIO: SEGURAR PARA GRAVAR, SOLTAR PARA ENVIAR */
+/* ÁUDIO */
 function segurarAudio(event) {
     event.preventDefault();
 
@@ -2049,9 +2033,7 @@ async function iniciarGravacaoAudio() {
             return;
         }
 
-        const stream = await navigator.mediaDevices.getUserMedia({
-            audio: true
-        });
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         audioChunks = [];
         mediaRecorder = new MediaRecorder(stream);
@@ -2064,11 +2046,7 @@ async function iniciarGravacaoAudio() {
 
         mediaRecorder.onstop = function() {
             const segundos = Math.max(1, Math.floor((Date.now() - audioStartTime) / 1000));
-
-            const audioBlob = new Blob(audioChunks, {
-                type: "audio/webm"
-            });
-
+            const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
             const audioUrl = URL.createObjectURL(audioBlob);
 
             stream.getTracks().forEach(track => track.stop());
@@ -2080,14 +2058,12 @@ async function iniciarGravacaoAudio() {
         mediaRecorder.start();
 
         gravandoAudio = true;
-
         micBtn.classList.add("recording");
         micBtn.innerText = "■";
 
         atualizarBotaoEnvio();
 
     } catch (e) {
-        console.log("Microfone não liberado no CEF:", e);
         iniciarAudioFakeVisual();
     }
 }
@@ -2443,13 +2419,11 @@ function toggleCelular() {
 window.mostrarCelular = mostrarCelular;
 window.fecharCelular = fecharCelular;
 window.toggleCelular = toggleCelular;
-
 window.abrirWhatsapp = abrirWhatsapp;
 window.abrirBanco = abrirBanco;
 window.abrirCalculadora = abrirCalculadora;
 window.abrirConfigCelular = abrirConfigCelular;
 window.abrirConfigWhatsapp = abrirConfigWhatsapp;
-
 window.receberFotoJogo = receberFotoJogo;
 
 /* INIT */
