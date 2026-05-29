@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celular CEF Mobile</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    overflow: hidden;
+}
+
+#phone-wrapper {
+    position: absolute;
+    right: 10.5vw;
+    bottom: 7vh;
+    width: 245px;
+    height: 505px;
+    transform-origin: bottom right;
+}
+
+.phone {
+    width: 245px;
+    height: 505px;
+    background: #020203;
+    border-radius: 39px;
+    padding: 9px;
+    position: relative;
+    box-shadow:
+        0 0 0 2px #151515,
+        0 0 0 5px #050505,
+        0 24px 45px rgba(0,0,0,0.9),
+        inset 0 0 9px rgba(255,255,255,0.08);
+}
+
+.phone::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: 108px;
+    width: 4px;
+    height: 55px;
+    background: #050505;
+    border-radius: 6px 0 0 6px;
+}
+
+.phone::after {
+    content: "";
+    position: absolute;
+    right: -4px;
+    top: 150px;
+    width: 4px;
+    height: 78px;
+    background: #050505;
+    border-radius: 0 6px 6px 0;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 31px;
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 32%),
+        url("https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop");
+    background-size: cover;
+    background-position: center;
+}
+
+.screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05) 20%, transparent 42%);
+    pointer-events: none;
+    z-index: 300;
+}
+
+.notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 96px;
+    height: 25px;
+    transform: translateX(-50%);
+    background: #020203;
+    border-bottom-left-radius: 17px;
+    border-bottom-right-radius: 17px;
+    z-index: 350;
+}
+
+.speaker {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 36px;
+    height: 4px;
+    transform: translateX(-50%);
+    background: #222;
+    border-radius: 10px;
+}
+
+.camera {
+    position: absolute;
+    top: 7px;
+    right: 17px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #101827;
+    box-shadow: inset 0 0 2px #355;
+}
+
+.status-bar {
+    position: absolute;
+    top: 7px;
+    left: 13px;
+    right: 13px;
+    height: 20px;
+    z-index: 330;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.status-icons {
+    display: flex;
+    gap: 5px;
+}
+
+#home-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+}
+
+.clock-area {
+    position: absolute;
+    top: 47px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    text-shadow: 0 2px 8px #000;
+}
+
+.clock {
+    font-size: 43px;
+    line-height: 39px;
+    font-weight: 500;
+    letter-spacing: 3px;
+}
+
+.date {
+    margin-top: 8px;
+    font-size: 9px;
+    opacity: 0.9;
+}
+
+.apps {
+    position: absolute;
+    top: 160px;
+    left: 22px;
+    right: 22px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px 12px;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 8px;
+    text-shadow: 0 1px 4px #000;
+    cursor: pointer;
+}
+
+.icon {
+    width: 47px;
+    height: 47px;
+    border-radius: 13px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    font-weight: bold;
+    overflow: hidden;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.55);
+}
+
+.icon.whatsapp { background: linear-gradient(145deg, #35ff75, #00993d); }
+.icon.calc { background: linear-gradient(145deg, #ffba3b, #ff7200); }
+.icon.bank { background: linear-gradient(145deg, #a020f0, #520080); }
+.icon.settings { background: linear-gradient(145deg, #606060, #171717); }
+
+.dock {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 15px;
+    height: 58px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.dock .icon {
+    width: 40px;
+    height: 40px;
+    font-size: 19px;
+    margin: 0;
+    border-radius: 12px;
+}
+
+.app-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    color: white;
+    background: #071015;
+}
+
+.app-screen.active {
+    display: block;
+}
+
+/* WHATSAPP */
+#wa-loading-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 160;
+    display: none;
+    background: #071015;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#wa-loading-screen.active {
+    display: flex;
+}
+
+.wa-logo-big {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    color: white;
+    margin-bottom: 22px;
+    box-shadow: 0 0 16px rgba(37,211,102,0.35);
+}
+
+.wa-loader-line {
+    width: 82px;
+    height: 3px;
+    background: rgba(255,255,255,0.14);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.wa-loader-line span {
+    display: block;
+    width: 40%;
+    height: 100%;
+    background: #25d366;
+    border-radius: 10px;
+    animation: waLoad 1s ease-in-out infinite;
+}
+
+.wa-loading-bottom {
+    position: absolute;
+    bottom: 42px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.wa-loading-text {
+    color: #7e8b91;
+    font-size: 10px;
+    margin-bottom: 7px;
+}
+
+.wa-meta {
+    font-size: 12px;
+    color: #25d366;
+    font-weight: bold;
+}
+
+@keyframes waLoad {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+
+#whatsapp-screen.theme-dark {
+    background: #071015;
+    color: white;
+}
+
+#whatsapp-screen.theme-light {
+    background: #f5f5f5;
+    color: #111;
+}
+
+.wa-header {
+    height: 73px;
+    background: #071015;
+    border-bottom: 1px solid rgba(0,255,180,0.15);
+    padding: 27px 11px 0 11px;
+}
+
+.wa-top {
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wa-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.wa-actions {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.wa-actions span {
+    cursor: pointer;
+}
+
+.wa-tabs {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    color: #7f8c94;
+    font-size: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.wa-tab.active {
+    color: #00c79a;
+    border-bottom: 2px solid #00c79a;
+    padding-bottom: 7px;
+}
+
+.wa-list {
+    position: absolute;
+    top: 73px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    background: #071015;
+}
+
+.chat-item {
+    height: 62px;
+    padding: 8px 11px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    cursor: pointer;
+}
+
+.avatar,
+.conv-avatar,
+.my-photo {
+    overflow: hidden;
+}
+
+.avatar img,
+.conv-avatar img,
+.my-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #209cff, #004d87);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.chat-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.chat-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.chat-name {
+    font-size: 12px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chat-time {
+    font-size: 8px;
+    color: #00c79a;
+}
+
+.chat-last {
+    margin-top: 5px;
+    font-size: 9px;
+    color: #9aa5aa;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.badge {
+    min-width: 16px;
+    height: 16px;
+    background: #00c79a;
+    color: #071015;
+    border-radius: 10px;
+    font-size: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#conversation {
+    position: absolute;
+    inset: 0;
+    display: none;
+    background: #071015;
+    z-index: 90;
+}
+
+#conversation.active {
+    display: block;
+}
+
+.conv-header {
+    height: 60px;
+    padding: 25px 8px 5px 8px;
+    background: #0a171f;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.conv-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #005c8a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.conv-name {
+    flex: 1;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.messages {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 54px;
+    overflow-y: auto;
+    padding: 9px;
+    background: #071015;
+}
+
+.msg {
+    max-width: 78%;
+    padding: 7px 9px;
+    margin-bottom: 7px;
+    font-size: 10px;
+    line-height: 14px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+.msg.received {
+    background: #111f27;
+    margin-right: auto;
+    border-top-left-radius: 2px;
+}
+
+.msg.sent {
+    background: #005c4b;
+    margin-left: auto;
+    border-top-right-radius: 2px;
+}
+
+.msg span.msg-time {
+    display: block;
+    text-align: right;
+    font-size: 7px;
+    opacity: 0.65;
+    margin-top: 4px;
+}
+
+.msg-image {
+    width: 130px;
+    max-height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.receipt-box {
+    background: rgba(255,255,255,0.08);
+    border-radius: 9px;
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.receipt-title {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.receipt-line {
+    font-size: 9px;
+    margin: 3px 0;
+    opacity: 0.9;
+}
+
+/* INPUT IGUAL WHATSAPP REAL */
+.input-area {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 7px;
+    background: #071015;
+}
+
+.message-box {
+    flex: 1;
+    height: 40px;
+    min-width: 0;
+    border-radius: 22px;
+    background: #202c33;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    gap: 4px;
+}
+
+.message-box input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 13px;
+    padding: 0 4px;
+}
+
+.message-box input::placeholder {
+    color: #9aa5aa;
+}
+
+.emoji-btn,
+.attach-btn,
+.camera-btn {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: transparent;
+    color: #aebac1;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.attach-btn {
+    font-size: 18px;
+}
+
+.camera-btn {
+    font-size: 15px;
+}
+
+.mic-btn,
+.send-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: #00c853;
+    color: #06210f;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.send-btn {
+    display: none;
+    color: white;
+    font-size: 18px;
+}
+
+.mic-btn.recording {
+    background: #ff3030 !important;
+    color: white !important;
+    animation: pulseMic 0.8s infinite;
+}
+
+@keyframes pulseMic {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); box-shadow: 0 0 10px rgba(255,48,48,0.8); }
+}
+
+.audio-bubble {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 132px;
+}
+
+.audio-play {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.18);
+    color: white;
+    font-size: 11px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.audio-wave {
+    flex: 1;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.audio-wave span {
+    width: 3px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.75);
+    display: block;
+}
+
+.audio-wave span:nth-child(1) { height: 6px; }
+.audio-wave span:nth-child(2) { height: 12px; }
+.audio-wave span:nth-child(3) { height: 9px; }
+.audio-wave span:nth-child(4) { height: 16px; }
+.audio-wave span:nth-child(5) { height: 7px; }
+.audio-wave span:nth-child(6) { height: 13px; }
+.audio-wave span:nth-child(7) { height: 10px; }
+.audio-wave span:nth-child(8) { height: 15px; }
+
+.audio-duration {
+    font-size: 8px;
+    opacity: 0.75;
+    min-width: 23px;
+    text-align: right;
+}
+
+/* TEMA BRANCO */
+#whatsapp-screen.theme-light .wa-header,
+#whatsapp-screen.theme-light .conv-header {
+    background: #ffffff;
+    color: #111;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+#whatsapp-screen.theme-light .wa-list {
+    background: #f5f5f5;
+}
+
+#whatsapp-screen.theme-light .chat-item {
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+#whatsapp-screen.theme-light .chat-last {
+    color: #707070;
+}
+
+#whatsapp-screen.theme-light #conversation,
+#whatsapp-screen.theme-light .messages,
+#whatsapp-screen.theme-light .input-area {
+    background: #efe7dd;
+}
+
+#whatsapp-screen.theme-light .message-box {
+    background: #ffffff;
+}
+
+#whatsapp-screen.theme-light .message-box input {
+    color: #111;
+}
+
+#whatsapp-screen.theme-light .message-box input::placeholder {
+    color: #777;
+}
+
+#whatsapp-screen.theme-light .emoji-btn,
+#whatsapp-screen.theme-light .attach-btn,
+#whatsapp-screen.theme-light .camera-btn {
+    color: #667781;
+}
+
+#whatsapp-screen.theme-light .msg.received {
+    background: #ffffff;
+    color: #111;
+}
+
+#whatsapp-screen.theme-light .msg.sent {
+    background: #d9fdd3;
+    color: #111;
+}
+
+#whatsapp-screen.theme-light #wa-loading-screen {
+    background: #ffffff;
+}
+
+#whatsapp-screen.theme-light .mic-btn,
+#whatsapp-screen.theme-light .send-btn {
+    background: #00a884;
+    color: white;
+}
+
+#whatsapp-screen.theme-light .audio-play {
+    background: rgba(0,0,0,0.10);
+    color: #111;
+}
+
+#whatsapp-screen.theme-light .audio-wave span {
+    background: rgba(0,0,0,0.45);
+}
+
+/* BANCO */
+#bank-screen {
+    background: #7c1bbd;
+    color: white;
+    overflow-y: auto;
+    padding: 30px 13px 15px;
+}
+
+.bank-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bank-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.bank-card {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 18px;
+    padding: 13px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+
+.bank-label {
+    font-size: 10px;
+    opacity: 0.82;
+}
+
+.bank-balance {
+    margin-top: 6px;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.bank-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.bank-action {
+    height: 48px;
+    border-radius: 14px;
+    border: none;
+    background: rgba(255,255,255,0.18);
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pix-form {
+    margin-top: 13px;
+    display: none;
+}
+
+.pix-form.active {
+    display: block;
+}
+
+.bank-input {
+    width: 100%;
+    height: 33px;
+    margin-top: 7px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 10px;
+    color: #111;
+}
+
+.bank-btn {
+    width: 100%;
+    height: 34px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #7c1bbd;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.bank-history {
+    margin-top: 14px;
+}
+
+.bank-history-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.bank-item {
+    background: rgba(0,0,0,0.15);
+    border-radius: 11px;
+    padding: 8px;
+    margin-bottom: 6px;
+}
+
+.bank-item-title {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.bank-item-desc {
+    font-size: 8px;
+    opacity: 0.78;
+    margin-top: 3px;
+}
+
+/* COMPROVANTE MODAL */
+#receipt-modal {
+    position: absolute;
+    inset: 0;
+    z-index: 220;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+
+#receipt-modal.active {
+    display: flex;
+}
+
+.receipt-modal-card {
+    width: 100%;
+    background: #fff;
+    color: #111;
+    border-radius: 18px;
+    padding: 14px;
+}
+
+.receipt-modal-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #7c1bbd;
+    margin-bottom: 10px;
+}
+
+.receipt-modal-line {
+    font-size: 10px;
+    margin: 6px 0;
+}
+
+.receipt-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.receipt-modal-actions button {
+    height: 31px;
+    border: none;
+    border-radius: 10px;
+    background: #7c1bbd;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.receipt-modal-actions button:last-child {
+    background: #333;
+}
+
+/* CALC */
+#calc-screen {
+    background: #09090b;
+    padding: 30px 12px 12px;
+}
+
+.calc-top {
+    height: 42px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.small-btn {
+    background: rgba(255,255,255,0.1);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.calc-display {
+    height: 120px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 38px;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+
+.calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.calc-btn {
+    height: 49px;
+    border: none;
+    border-radius: 50%;
+    background: #2b2b2d;
+    color: white;
+    font-size: 18px;
+}
+
+.calc-btn.gray { background: #a5a5a5; color: black; }
+.calc-btn.orange { background: #ff9f0a; }
+.calc-btn.zero {
+    grid-column: span 2;
+    border-radius: 28px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+/* SETTINGS */
+.settings-screen {
+    background: #0b0b0d;
+    padding: 30px 12px 12px;
+}
+
+.settings-top {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.profile-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.my-photo {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #00a884;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.preview-name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.preview-desc {
+    margin-top: 3px;
+    font-size: 9px;
+    color: #8b9499;
+}
+
+.setting-group {
+    margin-top: 12px;
+}
+
+.setting-label {
+    font-size: 10px;
+    color: #8b9499;
+    margin-bottom: 5px;
+}
+
+.setting-input,
+.setting-select {
+    width: 100%;
+    height: 32px;
+    border: none;
+    outline: none;
+    border-radius: 9px;
+    background: #18191d;
+    color: white;
+    font-size: 10px;
+    padding: 0 9px;
+}
+
+.save-btn {
+    width: 100%;
+    height: 34px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 14px;
+    background: #00a884;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.reset-btn {
+    width: 100%;
+    height: 31px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 8px;
+    background: #2b2b2b;
+    color: white;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.home-line {
+    position: absolute;
+    left: 50%;
+    bottom: 7px;
+    transform: translateX(-50%);
+    width: 78px;
+    height: 5px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.65);
+    z-index: 180;
+    cursor: pointer;
+}
+
+.location {
+    position: absolute;
+    left: 50%;
+    bottom: -19px;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 9px;
+    white-space: nowrap;
+    text-shadow: 0 1px 4px black;
+}
+
+.hidden-file {
+    display: none;
+}
+
+@media (max-height: 650px) {
+    #phone-wrapper {
+        transform: scale(0.78);
+        right: 5vw;
+        bottom: 3vh;
+    }
+}
+
+@media (max-width: 1000px) {
+    #phone-wrapper {
+        transform: scale(0.82);
+        right: 5vw;
+        bottom: 4vh;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<input type="file" class="hidden-file" id="photoInput" accept="image/*" onchange="selecionarFotoWhatsapp(event)">
+
+<div id="phone-wrapper">
+    <div class="phone">
+        <div class="screen" id="phoneScreen">
+
+            <div class="notch">
+                <div class="speaker"></div>
+                <div class="camera"></div>
+            </div>
+
+            <div class="status-bar">
+                <div id="miniTime">06:36</div>
+                <div class="status-icons">
+                    <span>⌁</span>
+                    <span>◖</span>
+                    <span>▰</span>
+                </div>
+            </div>
+
+            <div id="home-screen">
+                <div class="clock-area">
+                    <div class="clock">
+                        <div id="hourText">06</div>
+                        <div id="minuteText">36</div>
+                    </div>
+                    <div class="date" id="dateText">7 de Novembro de 2022</div>
+                </div>
+
+                <div class="apps">
+                    <div class="app" onclick="abrirWhatsapp()">
+                        <div class="icon whatsapp">☎</div>
+                        <span>WhatsApp</span>
+                    </div>
+
+                    <div class="app" onclick="abrirBanco()">
+                        <div class="icon bank">Nu</div>
+                        <span>Banco</span>
+                    </div>
+
+                    <div class="app" onclick="abrirCalculadora()">
+                        <div class="icon calc">+</div>
+                        <span>Calculadora</span>
+                    </div>
+
+                    <div class="app" onclick="abrirConfigCelular()">
+                        <div class="icon settings">⚙</div>
+                        <span>Ajustes</span>
+                    </div>
+                </div>
+
+                <div class="dock">
+                    <div class="icon whatsapp" onclick="abrirWhatsapp()">☎</div>
+                    <div class="icon bank" onclick="abrirBanco()">Nu</div>
+                    <div class="icon calc" onclick="abrirCalculadora()">+</div>
+                    <div class="icon settings" onclick="abrirConfigCelular()">⚙</div>
+                </div>
+            </div>
+
+            <!-- WHATSAPP -->
+            <div class="app-screen theme-dark" id="whatsapp-screen">
+
+                <div id="wa-loading-screen">
+                    <div class="wa-logo-big">☎</div>
+                    <div class="wa-loader-line"><span></span></div>
+                    <div class="wa-loading-bottom">
+                        <div class="wa-loading-text">from</div>
+                        <div class="wa-meta">Meta</div>
+                    </div>
+                </div>
+
+                <div class="wa-header">
+                    <div class="wa-top">
+                        <div class="wa-title">WhatsApp</div>
+                        <div class="wa-actions">
+                            <span onclick="tirarFotoDoJogo()">📷</span>
+                            <span onclick="abrirConfigWhatsapp()">⚙</span>
+                        </div>
+                    </div>
+
+                    <div class="wa-tabs">
+                        <div class="wa-tab active">CHATS</div>
+                        <div class="wa-tab">STATUS</div>
+                        <div class="wa-tab">LIGAÇÕES</div>
+                    </div>
+                </div>
+
+                <div class="wa-list" id="wa-list"></div>
+
+                <div id="conversation">
+                    <div class="conv-header">
+                        <div class="back" onclick="voltarListaWhatsapp()">‹</div>
+                        <div class="conv-avatar" id="convAvatar">A</div>
+                        <div class="conv-name" id="convName">Contato</div>
+                        <div onclick="tirarFotoDoJogo()">📷</div>
+                        <div>⋮</div>
+                    </div>
+
+                    <div class="messages" id="messages"></div>
+
+                    <div class="input-area">
+                        <div class="message-box">
+                            <button class="emoji-btn" onclick="abrirEmojiFake()">☻</button>
+
+                            <input 
+                                id="msgInput" 
+                                placeholder="Mensagem" 
+                                oninput="atualizarBotaoEnvio()" 
+                                onkeydown="enterEnviar(event)"
+                            >
+
+                            <button class="attach-btn" onclick="abrirSeletorFoto()">📎</button>
+                            <button class="camera-btn" onclick="tirarFotoDoJogo()">📷</button>
+                        </div>
+
+                        <button class="mic-btn" id="micBtn" onclick="toggleAudio()">🎙</button>
+                        <button class="send-btn" id="sendBtn" onclick="enviarMensagem()">➤</button>
+                    </div>
+                </div>
+
+                <div class="home-line" onclick="voltarHome()"></div>
+            </div>
+
+            <!-- BANCO -->
+            <div class="app-screen" id="bank-screen">
+                <div class="bank-top">
+                    <div class="bank-title">Banco Roxo</div>
+                    <div class="small-btn" onclick="voltarHome()">Home</div>
+                </div>
+
+                <div class="bank-card">
+                    <div class="bank-label">Saldo disponível</div>
+                    <div class="bank-balance" id="bankBalance">R$ 2.500,00</div>
+
+                    <div class="bank-actions">
+                        <button class="bank-action" onclick="togglePixForm()">Pix</button>
+                        <button class="bank-action" onclick="mostrarSaldo()">Saldo</button>
+                        <button class="bank-action" onclick="compartilharUltimoComprovante()">Compartilhar</button>
+                    </div>
+                </div>
+
+                <div class="pix-form" id="pixForm">
+                    <input class="bank-input" id="pixKey" placeholder="Chave Pix / Nome">
+                    <input class="bank-input" id="pixValue" placeholder="Valor. Ex: 120.50" inputmode="decimal">
+                    <input class="bank-input" id="pixDesc" placeholder="Descrição opcional">
+                    <button class="bank-btn" onclick="enviarPix()">Enviar Pix</button>
+                </div>
+
+                <div class="bank-history">
+                    <div class="bank-history-title">Últimas movimentações</div>
+                    <div id="bankHistory"></div>
+                </div>
+            </div>
+
+            <!-- MODAL COMPROVANTE -->
+            <div id="receipt-modal">
+                <div class="receipt-modal-card">
+                    <div class="receipt-modal-title">Comprovante Pix</div>
+                    <div id="receiptContent"></div>
+
+                    <div class="receipt-modal-actions">
+                        <button onclick="compartilharComprovanteWhatsapp()">WhatsApp</button>
+                        <button onclick="fecharComprovante()">Fechar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALCULADORA -->
+            <div class="app-screen" id="calc-screen">
+                <div class="calc-top">
+                    <span>Calculadora</span>
+                    <span class="small-btn" onclick="voltarHome()">Home</span>
+                </div>
+
+                <div class="calc-display" id="calcDisplay">0</div>
+
+                <div class="calc-grid">
+                    <button class="calc-btn gray" onclick="calcClear()">AC</button>
+                    <button class="calc-btn gray" onclick="calcToggle()">±</button>
+                    <button class="calc-btn gray" onclick="calcPercent()">%</button>
+                    <button class="calc-btn orange" onclick="calcInput('/')">÷</button>
+
+                    <button class="calc-btn" onclick="calcInput('7')">7</button>
+                    <button class="calc-btn" onclick="calcInput('8')">8</button>
+                    <button class="calc-btn" onclick="calcInput('9')">9</button>
+                    <button class="calc-btn orange" onclick="calcInput('*')">×</button>
+
+                    <button class="calc-btn" onclick="calcInput('4')">4</button>
+                    <button class="calc-btn" onclick="calcInput('5')">5</button>
+                    <button class="calc-btn" onclick="calcInput('6')">6</button>
+                    <button class="calc-btn orange" onclick="calcInput('-')">−</button>
+
+                    <button class="calc-btn" onclick="calcInput('1')">1</button>
+                    <button class="calc-btn" onclick="calcInput('2')">2</button>
+                    <button class="calc-btn" onclick="calcInput('3')">3</button>
+                    <button class="calc-btn orange" onclick="calcInput('+')">+</button>
+
+                    <button class="calc-btn zero" onclick="calcInput('0')">0</button>
+                    <button class="calc-btn" onclick="calcInput('.')">,</button>
+                    <button class="calc-btn orange" onclick="calcResult()">=</button>
+                </div>
+
+                <div class="home-line" onclick="voltarHome()"></div>
+            </div>
+
+            <!-- CONFIG WHATSAPP -->
+            <div class="app-screen settings-screen" id="wa-settings-screen">
+                <div class="settings-top">
+                    <div class="settings-title">Config. WhatsApp</div>
+                    <div class="small-btn" onclick="abrirWhatsappSemLoading()">Voltar</div>
+                </div>
+
+                <div class="profile-preview">
+                    <div class="my-photo" id="waPreviewPhoto">D</div>
+                    <div>
+                        <div class="preview-name" id="waPreviewName">Deivyd</div>
+                        <div class="preview-desc">Perfil do WhatsApp</div>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <div class="setting-label">Nome do WhatsApp</div>
+                    <input class="setting-input" id="waInputName" placeholder="Seu nome">
+                </div>
+
+                <div class="setting-group">
+                    <div class="setting-label">Foto do WhatsApp por link</div>
+                    <input class="setting-input" id="waInputPhoto" placeholder="https://site.com/foto.png">
+                </div>
+
+                <div class="setting-group">
+                    <div class="setting-label">Tema do WhatsApp</div>
+                    <select class="setting-select" id="waInputTheme">
+                        <option value="dark">Preto</option>
+                        <option value="light">Branco</option>
+                    </select>
+                </div>
+
+                <button class="save-btn" onclick="salvarConfigWhatsapp()">Salvar WhatsApp</button>
+                <button class="reset-btn" onclick="resetarConfigWhatsapp()">Resetar WhatsApp</button>
+
+                <div class="home-line" onclick="voltarHome()"></div>
+            </div>
+
+            <!-- CONFIG CELULAR -->
+            <div class="app-screen settings-screen" id="phone-settings-screen">
+                <div class="settings-top">
+                    <div class="settings-title">Config. Celular</div>
+                    <div class="small-btn" onclick="voltarHome()">Home</div>
+                </div>
+
+                <div class="setting-group">
+                    <div class="setting-label">Fundo do celular por link</div>
+                    <input class="setting-input" id="phoneInputWallpaper" placeholder="https://site.com/fundo.png">
+                </div>
+
+                <div class="setting-group">
+                    <div class="setting-label">Texto embaixo do celular</div>
+                    <input class="setting-input" id="phoneInputLocation" placeholder="New Empire Way">
+                </div>
+
+                <div class="setting-group">
+                    <div class="setting-label">Tamanho do celular</div>
+                    <select class="setting-select" id="phoneInputScale">
+                        <option value="0.90">Pequeno</option>
+                        <option value="1">Normal</option>
+                        <option value="1.10">Grande</option>
+                        <option value="1.20">Muito grande</option>
+                    </select>
+                </div>
+
+                <button class="save-btn" onclick="salvarConfigCelular()">Salvar Celular</button>
+                <button class="reset-btn" onclick="resetarConfigCelular()">Resetar Celular</button>
+
+                <div class="home-line" onclick="voltarHome()"></div>
+            </div>
+
+        </div>
+
+        <div class="location" id="phoneLocation">New Empire Way, Aeroporto Internacional</div>
+    </div>
+</div>
+
+<script>
+let contatos = [];
+let conversaAtual = null;
+
+let waConfig = {
+    nome: "Deivyd",
+    foto: "",
+    tema: "dark"
+};
+
+let phoneConfig = {
+    wallpaper: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",
+    location: "New Empire Way, Aeroporto Internacional",
+    scale: "1"
+};
+
+let bankData = {
+    saldo: 2500,
+    historico: [],
+    ultimoComprovante: null
+};
+
+let gravandoAudio = false;
+let mediaRecorder = null;
+let audioChunks = [];
+let audioStartTime = 0;
+let audioAtual = null;
+
+function criarConversasPadrao() {
+    contatos = [
+        {
+            id: 1,
+            nome: "Atendente",
+            avatar: "A",
+            foto: "",
+            ultima: "Olá, como posso ajudar?",
+            hora: "Agora",
+            naoLidas: 1,
+            mensagens: [
+                { tipo: "received", texto: "Olá, como posso ajudar?", hora: "06:36" }
+            ]
+        },
+        {
+            id: 2,
+            nome: "Mecânico",
+            avatar: "M",
+            foto: "",
+            ultima: "Traga o veículo na oficina.",
+            hora: "Ontem",
+            naoLidas: 0,
+            mensagens: [
+                { tipo: "received", texto: "Traga o veículo na oficina.", hora: "18:22" },
+                { tipo: "sent", texto: "Fechou, vou passar aí.", hora: "18:25" }
+            ]
+        },
+        {
+            id: 3,
+            nome: "Banco Roxo",
+            avatar: "N",
+            foto: "",
+            ultima: "Seu banco digital.",
+            hora: "Seg",
+            naoLidas: 0,
+            mensagens: [
+                { tipo: "received", texto: "Bem-vindo ao Banco Roxo.", hora: "12:10" }
+            ]
+        }
+    ];
+}
+
+/* HORA */
+function atualizarHora() {
+    const agora = new Date();
+    const h = String(agora.getHours()).padStart(2, "0");
+    const m = String(agora.getMinutes()).padStart(2, "0");
+
+    document.getElementById("miniTime").innerText = h + ":" + m;
+    document.getElementById("hourText").innerText = h;
+    document.getElementById("minuteText").innerText = m;
+
+    const meses = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    document.getElementById("dateText").innerText =
+        agora.getDate() + " de " + meses[agora.getMonth()] + " de " + agora.getFullYear();
+}
+
+setInterval(atualizarHora, 1000);
+atualizarHora();
+
+/* NAVEGAÇÃO */
+function fecharTodasTelas() {
+    document.getElementById("whatsapp-screen").classList.remove("active");
+    document.getElementById("bank-screen").classList.remove("active");
+    document.getElementById("calc-screen").classList.remove("active");
+    document.getElementById("wa-settings-screen").classList.remove("active");
+    document.getElementById("phone-settings-screen").classList.remove("active");
+    document.getElementById("conversation").classList.remove("active");
+    fecharComprovante();
+}
+
+function abrirTela(id) {
+    document.getElementById("home-screen").style.display = "none";
+    fecharTodasTelas();
+    document.getElementById(id).classList.add("active");
+}
+
+function voltarHome() {
+    document.getElementById("home-screen").style.display = "block";
+    fecharTodasTelas();
+
+    if (gravandoAudio) pararGravacaoAudio();
+}
+
+function abrirWhatsapp() {
+    abrirTela("whatsapp-screen");
+
+    const loading = document.getElementById("wa-loading-screen");
+    loading.classList.add("active");
+
+    setTimeout(() => {
+        loading.classList.remove("active");
+        renderizarLista();
+        atualizarBotaoEnvio();
+    }, 1300);
+}
+
+function abrirWhatsappSemLoading() {
+    abrirTela("whatsapp-screen");
+    renderizarLista();
+    atualizarBotaoEnvio();
+}
+
+function abrirBanco() {
+    abrirTela("bank-screen");
+    renderizarBanco();
+}
+
+function abrirCalculadora() {
+    abrirTela("calc-screen");
+}
+
+function abrirConfigWhatsapp() {
+    abrirTela("wa-settings-screen");
+    document.getElementById("waInputName").value = waConfig.nome;
+    document.getElementById("waInputPhoto").value = waConfig.foto;
+    document.getElementById("waInputTheme").value = waConfig.tema;
+    atualizarPreviewWhatsapp();
+}
+
+function abrirConfigCelular() {
+    abrirTela("phone-settings-screen");
+    document.getElementById("phoneInputWallpaper").value = phoneConfig.wallpaper;
+    document.getElementById("phoneInputLocation").value = phoneConfig.location;
+    document.getElementById("phoneInputScale").value = phoneConfig.scale;
+}
+
+/* CONFIG WHATSAPP */
+function carregarConfigWhatsapp() {
+    const salvo = localStorage.getItem("wa_config");
+    if (salvo) {
+        try { waConfig = JSON.parse(salvo); } catch(e) {}
+    }
+    aplicarConfigWhatsapp();
+}
+
+function salvarConfigWhatsapp() {
+    waConfig.nome = document.getElementById("waInputName").value.trim() || "Sem Nome";
+    waConfig.foto = document.getElementById("waInputPhoto").value.trim();
+    waConfig.tema = document.getElementById("waInputTheme").value;
+
+    localStorage.setItem("wa_config", JSON.stringify(waConfig));
+    aplicarConfigWhatsapp();
+    atualizarPreviewWhatsapp();
+}
+
+function resetarConfigWhatsapp() {
+    waConfig = { nome: "Deivyd", foto: "", tema: "dark" };
+    localStorage.removeItem("wa_config");
+    aplicarConfigWhatsapp();
+    abrirConfigWhatsapp();
+}
+
+function aplicarConfigWhatsapp() {
+    const wa = document.getElementById("whatsapp-screen");
+    wa.classList.remove("theme-dark", "theme-light");
+    wa.classList.add(waConfig.tema === "light" ? "theme-light" : "theme-dark");
+    atualizarPreviewWhatsapp();
+}
+
+function atualizarPreviewWhatsapp() {
+    const name = document.getElementById("waPreviewName");
+    const photo = document.getElementById("waPreviewPhoto");
+
+    if (!name || !photo) return;
+
+    name.innerText = waConfig.nome;
+
+    if (waConfig.foto) {
+        photo.innerHTML = `<img src="${escapeAttr(waConfig.foto)}" onerror="this.parentElement.innerText='${escapeAttr(waConfig.nome.charAt(0).toUpperCase())}'">`;
+    } else {
+        photo.innerText = waConfig.nome.charAt(0).toUpperCase();
+    }
+}
+
+/* CONFIG CELULAR */
+function carregarConfigCelular() {
+    const salvo = localStorage.getItem("phone_config");
+    if (salvo) {
+        try { phoneConfig = JSON.parse(salvo); } catch(e) {}
+    }
+    aplicarConfigCelular();
+}
+
+function salvarConfigCelular() {
+    phoneConfig.wallpaper = document.getElementById("phoneInputWallpaper").value.trim() || phoneConfig.wallpaper;
+    phoneConfig.location = document.getElementById("phoneInputLocation").value.trim() || "";
+    phoneConfig.scale = document.getElementById("phoneInputScale").value;
+
+    localStorage.setItem("phone_config", JSON.stringify(phoneConfig));
+    aplicarConfigCelular();
+}
+
+function resetarConfigCelular() {
+    phoneConfig = {
+        wallpaper: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",
+        location: "New Empire Way, Aeroporto Internacional",
+        scale: "1"
+    };
+
+    localStorage.removeItem("phone_config");
+    aplicarConfigCelular();
+    abrirConfigCelular();
+}
+
+function aplicarConfigCelular() {
+    const screen = document.getElementById("phoneScreen");
+    const wrapper = document.getElementById("phone-wrapper");
+    const location = document.getElementById("phoneLocation");
+
+    screen.style.background = `
+        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 32%),
+        url("${phoneConfig.wallpaper}")
+    `;
+    screen.style.backgroundSize = "cover";
+    screen.style.backgroundPosition = "center";
+
+    location.innerText = phoneConfig.location;
+    wrapper.style.transform = `scale(${phoneConfig.scale})`;
+}
+
+/* WHATSAPP */
+function renderizarLista() {
+    const lista = document.getElementById("wa-list");
+    lista.innerHTML = "";
+
+    contatos.forEach(c => {
+        const item = document.createElement("div");
+        item.className = "chat-item";
+        item.onclick = () => abrirConversa(c.id);
+
+        const avatarHtml = c.foto
+            ? `<img src="${escapeAttr(c.foto)}" onerror="this.parentElement.innerText='${escapeAttr(c.avatar)}'">`
+            : escapeHtml(c.avatar);
+
+        item.innerHTML = `
+            <div class="avatar">${avatarHtml}</div>
+            <div class="chat-info">
+                <div class="chat-row">
+                    <div class="chat-name">${escapeHtml(c.nome)}</div>
+                    <div class="chat-time">${escapeHtml(c.hora)}</div>
+                </div>
+                <div class="chat-row">
+                    <div class="chat-last">${escapeHtml(c.ultima)}</div>
+                    ${c.naoLidas > 0 ? `<div class="badge">${c.naoLidas}</div>` : ""}
+                </div>
+            </div>
+        `;
+
+        lista.appendChild(item);
+    });
+}
+
+function abrirConversa(id) {
+    conversaAtual = contatos.find(c => c.id === id);
+    if (!conversaAtual) return;
+
+    conversaAtual.naoLidas = 0;
+
+    const avatar = document.getElementById("convAvatar");
+
+    if (conversaAtual.foto) {
+        avatar.innerHTML = `<img src="${escapeAttr(conversaAtual.foto)}" onerror="this.parentElement.innerText='${escapeAttr(conversaAtual.avatar)}'">`;
+    } else {
+        avatar.innerText = conversaAtual.avatar;
+    }
+
+    document.getElementById("convName").innerText = conversaAtual.nome;
+    document.getElementById("conversation").classList.add("active");
+
+    renderizarMensagens();
+    renderizarLista();
+    atualizarBotaoEnvio();
+}
+
+function voltarListaWhatsapp() {
+    document.getElementById("conversation").classList.remove("active");
+    renderizarLista();
+
+    if (gravandoAudio) pararGravacaoAudio();
+}
+
+function renderizarMensagens() {
+    const area = document.getElementById("messages");
+    area.innerHTML = "";
+
+    conversaAtual.mensagens.forEach((m, index) => {
+        const div = document.createElement("div");
+        div.className = "msg " + (m.tipo === "sent" ? "sent" : "received");
+
+        if (m.audio) {
+            div.innerHTML = `
+                <div class="audio-bubble">
+                    <button class="audio-play" onclick="tocarAudio(${index})">▶</button>
+                    <div class="audio-wave">
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="audio-duration">${escapeHtml(m.duracao || "0:03")}</div>
+                </div>
+                <span class="msg-time">${escapeHtml(m.hora || "")}</span>
+            `;
+        } else if (m.image) {
+            div.innerHTML = `
+                <img class="msg-image" src="${escapeAttr(m.image)}">
+                ${m.texto ? escapeHtml(m.texto) : ""}
+                <span class="msg-time">${escapeHtml(m.hora || "")}</span>
+            `;
+        } else if (m.receipt) {
+            div.innerHTML = montarComprovanteBolha(m.receipt) + `<span class="msg-time">${escapeHtml(m.hora || "")}</span>`;
+        } else {
+            div.innerHTML = `
+                ${escapeHtml(m.texto || "")}
+                <span class="msg-time">${escapeHtml(m.hora || "")}</span>
+            `;
+        }
+
+        area.appendChild(div);
+    });
+
+    area.scrollTop = area.scrollHeight;
+}
+
+function atualizarBotaoEnvio() {
+    const input = document.getElementById("msgInput");
+    const micBtn = document.getElementById("micBtn");
+    const sendBtn = document.getElementById("sendBtn");
+
+    if (!input || !micBtn || !sendBtn) return;
+
+    if (gravandoAudio) {
+        micBtn.style.display = "flex";
+        sendBtn.style.display = "none";
+        return;
+    }
+
+    if (input.value.trim().length > 0) {
+        micBtn.style.display = "none";
+        sendBtn.style.display = "flex";
+    } else {
+        sendBtn.style.display = "none";
+        micBtn.style.display = "flex";
+    }
+}
+
+function abrirEmojiFake() {
+    const input = document.getElementById("msgInput");
+    if (!input) return;
+
+    input.value += "😀";
+    input.focus();
+
+    atualizarBotaoEnvio();
+}
+
+function enviarMensagem() {
+    const input = document.getElementById("msgInput");
+    const texto = input.value.trim();
+
+    if (!texto || !conversaAtual) return;
+
+    const hora = pegarHora();
+
+    conversaAtual.mensagens.push({
+        tipo: "sent",
+        texto: texto,
+        hora: hora
+    });
+
+    conversaAtual.ultima = texto;
+    conversaAtual.hora = hora;
+
+    input.value = "";
+    renderizarMensagens();
+    renderizarLista();
+    atualizarBotaoEnvio();
+
+    setTimeout(() => respostaFakeTexto(conversaAtual.id), 800);
+}
+
+function respostaFakeTexto(id) {
+    const contato = contatos.find(c => c.id === id);
+    if (!contato) return;
+
+    const respostas = ["Entendi.", "Certo, vou verificar.", "Beleza.", "Pode deixar.", "Mensagem recebida."];
+    const resposta = respostas[Math.floor(Math.random() * respostas.length)];
+    const hora = pegarHora();
+
+    contato.mensagens.push({ tipo: "received", texto: resposta, hora: hora });
+    contato.ultima = resposta;
+    contato.hora = hora;
+
+    if (conversaAtual && conversaAtual.id === id) renderizarMensagens();
+    else contato.naoLidas++;
+
+    renderizarLista();
+}
+
+function enterEnviar(e) {
+    if (e.key === "Enter") enviarMensagem();
+}
+
+/* FOTO NO WHATSAPP */
+function abrirSeletorFoto() {
+    if (!conversaAtual) return;
+    document.getElementById("photoInput").click();
+}
+
+function selecionarFotoWhatsapp(event) {
+    const file = event.target.files[0];
+    if (!file || !conversaAtual) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        enviarFotoWhatsapp(e.target.result, "Foto compartilhada");
+    };
+
+    reader.readAsDataURL(file);
+    event.target.value = "";
+}
+
+function enviarFotoWhatsapp(url, texto = "") {
+    if (!conversaAtual) return;
+
+    const hora = pegarHora();
+
+    conversaAtual.mensagens.push({
+        tipo: "sent",
+        image: url,
+        texto: texto,
+        hora: hora
+    });
+
+    conversaAtual.ultima = "📷 Foto";
+    conversaAtual.hora = hora;
+
+    renderizarMensagens();
+    renderizarLista();
+}
+
+function tirarFotoDoJogo() {
+    if (!conversaAtual) {
+        abrirWhatsappSemLoading();
+        conversaAtual = contatos[0];
+        abrirConversa(conversaAtual.id);
+    }
+
+    try {
+        if (window.Android && window.Android.captureGamePhoto) {
+            window.Android.captureGamePhoto();
+            return;
+        }
+
+        if (window.cefQuery) {
+            window.cefQuery({
+                request: JSON.stringify({
+                    type: "capture_game_photo",
+                    data: ""
+                })
+            });
+            return;
+        }
+    } catch(e) {}
+
+    const fotoFake = "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop";
+    enviarFotoWhatsapp(fotoFake, "Foto do jogo");
+}
+
+function receberFotoJogo(url) {
+    if (!conversaAtual) {
+        abrirWhatsappSemLoading();
+        conversaAtual = contatos[0];
+        abrirConversa(conversaAtual.id);
+    }
+
+    enviarFotoWhatsapp(url, "Foto do jogo");
+}
+
+/* ÁUDIO */
+async function toggleAudio() {
+    if (!conversaAtual) return;
+
+    if (gravandoAudio) pararGravacaoAudio();
+    else iniciarGravacaoAudio();
+}
+
+async function iniciarGravacaoAudio() {
+    const micBtn = document.getElementById("micBtn");
+
+    try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            enviarAudioFake();
+            return;
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = function(event) {
+            if (event.data && event.data.size > 0) audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = function() {
+            const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            stream.getTracks().forEach(track => track.stop());
+            enviarAudioMensagem(audioUrl);
+        };
+
+        audioStartTime = Date.now();
+        mediaRecorder.start();
+
+        gravandoAudio = true;
+        micBtn.classList.add("recording");
+        micBtn.innerText = "■";
+        atualizarBotaoEnvio();
+
+    } catch (e) {
+        enviarAudioFake();
+    }
+}
+
+function pararGravacaoAudio() {
+    const micBtn = document.getElementById("micBtn");
+
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+    }
+
+    gravandoAudio = false;
+    micBtn.classList.remove("recording");
+    micBtn.innerText = "🎙";
+    atualizarBotaoEnvio();
+}
+
+function enviarAudioMensagem(audioUrl) {
+    if (!conversaAtual) return;
+
+    const hora = pegarHora();
+    const segundos = Math.max(1, Math.floor((Date.now() - audioStartTime) / 1000));
+    const duracao = formatarDuracaoAudio(segundos);
+
+    conversaAtual.mensagens.push({
+        tipo: "sent",
+        audio: true,
+        audioUrl: audioUrl,
+        duracao: duracao,
+        hora: hora
+    });
+
+    conversaAtual.ultima = "🎙 Áudio";
+    conversaAtual.hora = hora;
+
+    renderizarMensagens();
+    renderizarLista();
+    atualizarBotaoEnvio();
+}
+
+function enviarAudioFake() {
+    if (!conversaAtual) return;
+
+    const micBtn = document.getElementById("micBtn");
+    if (micBtn) {
+        micBtn.classList.remove("recording");
+        micBtn.innerText = "🎙";
+    }
+
+    gravandoAudio = false;
+
+    const hora = pegarHora();
+
+    conversaAtual.mensagens.push({
+        tipo: "sent",
+        audio: true,
+        audioUrl: "",
+        duracao: "0:03",
+        hora: hora
+    });
+
+    conversaAtual.ultima = "🎙 Áudio";
+    conversaAtual.hora = hora;
+
+    renderizarMensagens();
+    renderizarLista();
+    atualizarBotaoEnvio();
+}
+
+function tocarAudio(index) {
+    if (!conversaAtual) return;
+
+    const msg = conversaAtual.mensagens[index];
+
+    if (!msg || !msg.audio) return;
+
+    if (!msg.audioUrl) {
+        console.log("Áudio fake de teste.");
+        return;
+    }
+
+    if (audioAtual) {
+        audioAtual.pause();
+        audioAtual.currentTime = 0;
+    }
+
+    audioAtual = new Audio(msg.audioUrl);
+    audioAtual.play();
+}
+
+function formatarDuracaoAudio(segundos) {
+    const min = Math.floor(segundos / 60);
+    const sec = segundos % 60;
+    return min + ":" + String(sec).padStart(2, "0");
+}
+
+/* BANCO */
+function carregarBanco() {
+    const salvo = localStorage.getItem("bank_data");
+
+    if (salvo) {
+        try {
+            bankData = JSON.parse(salvo);
+        } catch(e) {}
+    }
+}
+
+function salvarBanco() {
+    localStorage.setItem("bank_data", JSON.stringify(bankData));
+}
+
+function renderizarBanco() {
+    document.getElementById("bankBalance").innerText = formatMoney(bankData.saldo);
+
+    const history = document.getElementById("bankHistory");
+    history.innerHTML = "";
+
+    if (bankData.historico.length === 0) {
+        history.innerHTML = `<div class="bank-item"><div class="bank-item-title">Nenhuma movimentação</div><div class="bank-item-desc">Seu histórico aparecerá aqui.</div></div>`;
+        return;
+    }
+
+    bankData.historico.slice().reverse().forEach(item => {
+        const div = document.createElement("div");
+        div.className = "bank-item";
+        div.innerHTML = `
+            <div class="bank-item-title">Pix enviado - ${formatMoney(item.valor)}</div>
+            <div class="bank-item-desc">Para: ${escapeHtml(item.destino)} • ${escapeHtml(item.data)}</div>
+        `;
+        history.appendChild(div);
+    });
+}
+
+function togglePixForm() {
+    document.getElementById("pixForm").classList.toggle("active");
+}
+
+function mostrarSaldo() {
+    renderizarBanco();
+}
+
+function enviarPix() {
+    const key = document.getElementById("pixKey").value.trim();
+    const value = parseFloat(String(document.getElementById("pixValue").value).replace(",", "."));
+    const desc = document.getElementById("pixDesc").value.trim();
+
+    if (!key) {
+        alert("Digite a chave Pix ou nome.");
+        return;
+    }
+
+    if (!value || value <= 0) {
+        alert("Digite um valor válido.");
+        return;
+    }
+
+    if (value > bankData.saldo) {
+        alert("Saldo insuficiente.");
+        return;
+    }
+
+    bankData.saldo -= value;
+
+    const comprovante = {
+        id: gerarIdComprovante(),
+        destino: key,
+        valor: value,
+        descricao: desc || "Pix enviado",
+        data: dataCompleta(),
+        nome: waConfig.nome
+    };
+
+    bankData.ultimoComprovante = comprovante;
+    bankData.historico.push(comprovante);
+
+    salvarBanco();
+    renderizarBanco();
+
+    document.getElementById("pixKey").value = "";
+    document.getElementById("pixValue").value = "";
+    document.getElementById("pixDesc").value = "";
+
+    mostrarComprovante(comprovante);
+}
+
+function mostrarComprovante(c) {
+    const box = document.getElementById("receiptContent");
+
+    box.innerHTML = `
+        <div class="receipt-modal-line"><b>ID:</b> ${escapeHtml(c.id)}</div>
+        <div class="receipt-modal-line"><b>Pagador:</b> ${escapeHtml(c.nome)}</div>
+        <div class="receipt-modal-line"><b>Destino:</b> ${escapeHtml(c.destino)}</div>
+        <div class="receipt-modal-line"><b>Valor:</b> ${formatMoney(c.valor)}</div>
+        <div class="receipt-modal-line"><b>Descrição:</b> ${escapeHtml(c.descricao)}</div>
+        <div class="receipt-modal-line"><b>Data:</b> ${escapeHtml(c.data)}</div>
+    `;
+
+    document.getElementById("receipt-modal").classList.add("active");
+}
+
+function fecharComprovante() {
+    document.getElementById("receipt-modal").classList.remove("active");
+}
+
+function compartilharComprovanteWhatsapp() {
+    if (!bankData.ultimoComprovante) return;
+
+    const contatoBanco = contatos.find(c => c.nome === "Banco Roxo") || contatos[0];
+
+    abrirWhatsappSemLoading();
+    abrirConversa(contatoBanco.id);
+
+    const hora = pegarHora();
+
+    contatoBanco.mensagens.push({
+        tipo: "sent",
+        receipt: bankData.ultimoComprovante,
+        hora: hora
+    });
+
+    contatoBanco.ultima = "📄 Comprovante Pix";
+    contatoBanco.hora = hora;
+
+    renderizarMensagens();
+    renderizarLista();
+    fecharComprovante();
+}
+
+function compartilharUltimoComprovante() {
+    if (!bankData.ultimoComprovante) {
+        alert("Nenhum comprovante para compartilhar.");
+        return;
+    }
+
+    mostrarComprovante(bankData.ultimoComprovante);
+}
+
+function montarComprovanteBolha(c) {
+    return `
+        <div class="receipt-box">
+            <div class="receipt-title">Comprovante Pix</div>
+            <div class="receipt-line"><b>ID:</b> ${escapeHtml(c.id)}</div>
+            <div class="receipt-line"><b>Para:</b> ${escapeHtml(c.destino)}</div>
+            <div class="receipt-line"><b>Valor:</b> ${formatMoney(c.valor)}</div>
+            <div class="receipt-line"><b>Data:</b> ${escapeHtml(c.data)}</div>
+        </div>
+    `;
+}
+
+/* CALCULADORA */
+let calcValor = "0";
+
+function updateCalc() {
+    document.getElementById("calcDisplay").innerText =
+        calcValor.replaceAll("*", "×").replaceAll("/", "÷");
+}
+
+function calcInput(v) {
+    if (calcValor === "Erro") calcValor = "0";
+
+    const ops = ["+", "-", "*", "/"];
+    const last = calcValor[calcValor.length - 1];
+
+    if (calcValor === "0" && !ops.includes(v) && v !== ".") {
+        calcValor = v;
+    } else if (ops.includes(v) && ops.includes(last)) {
+        calcValor = calcValor.slice(0, -1) + v;
+    } else {
+        calcValor += v;
+    }
+
+    updateCalc();
+}
+
+function calcClear() {
+    calcValor = "0";
+    updateCalc();
+}
+
+function calcToggle() {
+    if (calcValor === "0") return;
+    calcValor = calcValor.startsWith("-") ? calcValor.substring(1) : "-" + calcValor;
+    updateCalc();
+}
+
+function calcPercent() {
+    try {
+        calcValor = String(eval(calcValor) / 100);
+        updateCalc();
+    } catch {
+        calcValor = "Erro";
+        updateCalc();
+    }
+}
+
+function calcResult() {
+    try {
+        let r = eval(calcValor);
+        calcValor = isFinite(r) ? String(parseFloat(r.toFixed(8))) : "Erro";
+        updateCalc();
+    } catch {
+        calcValor = "Erro";
+        updateCalc();
+    }
+}
+
+/* UTIL */
+function pegarHora() {
+    const d = new Date();
+    return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+}
+
+function dataCompleta() {
+    const d = new Date();
+    return String(d.getDate()).padStart(2, "0") + "/" +
+           String(d.getMonth() + 1).padStart(2, "0") + "/" +
+           d.getFullYear() + " " + pegarHora();
+}
+
+function formatMoney(v) {
+    return "R$ " + Number(v).toFixed(2).replace(".", ",");
+}
+
+function gerarIdComprovante() {
+    return "PIX-" + Date.now().toString().slice(-8);
+}
+
+function escapeHtml(t) {
+    return String(t)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function escapeAttr(t) {
+    return String(t)
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+}
+
+/* CEF */
+function mostrarCelular() {
+    document.getElementById("phone-wrapper").style.display = "block";
+}
+
+function fecharCelular() {
+    document.getElementById("phone-wrapper").style.display = "none";
+    if (gravandoAudio) pararGravacaoAudio();
+}
+
+function toggleCelular() {
+    const p = document.getElementById("phone-wrapper");
+    p.style.display = p.style.display === "none" ? "block" : "none";
+
+    if (p.style.display === "none" && gravandoAudio) pararGravacaoAudio();
+}
+
+window.mostrarCelular = mostrarCelular;
+window.fecharCelular = fecharCelular;
+window.toggleCelular = toggleCelular;
+
+window.abrirWhatsapp = abrirWhatsapp;
+window.abrirBanco = abrirBanco;
+window.abrirCalculadora = abrirCalculadora;
+window.abrirConfigCelular = abrirConfigCelular;
+window.abrirConfigWhatsapp = abrirConfigWhatsapp;
+
+window.receberFotoJogo = receberFotoJogo;
+
+/* INIT */
+criarConversasPadrao();
+carregarConfigWhatsapp();
+carregarConfigCelular();
+carregarBanco();
+updateCalc();
+atualizarBotaoEnvio();
+</script>
+
+</body>
+</html>
