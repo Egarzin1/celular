@@ -217,7 +217,34 @@ function gerarIdComprovante(){return"PIX-"+Date.now().toString().slice(-8)}
 function atualizarHora(){let d=new Date(),h=String(d.getHours()).padStart(2,"0"),m=String(d.getMinutes()).padStart(2,"0");miniTime.innerText=h+":"+m;hourText.innerText=h;minuteText.innerText=m;dateText.innerText=d.toLocaleDateString("pt-BR",{day:"numeric",month:"long",year:"numeric"})}
 setInterval(atualizarHora,1000);atualizarHora();
 
-function fecharTodasTelas(){["whatsapp-screen","bank-screen","calc-screen","wa-settings-screen","phone-settings-screen","contacts-screen"].forEach(id=>document.getElementById(id).classList.remove("active"));conversation.classList.remove("active");contact-details-screen?.classList?.remove("active");document.getElementById("contact-details-screen").classList.remove("active");document.getElementById("contact-modal").classList.remove("active");document.getElementById("call-screen").classList.remove("active");fecharComprovante()}
+function fecharTodasTelas()
+{
+    [
+        "whatsapp-screen",
+        "bank-screen",
+        "calc-screen",
+        "wa-settings-screen",
+        "phone-settings-screen",
+        "contacts-screen"
+    ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("active");
+    });
+
+    const conv = document.getElementById("conversation");
+    if (conv) conv.classList.remove("active");
+
+    const details = document.getElementById("contact-details-screen");
+    if (details) details.classList.remove("active");
+
+    const modal = document.getElementById("contact-modal");
+    if (modal) modal.classList.remove("active");
+
+    const call = document.getElementById("call-screen");
+    if (call) call.classList.remove("active");
+
+    fecharComprovante();
+}
 function abrirTela(id){document.getElementById("home-screen").style.display="none";fecharTodasTelas();document.getElementById(id).classList.add("active")}
 function voltarHome(){document.getElementById("home-screen").style.display="block";fecharTodasTelas();if(gravandoAudio)pararGravacaoAudio(false)}
 function mostrarCelular(){document.getElementById("phone-wrapper").style.display="block"}
