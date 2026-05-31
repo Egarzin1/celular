@@ -4,2492 +4,310 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Celular CEF Mobile</title>
-
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    overflow: hidden;
-}
-
-:root {
-    --phone-w: clamp(170px, 19vw, 215px);
-    --phone-h: calc(var(--phone-w) * 2.07);
-}
-
-#phone-wrapper {
-    position: absolute;
-    right: 4vw;
-    bottom: 5vh;
-    width: var(--phone-w);
-    height: var(--phone-h);
-    transform: none !important;
-    transform-origin: bottom right;
-}
-
-.phone {
-    width: 100%;
-    height: 100%;
-    background: #020203;
-    border-radius: calc(var(--phone-w) * 0.16);
-    padding: calc(var(--phone-w) * 0.035);
-    position: relative;
-    box-shadow:
-        0 0 0 2px #151515,
-        0 0 0 4px #050505,
-        0 18px 35px rgba(0,0,0,0.9),
-        inset 0 0 8px rgba(255,255,255,0.08);
-}
-
-.phone::before {
-    content: "";
-    position: absolute;
-    left: -3px;
-    top: 22%;
-    width: 3px;
-    height: 11%;
-    background: #050505;
-    border-radius: 6px 0 0 6px;
-}
-
-.phone::after {
-    content: "";
-    position: absolute;
-    right: -3px;
-    top: 30%;
-    width: 3px;
-    height: 15%;
-    background: #050505;
-    border-radius: 0 6px 6px 0;
-}
-
-.screen {
-    width: 100%;
-    height: 100%;
-    border-radius: calc(var(--phone-w) * 0.13);
-    position: relative;
-    overflow: hidden;
-    background:
-        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 32%),
-        url("https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop");
-    background-size: cover;
-    background-position: center;
-}
-
-.screen::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(255,255,255,0.13), rgba(255,255,255,0.04) 20%, transparent 42%);
-    pointer-events: none;
-    z-index: 300;
-}
-
-#phone-ui {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 340px;
-    height: 708px;
-    transform-origin: top left;
-    overflow: hidden;
-}
-
-#phone-ui * {
-    max-width: 100%;
-}
-
-.notch {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 136px;
-    height: 38px;
-    transform: translateX(-50%);
-    background: #020203;
-    border-bottom-left-radius: 22px;
-    border-bottom-right-radius: 22px;
-    z-index: 350;
-}
-
-.speaker {
-    position: absolute;
-    top: 13px;
-    left: 50%;
-    width: 48px;
-    height: 6px;
-    transform: translateX(-50%);
-    background: #222;
-    border-radius: 10px;
-}
-
-.camera {
-    position: absolute;
-    top: 12px;
-    right: 25px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #101827;
-}
-
-.status-bar {
-    position: absolute;
-    top: 13px;
-    left: 18px;
-    right: 18px;
-    height: 24px;
-    z-index: 330;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.status-icons {
-    display: flex;
-    gap: 7px;
-}
-
-#home-screen {
-    position: absolute;
-    inset: 0;
-    z-index: 5;
-}
-
-.clock-area {
-    position: absolute;
-    top: 65px;
-    width: 100%;
-    text-align: center;
-    color: white;
-    text-shadow: 0 2px 8px #000;
-}
-
-.clock {
-    font-size: 60px;
-    line-height: 54px;
-    font-weight: 500;
-    letter-spacing: 4px;
-}
-
-.date {
-    margin-top: 10px;
-    font-size: 14px;
-    opacity: 0.9;
-}
-
-.apps {
-    position: absolute;
-    top: 225px;
-    left: 28px;
-    right: 28px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px 16px;
-}
-
-.app {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    font-size: 14px;
-    text-shadow: 0 1px 4px #000;
-    cursor: pointer;
-}
-
-.icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 17px;
-    margin-bottom: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    font-weight: bold;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.55);
-}
-
-.icon.whatsapp { background: linear-gradient(145deg, #35ff75, #00993d); }
-.icon.calc { background: linear-gradient(145deg, #ffba3b, #ff7200); }
-.icon.bank { background: linear-gradient(145deg, #a020f0, #520080); }
-.icon.settings { background: linear-gradient(145deg, #606060, #171717); }
-
-.dock {
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 24px;
-    height: 74px;
-    border-radius: 25px;
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.12);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    overflow: hidden;
-}
-
-.dock .icon {
-    width: 50px;
-    height: 50px;
-    min-width: 50px;
-    min-height: 50px;
-    font-size: 25px;
-    margin: 0;
-    border-radius: 15px;
-}
-
-.app-screen {
-    position: absolute;
-    inset: 0;
-    z-index: 50;
-    display: none;
-    color: white;
-    background: #071015;
-    overflow: hidden;
-}
-
-.app-screen.active {
-    display: block;
-}
-
-#wa-loading-screen {
-    position: absolute;
-    inset: 0;
-    z-index: 160;
-    display: none;
-    background: #071015;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#wa-loading-screen.active {
-    display: flex;
-}
-
-.wa-logo-big {
-    width: 78px;
-    height: 78px;
-    border-radius: 50%;
-    background: #25d366;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 44px;
-    color: white;
-    margin-bottom: 24px;
-}
-
-.wa-loader-line {
-    width: 105px;
-    height: 4px;
-    background: rgba(255,255,255,0.14);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.wa-loader-line span {
-    display: block;
-    width: 40%;
-    height: 100%;
-    background: #25d366;
-    border-radius: 10px;
-    animation: waLoad 1s ease-in-out infinite;
-}
-
-.wa-loading-bottom {
-    position: absolute;
-    bottom: 58px;
-    left: 0;
-    right: 0;
-    text-align: center;
-}
-
-.wa-loading-text {
-    color: #7e8b91;
-    font-size: 13px;
-    margin-bottom: 7px;
-}
-
-.wa-meta {
-    font-size: 16px;
-    color: #25d366;
-    font-weight: bold;
-}
-
-@keyframes waLoad {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(250%); }
-}
-
-#whatsapp-screen.theme-dark {
-    background: #071015;
-    color: white;
-}
-
-#whatsapp-screen.theme-light {
-    background: #f5f5f5;
-    color: #111;
-}
-
-.wa-header {
-    height: 106px;
-    background: #071015;
-    border-bottom: 1px solid rgba(0,255,180,0.15);
-    padding: 42px 16px 0 16px;
-}
-
-.wa-top {
-    height: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.wa-title {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.wa-actions {
-    display: flex;
-    gap: 16px;
-    font-size: 20px;
-}
-
-.wa-actions span {
-    cursor: pointer;
-}
-
-.wa-tabs {
-    margin-top: 9px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    color: #7f8c94;
-    font-size: 12px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.wa-tab.active {
-    color: #00c79a;
-    border-bottom: 3px solid #00c79a;
-    padding-bottom: 9px;
-}
-
-.wa-list {
-    position: absolute;
-    top: 106px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow-y: auto;
-    background: #071015;
-}
-
-.chat-item {
-    height: 80px;
-    padding: 10px 16px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    cursor: pointer;
-}
-
-.avatar,
-.conv-avatar,
-.my-photo {
-    overflow: hidden;
-}
-
-.avatar img,
-.conv-avatar img,
-.my-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.avatar {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #209cff, #004d87);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    flex-shrink: 0;
-    font-size: 21px;
-}
-
-.chat-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.chat-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.chat-name {
-    font-size: 19px;
-    font-weight: bold;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.chat-time {
-    font-size: 13px;
-    color: #00c79a;
-}
-
-.chat-last {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #9aa5aa;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.badge {
-    min-width: 20px;
-    height: 20px;
-    background: #00c79a;
-    color: #071015;
-    border-radius: 10px;
-    font-size: 11px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#conversation {
-    position: absolute;
-    inset: 0;
-    display: none;
-    background: #071015;
-    z-index: 90;
-    overflow: hidden;
-}
-
-#conversation.active {
-    display: block;
-}
-
-.conv-header {
-    height: 92px;
-    padding: 40px 10px 8px 10px;
-    background: #0a171f;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.back {
-    font-size: 30px;
-    cursor: pointer;
-}
-
-.conv-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #005c8a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    flex-shrink: 0;
-    font-size: 20px;
-}
-
-.conv-name {
-    flex: 1;
-    font-size: 19px;
-    font-weight: bold;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.messages {
-    position: absolute;
-    top: 92px;
-    left: 0;
-    right: 0;
-    bottom: 72px;
-    overflow-y: auto;
-    padding: 12px;
-    background: #071015;
-}
-
-.msg {
-    max-width: 78%;
-    padding: 10px 13px;
-    margin-bottom: 10px;
-    font-size: 17px;
-    line-height: 23px;
-    border-radius: 15px;
-    word-wrap: break-word;
-}
-
-.msg.received {
-    background: #111f27;
-    margin-right: auto;
-    border-top-left-radius: 4px;
-}
-
-.msg.sent {
-    background: #005c4b;
-    margin-left: auto;
-    border-top-right-radius: 4px;
-}
-
-.msg span.msg-time {
-    display: block;
-    text-align: right;
-    font-size: 12px;
-    opacity: 0.65;
-    margin-top: 5px;
-}
-
-.msg-image {
-    width: 190px;
-    max-height: 220px;
-    border-radius: 12px;
-    object-fit: cover;
-    display: block;
-    margin-bottom: 6px;
-}
-
-.receipt-box {
-    background: rgba(255,255,255,0.08);
-    border-radius: 13px;
-    padding: 11px;
-    border: 1px solid rgba(255,255,255,0.08);
-}
-
-.receipt-title {
-    font-size: 17px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.receipt-line {
-    font-size: 14px;
-    margin: 5px 0;
-    opacity: 0.9;
-}
-
-.input-area {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 10px;
-    background: #071015;
-}
-
-.message-box {
-    flex: 1;
-    height: 52px;
-    min-width: 0;
-    border-radius: 28px;
-    background: #202c33;
-    display: flex;
-    align-items: center;
-    padding: 0 8px;
-    gap: 6px;
-}
-
-.message-box input {
-    flex: 1;
-    min-width: 0;
-    height: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: white;
-    font-size: 19px;
-    padding: 0 4px;
-}
-
-.message-box input::placeholder {
-    color: #9aa5aa;
-}
-
-.emoji-btn,
-.attach-btn,
-.camera-btn {
-    width: 31px;
-    height: 31px;
-    border: none;
-    background: transparent;
-    color: #aebac1;
-    font-size: 21px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.attach-btn { font-size: 24px; }
-.camera-btn { font-size: 21px; }
-
-.mic-btn,
-.send-btn {
-    width: 54px;
-    height: 54px;
-    border: none;
-    border-radius: 50%;
-    background: #00c853;
-    color: #06210f;
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.send-btn {
-    display: none;
-    color: white;
-    font-size: 23px;
-}
-
-.mic-btn.recording {
-    background: #ff3030 !important;
-    color: white !important;
-    animation: pulseMic 0.8s infinite;
-}
-
-@keyframes pulseMic {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); box-shadow: 0 0 10px rgba(255,48,48,0.8); }
-}
-
-.audio-bubble {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 165px;
-}
-
-.audio-play {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255,255,255,0.18);
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.audio-wave {
-    flex: 1;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-}
-
-.audio-wave span {
-    width: 4px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.75);
-    display: block;
-}
-
-.audio-wave span:nth-child(1) { height: 9px; }
-.audio-wave span:nth-child(2) { height: 18px; }
-.audio-wave span:nth-child(3) { height: 13px; }
-.audio-wave span:nth-child(4) { height: 24px; }
-.audio-wave span:nth-child(5) { height: 11px; }
-.audio-wave span:nth-child(6) { height: 20px; }
-.audio-wave span:nth-child(7) { height: 15px; }
-.audio-wave span:nth-child(8) { height: 22px; }
-
-.audio-duration {
-    font-size: 12px;
-    opacity: 0.75;
-    min-width: 28px;
-    text-align: right;
-}
-
-/* TEMA BRANCO */
-#whatsapp-screen.theme-light .wa-header,
-#whatsapp-screen.theme-light .conv-header {
-    background: #ffffff;
-    color: #111;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-}
-
-#whatsapp-screen.theme-light .wa-list {
-    background: #f5f5f5;
-}
-
-#whatsapp-screen.theme-light .chat-item {
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-
-#whatsapp-screen.theme-light .chat-last {
-    color: #707070;
-}
-
-#whatsapp-screen.theme-light #conversation,
-#whatsapp-screen.theme-light .messages,
-#whatsapp-screen.theme-light .input-area {
-    background: #efe7dd;
-}
-
-#whatsapp-screen.theme-light .message-box {
-    background: #ffffff;
-}
-
-#whatsapp-screen.theme-light .message-box input {
-    color: #111;
-}
-
-#whatsapp-screen.theme-light .message-box input::placeholder {
-    color: #777;
-}
-
-#whatsapp-screen.theme-light .emoji-btn,
-#whatsapp-screen.theme-light .attach-btn,
-#whatsapp-screen.theme-light .camera-btn {
-    color: #667781;
-}
-
-#whatsapp-screen.theme-light .msg.received {
-    background: #ffffff;
-    color: #111;
-}
-
-#whatsapp-screen.theme-light .msg.sent {
-    background: #d9fdd3;
-    color: #111;
-}
-
-#whatsapp-screen.theme-light #wa-loading-screen {
-    background: #ffffff;
-}
-
-#whatsapp-screen.theme-light .mic-btn,
-#whatsapp-screen.theme-light .send-btn {
-    background: #00a884;
-    color: white;
-}
-
-#whatsapp-screen.theme-light .audio-play {
-    background: rgba(0,0,0,0.10);
-    color: #111;
-}
-
-#whatsapp-screen.theme-light .audio-wave span {
-    background: rgba(0,0,0,0.45);
-}
-
-/* BANCO */
-#bank-screen {
-    background: #7c1bbd;
-    color: white;
-    overflow-y: auto;
-    padding: 48px 18px 18px;
-}
-
-.bank-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.bank-title {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.bank-card {
-    margin-top: 20px;
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 22px;
-    padding: 18px;
-}
-
-.bank-label {
-    font-size: 15px;
-    opacity: 0.82;
-}
-
-.bank-balance {
-    margin-top: 9px;
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.bank-actions {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 18px;
-}
-
-.bank-action {
-    height: 62px;
-    border-radius: 18px;
-    border: none;
-    background: rgba(255,255,255,0.18);
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.pix-form {
-    margin-top: 18px;
-    display: none;
-}
-
-.pix-form.active {
-    display: block;
-}
-
-.bank-input {
-    width: 100%;
-    height: 45px;
-    margin-top: 10px;
-    border: none;
-    outline: none;
-    border-radius: 13px;
-    padding: 0 12px;
-    font-size: 15px;
-    color: #111;
-}
-
-.bank-btn {
-    width: 100%;
-    height: 48px;
-    margin-top: 14px;
-    border: none;
-    border-radius: 13px;
-    background: #ffffff;
-    color: #7c1bbd;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.bank-history {
-    margin-top: 20px;
-}
-
-.bank-history-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.bank-item {
-    background: rgba(0,0,0,0.15);
-    border-radius: 15px;
-    padding: 12px;
-    margin-bottom: 9px;
-}
-
-.bank-item-title {
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.bank-item-desc {
-    font-size: 12px;
-    opacity: 0.78;
-    margin-top: 5px;
-}
-
-#receipt-modal {
-    position: absolute;
-    inset: 0;
-    z-index: 220;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 22px;
-}
-
-#receipt-modal.active {
-    display: flex;
-}
-
-.receipt-modal-card {
-    width: 100%;
-    background: #fff;
-    color: #111;
-    border-radius: 22px;
-    padding: 18px;
-}
-
-.receipt-modal-title {
-    font-size: 22px;
-    font-weight: bold;
-    color: #7c1bbd;
-    margin-bottom: 15px;
-}
-
-.receipt-modal-line {
-    font-size: 15px;
-    margin: 9px 0;
-}
-
-.receipt-modal-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 18px;
-}
-
-.receipt-modal-actions button {
-    height: 45px;
-    border: none;
-    border-radius: 13px;
-    background: #7c1bbd;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.receipt-modal-actions button:last-child {
-    background: #333;
-}
-
-/* CALCULADORA */
-#calc-screen {
-    background: #09090b;
-    padding: 48px 18px 18px;
-}
-
-.calc-top {
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.small-btn {
-    background: rgba(255,255,255,0.1);
-    padding: 8px 12px;
-    border-radius: 11px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.calc-display {
-    height: 155px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    font-size: 48px;
-    padding-bottom: 14px;
-    overflow: hidden;
-}
-
-.calc-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 9px;
-}
-
-.calc-btn {
-    height: 58px;
-    border: none;
-    border-radius: 50%;
-    background: #2b2b2d;
-    color: white;
-    font-size: 25px;
-}
-
-.calc-btn.gray { background: #a5a5a5; color: black; }
-.calc-btn.orange { background: #ff9f0a; }
-
-.calc-btn.zero {
-    grid-column: span 2;
-    border-radius: 32px;
-    text-align: left;
-    padding-left: 24px;
-}
-
-/* SETTINGS */
-.settings-screen {
-    background: #0b0b0d;
-    padding: 48px 18px 18px;
-}
-
-.settings-top {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.settings-title {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.profile-preview {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.my-photo {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: #00a884;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-}
-
-.preview-name {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.preview-desc {
-    margin-top: 5px;
-    font-size: 13px;
-    color: #8b9499;
-}
-
-.setting-group {
-    margin-top: 16px;
-}
-
-.setting-label {
-    font-size: 14px;
-    color: #8b9499;
-    margin-bottom: 7px;
-}
-
-.setting-input,
-.setting-select {
-    width: 100%;
-    height: 44px;
-    border: none;
-    outline: none;
-    border-radius: 13px;
-    background: #18191d;
-    color: white;
-    font-size: 15px;
-    padding: 0 12px;
-}
-
-.save-btn {
-    width: 100%;
-    height: 48px;
-    border: none;
-    border-radius: 13px;
-    margin-top: 18px;
-    background: #00a884;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.reset-btn {
-    width: 100%;
-    height: 44px;
-    border: none;
-    border-radius: 13px;
-    margin-top: 10px;
-    background: #2b2b2b;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.home-line {
-    position: absolute;
-    left: 50%;
-    bottom: 10px;
-    transform: translateX(-50%);
-    width: 90px;
-    height: 6px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.65);
-    z-index: 180;
-    cursor: pointer;
-}
-
-.location {
-    position: absolute;
-    left: 50%;
-    bottom: -17px;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 8px;
-    white-space: nowrap;
-    text-shadow: 0 1px 4px black;
-}
-
-.hidden-file {
-    display: none;
-}
-
-@media (orientation: landscape) {
-    :root {
-        --phone-w: clamp(165px, 18vw, 205px);
-    }
-
-    #phone-wrapper {
-        right: 4vw;
-        bottom: 5vh;
-    }
-}
-
-@media (max-height: 650px) {
-    :root {
-        --phone-w: clamp(160px, 17vw, 195px);
-    }
-
-    #phone-wrapper {
-        right: 4vw;
-        bottom: 5vh;
-    }
-}
-
-@media (max-height: 520px) {
-    :root {
-        --phone-w: clamp(155px, 16vw, 185px);
-    }
-
-    #phone-wrapper {
-        right: 4vw;
-        bottom: 6vh;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<input type="file" class="hidden-file" id="photoInput" accept="image/*" onchange="selecionarFotoWhatsapp(event)">
-
-<div id="phone-wrapper">
-    <div class="phone">
-        <div class="screen" id="phoneScreen">
-
-            <div id="phone-ui">
-
-                <div class="notch">
-                    <div class="speaker"></div>
-                    <div class="camera"></div>
-                </div>
-
-                <div class="status-bar">
-                    <div id="miniTime">06:36</div>
-                    <div class="status-icons">
-                        <span>⌁</span>
-                        <span>◖</span>
-                        <span>▰</span>
-                    </div>
-                </div>
-
-                <div id="home-screen">
-                    <div class="clock-area">
-                        <div class="clock">
-                            <div id="hourText">06</div>
-                            <div id="minuteText">36</div>
-                        </div>
-                        <div class="date" id="dateText">29 de Maio de 2026</div>
-                    </div>
-
-                    <div class="apps">
-                        <div class="app" onclick="abrirWhatsapp()">
-                            <div class="icon whatsapp">☎</div>
-                            <span>WhatsApp</span>
-                        </div>
-
-                        <div class="app" onclick="abrirBanco()">
-                            <div class="icon bank">Nu</div>
-                            <span>Banco</span>
-                        </div>
-
-                        <div class="app" onclick="abrirCalculadora()">
-                            <div class="icon calc">+</div>
-                            <span>Calculadora</span>
-                        </div>
-
-                        <div class="app" onclick="abrirConfigCelular()">
-                            <div class="icon settings">⚙</div>
-                            <span>Ajustes</span>
-                        </div>
-                    </div>
-
-                    <div class="dock">
-                        <div class="icon whatsapp" onclick="abrirWhatsapp()">☎</div>
-                        <div class="icon bank" onclick="abrirBanco()">Nu</div>
-                        <div class="icon calc" onclick="abrirCalculadora()">+</div>
-                        <div class="icon settings" onclick="abrirConfigCelular()">⚙</div>
-                    </div>
-                </div>
-
-                <div class="app-screen theme-dark" id="whatsapp-screen">
-
-                    <div id="wa-loading-screen">
-                        <div class="wa-logo-big">☎</div>
-                        <div class="wa-loader-line"><span></span></div>
-                        <div class="wa-loading-bottom">
-                            <div class="wa-loading-text">from</div>
-                            <div class="wa-meta">Meta</div>
-                        </div>
-                    </div>
-
-                    <div class="wa-header">
-                        <div class="wa-top">
-                            <div class="wa-title">WhatsApp</div>
-                            <div class="wa-actions">
-                                <span onclick="tirarFotoDoJogo()">📷</span>
-                                <span onclick="abrirConfigWhatsapp()">⚙</span>
-                            </div>
-                        </div>
-
-                        <div class="wa-tabs">
-                            <div class="wa-tab active">CHATS</div>
-                            <div class="wa-tab">STATUS</div>
-                            <div class="wa-tab">LIGAÇÕES</div>
-                        </div>
-                    </div>
-
-                    <div class="wa-list" id="wa-list"></div>
-
-                    <div id="conversation">
-                        <div class="conv-header">
-                            <div class="back" onclick="voltarListaWhatsapp()">‹</div>
-                            <div class="conv-avatar" id="convAvatar">A</div>
-                            <div class="conv-name" id="convName">Contato</div>
-                            <div onclick="tirarFotoDoJogo()">📷</div>
-                            <div>⋮</div>
-                        </div>
-
-                        <div class="messages" id="messages"></div>
-
-                        <div class="input-area">
-                            <div class="message-box">
-                                <button class="emoji-btn" onclick="abrirEmojiFake()">☻</button>
-
-                                <input 
-                                    id="msgInput" 
-                                    placeholder="Mensagem" 
-                                    oninput="atualizarBotaoEnvio()" 
-                                    onkeydown="enterEnviar(event)"
-                                >
-
-                                <button class="attach-btn" onclick="abrirSeletorFoto()">📎</button>
-                                <button class="camera-btn" onclick="tirarFotoDoJogo()">📷</button>
-                            </div>
-
-                            <button 
-                                class="mic-btn" 
-                                id="micBtn"
-                                onpointerdown="segurarAudio(event)"
-                                onpointerup="soltarAudio(event)"
-                                onpointercancel="cancelarAudio(event)"
-                                onpointerleave="cancelarAudio(event)"
-                            >🎙</button>
-
-                            <button class="send-btn" id="sendBtn" onclick="enviarMensagem()">➤</button>
-                        </div>
-                    </div>
-
-                    <div class="home-line" onclick="voltarHome()"></div>
-                </div>
-
-                <div class="app-screen" id="bank-screen">
-                    <div class="bank-top">
-                        <div class="bank-title">Banco Roxo</div>
-                        <div class="small-btn" onclick="voltarHome()">Home</div>
-                    </div>
-
-                    <div class="bank-card">
-                        <div class="bank-label">Saldo disponível</div>
-                        <div class="bank-balance" id="bankBalance">R$ 2.500,00</div>
-
-                        <div class="bank-actions">
-                            <button class="bank-action" onclick="togglePixForm()">Pix</button>
-                            <button class="bank-action" onclick="mostrarSaldo()">Saldo</button>
-                            <button class="bank-action" onclick="compartilharUltimoComprovante()">Compartilhar</button>
-                        </div>
-                    </div>
-
-                    <div class="pix-form" id="pixForm">
-                        <input class="bank-input" id="pixKey" placeholder="Chave Pix / Nome">
-                        <input class="bank-input" id="pixValue" placeholder="Valor. Ex: 120.50" inputmode="decimal">
-                        <input class="bank-input" id="pixDesc" placeholder="Descrição opcional">
-                        <button class="bank-btn" onclick="enviarPix()">Enviar Pix</button>
-                    </div>
-
-                    <div class="bank-history">
-                        <div class="bank-history-title">Últimas movimentações</div>
-                        <div id="bankHistory"></div>
-                    </div>
-                </div>
-
-                <div id="receipt-modal">
-                    <div class="receipt-modal-card">
-                        <div class="receipt-modal-title">Comprovante Pix</div>
-                        <div id="receiptContent"></div>
-
-                        <div class="receipt-modal-actions">
-                            <button onclick="compartilharComprovanteWhatsapp()">WhatsApp</button>
-                            <button onclick="fecharComprovante()">Fechar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="app-screen" id="calc-screen">
-                    <div class="calc-top">
-                        <span>Calculadora</span>
-                        <span class="small-btn" onclick="voltarHome()">Home</span>
-                    </div>
-
-                    <div class="calc-display" id="calcDisplay">0</div>
-
-                    <div class="calc-grid">
-                        <button class="calc-btn gray" onclick="calcClear()">AC</button>
-                        <button class="calc-btn gray" onclick="calcToggle()">±</button>
-                        <button class="calc-btn gray" onclick="calcPercent()">%</button>
-                        <button class="calc-btn orange" onclick="calcInput('/')">÷</button>
-
-                        <button class="calc-btn" onclick="calcInput('7')">7</button>
-                        <button class="calc-btn" onclick="calcInput('8')">8</button>
-                        <button class="calc-btn" onclick="calcInput('9')">9</button>
-                        <button class="calc-btn orange" onclick="calcInput('*')">×</button>
-
-                        <button class="calc-btn" onclick="calcInput('4')">4</button>
-                        <button class="calc-btn" onclick="calcInput('5')">5</button>
-                        <button class="calc-btn" onclick="calcInput('6')">6</button>
-                        <button class="calc-btn orange" onclick="calcInput('-')">−</button>
-
-                        <button class="calc-btn" onclick="calcInput('1')">1</button>
-                        <button class="calc-btn" onclick="calcInput('2')">2</button>
-                        <button class="calc-btn" onclick="calcInput('3')">3</button>
-                        <button class="calc-btn orange" onclick="calcInput('+')">+</button>
-
-                        <button class="calc-btn zero" onclick="calcInput('0')">0</button>
-                        <button class="calc-btn" onclick="calcInput('.')">,</button>
-                        <button class="calc-btn orange" onclick="calcResult()">=</button>
-                    </div>
-
-                    <div class="home-line" onclick="voltarHome()"></div>
-                </div>
-
-                <div class="app-screen settings-screen" id="wa-settings-screen">
-                    <div class="settings-top">
-                        <div class="settings-title">Config. WhatsApp</div>
-                        <div class="small-btn" onclick="abrirWhatsappSemLoading()">Voltar</div>
-                    </div>
-
-                    <div class="profile-preview">
-                        <div class="my-photo" id="waPreviewPhoto">D</div>
-                        <div>
-                            <div class="preview-name" id="waPreviewName">Deivyd</div>
-                            <div class="preview-desc">Perfil do WhatsApp</div>
-                        </div>
-                    </div>
-
-                    <div class="setting-group">
-                        <div class="setting-label">Nome do WhatsApp</div>
-                        <input class="setting-input" id="waInputName" placeholder="Seu nome">
-                    </div>
-
-                    <div class="setting-group">
-                        <div class="setting-label">Foto do WhatsApp por link</div>
-                        <input class="setting-input" id="waInputPhoto" placeholder="https://site.com/foto.png">
-                    </div>
-
-                    <div class="setting-group">
-                        <div class="setting-label">Tema do WhatsApp</div>
-                        <select class="setting-select" id="waInputTheme">
-                            <option value="dark">Preto</option>
-                            <option value="light">Branco</option>
-                        </select>
-                    </div>
-
-                    <button class="save-btn" onclick="salvarConfigWhatsapp()">Salvar WhatsApp</button>
-                    <button class="reset-btn" onclick="resetarConfigWhatsapp()">Resetar WhatsApp</button>
-
-                    <div class="home-line" onclick="voltarHome()"></div>
-                </div>
-
-                <div class="app-screen settings-screen" id="phone-settings-screen">
-                    <div class="settings-top">
-                        <div class="settings-title">Config. Celular</div>
-                        <div class="small-btn" onclick="voltarHome()">Home</div>
-                    </div>
-
-                    <div class="setting-group">
-                        <div class="setting-label">Fundo do celular por link</div>
-                        <input class="setting-input" id="phoneInputWallpaper" placeholder="https://site.com/fundo.png">
-                    </div>
-
-                    <div class="setting-group">
-                        <div class="setting-label">Texto embaixo do celular</div>
-                        <input class="setting-input" id="phoneInputLocation" placeholder="New Empire Way">
-                    </div>
-
-                    <button class="save-btn" onclick="salvarConfigCelular()">Salvar Celular</button>
-                    <button class="reset-btn" onclick="resetarConfigCelular()">Resetar Celular</button>
-
-                    <div class="home-line" onclick="voltarHome()"></div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="location" id="phoneLocation">New Empire Way, Aeroporto Internacional</div>
-    </div>
-</div>
-
-<script>
-let contatos = [];
-let conversaAtual = null;
-
-let waConfig = {
-    nome: "Deivyd",
-    foto: "",
-    tema: "dark"
-};
-
-let phoneConfig = {
-    wallpaper: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",
-    location: "New Empire Way, Aeroporto Internacional"
-};
-
-let bankData = {
-    saldo: 2500,
-    historico: [],
-    ultimoComprovante: null
-};
-
-let gravandoAudio = false;
-let mediaRecorder = null;
-let audioChunks = [];
-let audioStartTime = 0;
-let audioAtual = null;
-let audioSegurando = false;
-
-function ajustarInterfaceCelular() {
-    const screen = document.getElementById("phoneScreen");
-    const ui = document.getElementById("phone-ui");
-
-    if (!screen || !ui) return;
-
-    const baseW = 340;
-    const baseH = 708;
-
-    const sw = screen.clientWidth;
-    const sh = screen.clientHeight;
-
-    let scale = Math.min(sw / baseW, sh / baseH);
-
-    scale = scale * 1.06;
-
-    ui.style.transform = `scale(${scale})`;
-
-    const left = (sw - (baseW * scale)) / 2;
-    const top = (sh - (baseH * scale)) / 2;
-
-    ui.style.left = left + "px";
-    ui.style.top = top + "px";
-}
-
-window.addEventListener("resize", ajustarInterfaceCelular);
-
-function criarConversasPadrao() {
-    contatos = [
-        {
-            id: 1,
-            nome: "Atendente",
-            avatar: "A",
-            foto: "",
-            ultima: "Olá, como posso ajudar?",
-            hora: "Agora",
-            naoLidas: 1,
-            mensagens: [
-                { tipo: "received", texto: "Olá, como posso ajudar?", hora: "06:36" }
-            ]
-        },
-        {
-            id: 2,
-            nome: "Mecânico",
-            avatar: "M",
-            foto: "",
-            ultima: "Traga o veículo na oficina.",
-            hora: "Ontem",
-            naoLidas: 0,
-            mensagens: [
-                { tipo: "received", texto: "Traga o veículo na oficina.", hora: "18:22" },
-                { tipo: "sent", texto: "Fechou, vou passar aí.", hora: "18:25" }
-            ]
-        },
-        {
-            id: 3,
-            nome: "Banco Roxo",
-            avatar: "N",
-            foto: "",
-            ultima: "Seu banco digital.",
-            hora: "Seg",
-            naoLidas: 0,
-            mensagens: [
-                { tipo: "received", texto: "Bem-vindo ao Banco Roxo.", hora: "12:10" }
-            ]
-        }
-    ];
-}
-
-function atualizarHora() {
-    const agora = new Date();
-    const h = String(agora.getHours()).padStart(2, "0");
-    const m = String(agora.getMinutes()).padStart(2, "0");
-
-    document.getElementById("miniTime").innerText = h + ":" + m;
-    document.getElementById("hourText").innerText = h;
-    document.getElementById("minuteText").innerText = m;
-
-    const meses = [
-        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-    ];
-
-    document.getElementById("dateText").innerText =
-        agora.getDate() + " de " + meses[agora.getMonth()] + " de " + agora.getFullYear();
-}
-
-setInterval(atualizarHora, 1000);
-atualizarHora();
-
-function fecharTodasTelas() {
-    document.getElementById("whatsapp-screen").classList.remove("active");
-    document.getElementById("bank-screen").classList.remove("active");
-    document.getElementById("calc-screen").classList.remove("active");
-    document.getElementById("wa-settings-screen").classList.remove("active");
-    document.getElementById("phone-settings-screen").classList.remove("active");
-    document.getElementById("conversation").classList.remove("active");
-    fecharComprovante();
-}
-
-function abrirTela(id) {
-    document.getElementById("home-screen").style.display = "none";
-    fecharTodasTelas();
-    document.getElementById(id).classList.add("active");
-    setTimeout(ajustarInterfaceCelular, 30);
-}
-
-function voltarHome() {
-    document.getElementById("home-screen").style.display = "block";
-    fecharTodasTelas();
-
-    if (gravandoAudio) pararGravacaoAudio(false);
-
-    setTimeout(ajustarInterfaceCelular, 30);
-}
-
-function abrirWhatsapp() {
-    abrirTela("whatsapp-screen");
-
-    const loading = document.getElementById("wa-loading-screen");
-    loading.classList.add("active");
-
-    setTimeout(() => {
-        loading.classList.remove("active");
-        renderizarLista();
-        atualizarBotaoEnvio();
-        ajustarInterfaceCelular();
-    }, 900);
-}
-
-function abrirWhatsappSemLoading() {
-    abrirTela("whatsapp-screen");
-    renderizarLista();
-    atualizarBotaoEnvio();
-}
-
-function abrirBanco() {
-    abrirTela("bank-screen");
-    renderizarBanco();
-}
-
-function abrirCalculadora() {
-    abrirTela("calc-screen");
-}
-
-function abrirConfigWhatsapp() {
-    abrirTela("wa-settings-screen");
-    document.getElementById("waInputName").value = waConfig.nome;
-    document.getElementById("waInputPhoto").value = waConfig.foto;
-    document.getElementById("waInputTheme").value = waConfig.tema;
-    atualizarPreviewWhatsapp();
-}
-
-function abrirConfigCelular() {
-    abrirTela("phone-settings-screen");
-    document.getElementById("phoneInputWallpaper").value = phoneConfig.wallpaper;
-    document.getElementById("phoneInputLocation").value = phoneConfig.location;
-}
-
-/* CONFIG WHATSAPP */
-function carregarConfigWhatsapp() {
-    const salvo = localStorage.getItem("wa_config");
-    if (salvo) {
-        try { waConfig = JSON.parse(salvo); } catch(e) {}
-    }
-    aplicarConfigWhatsapp();
-}
-
-function salvarConfigWhatsapp() {
-    waConfig.nome = document.getElementById("waInputName").value.trim() || "Sem Nome";
-    waConfig.foto = document.getElementById("waInputPhoto").value.trim();
-    waConfig.tema = document.getElementById("waInputTheme").value;
-
-    localStorage.setItem("wa_config", JSON.stringify(waConfig));
-    aplicarConfigWhatsapp();
-    atualizarPreviewWhatsapp();
-}
-
-function resetarConfigWhatsapp() {
-    waConfig = { nome: "Deivyd", foto: "", tema: "dark" };
-    localStorage.removeItem("wa_config");
-    aplicarConfigWhatsapp();
-    abrirConfigWhatsapp();
-}
-
-function aplicarConfigWhatsapp() {
-    const wa = document.getElementById("whatsapp-screen");
-    wa.classList.remove("theme-dark", "theme-light");
-    wa.classList.add(waConfig.tema === "light" ? "theme-light" : "theme-dark");
-    atualizarPreviewWhatsapp();
-}
-
-function atualizarPreviewWhatsapp() {
-    const name = document.getElementById("waPreviewName");
-    const photo = document.getElementById("waPreviewPhoto");
-
-    if (!name || !photo) return;
-
-    name.innerText = waConfig.nome;
-
-    if (waConfig.foto) {
-        photo.innerHTML = `<img src="${escapeAttr(waConfig.foto)}" onerror="this.parentElement.innerText='${escapeAttr(waConfig.nome.charAt(0).toUpperCase())}'">`;
-    } else {
-        photo.innerText = waConfig.nome.charAt(0).toUpperCase();
-    }
-}
-
-/* CONFIG CELULAR */
-function carregarConfigCelular() {
-    const salvo = localStorage.getItem("phone_config");
-    if (salvo) {
-        try { phoneConfig = JSON.parse(salvo); } catch(e) {}
-    }
-    aplicarConfigCelular();
-}
-
-function salvarConfigCelular() {
-    phoneConfig.wallpaper = document.getElementById("phoneInputWallpaper").value.trim() || phoneConfig.wallpaper;
-    phoneConfig.location = document.getElementById("phoneInputLocation").value.trim() || "";
-
-    localStorage.setItem("phone_config", JSON.stringify(phoneConfig));
-    aplicarConfigCelular();
-}
-
-function resetarConfigCelular() {
-    phoneConfig = {
-        wallpaper: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",
-        location: "New Empire Way, Aeroporto Internacional"
-    };
-
-    localStorage.removeItem("phone_config");
-    aplicarConfigCelular();
-    abrirConfigCelular();
-}
-
-function aplicarConfigCelular() {
-    const screen = document.getElementById("phoneScreen");
-    const wrapper = document.getElementById("phone-wrapper");
-    const location = document.getElementById("phoneLocation");
-
-    screen.style.background = `
-        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 32%),
-        url("${phoneConfig.wallpaper}")
-    `;
-    screen.style.backgroundSize = "cover";
-    screen.style.backgroundPosition = "center";
-
-    location.innerText = phoneConfig.location;
-    wrapper.style.transform = "none";
-
-    setTimeout(ajustarInterfaceCelular, 30);
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent}
+#phone-wrapper{position:absolute;right:4vw;bottom:5vh;width:230px;height:475px}
+.phone{width:100%;height:100%;background:#020203;border-radius:34px;padding:8px;position:relative;box-shadow:0 0 0 2px #151515,0 0 0 4px #050505,0 18px 35px rgba(0,0,0,.9)}
+.screen{width:100%;height:100%;border-radius:28px;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 32%),url("https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop");background-size:cover;background-position:center}
+.notch{position:absolute;top:0;left:50%;width:92px;height:25px;transform:translateX(-50%);background:#020203;border-bottom-left-radius:16px;border-bottom-right-radius:16px;z-index:999}
+.status-bar{position:absolute;top:8px;left:16px;right:16px;height:18px;z-index:900;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:10px;font-weight:bold;text-shadow:0 1px 3px #000}
+.home{position:absolute;inset:0;display:block}
+.clock-area{position:absolute;top:44px;width:100%;text-align:center;color:white;text-shadow:0 2px 8px #000}
+.clock{font-size:38px;line-height:35px;font-weight:500;letter-spacing:2px}
+.date{margin-top:5px;font-size:9px;opacity:.9}
+.apps{position:absolute;top:145px;left:18px;right:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px 9px}
+.app-icon{display:flex;flex-direction:column;align-items:center;color:#fff;font-size:9px;text-shadow:0 1px 4px #000;cursor:pointer}
+.icon{width:42px;height:42px;border-radius:12px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,.55);overflow:hidden}
+.icon.whatsapp{background:linear-gradient(145deg,#35ff75,#00993d)}
+.icon.bank{background:linear-gradient(145deg,#a020f0,#520080)}
+.icon.contacts{background:linear-gradient(145deg,#007aff,#34c759)}
+.icon.calc{background:linear-gradient(145deg,#ffba3b,#ff7200)}
+.icon.settings{background:linear-gradient(145deg,#606060,#171717)}
+.dock{position:absolute;left:14px;right:14px;bottom:18px;height:54px;border-radius:18px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;gap:8px;overflow:hidden}
+.dock .icon{width:35px;height:35px;min-width:35px;min-height:35px;font-size:16px;margin:0;border-radius:10px}
+.screen-app{position:absolute;inset:0;z-index:50;display:none;color:white;background:#071015;overflow:hidden}
+.screen-app.active{display:block}
+.home-line{position:absolute;left:50%;bottom:7px;width:62px;height:4px;border-radius:10px;background:rgba(255,255,255,.65);transform:translateX(-50%);z-index:500;cursor:pointer}
 
 /* WHATSAPP */
-function renderizarLista() {
-    const lista = document.getElementById("wa-list");
-    lista.innerHTML = "";
-
-    contatos.forEach(c => {
-        const item = document.createElement("div");
-        item.className = "chat-item";
-        item.onclick = () => abrirConversa(c.id);
-
-        const avatarHtml = c.foto
-            ? `<img src="${escapeAttr(c.foto)}" onerror="this.parentElement.innerText='${escapeAttr(c.avatar)}'">`
-            : escapeHtml(c.avatar);
-
-        item.innerHTML = `
-            <div class="avatar">${avatarHtml}</div>
-            <div class="chat-info">
-                <div class="chat-row">
-                    <div class="chat-name">${escapeHtml(c.nome)}</div>
-                    <div class="chat-time">${escapeHtml(c.hora)}</div>
-                </div>
-                <div class="chat-row">
-                    <div class="chat-last">${escapeHtml(c.ultima)}</div>
-                    ${c.naoLidas > 0 ? `<div class="badge">${c.naoLidas}</div>` : ""}
-                </div>
-            </div>
-        `;
-
-        lista.appendChild(item);
-    });
-
-    ajustarInterfaceCelular();
-}
-
-function abrirConversa(id) {
-    conversaAtual = contatos.find(c => c.id === id);
-    if (!conversaAtual) return;
-
-    conversaAtual.naoLidas = 0;
-
-    const avatar = document.getElementById("convAvatar");
-
-    if (conversaAtual.foto) {
-        avatar.innerHTML = `<img src="${escapeAttr(conversaAtual.foto)}" onerror="this.parentElement.innerText='${escapeAttr(conversaAtual.avatar)}'">`;
-    } else {
-        avatar.innerText = conversaAtual.avatar;
-    }
-
-    document.getElementById("convName").innerText = conversaAtual.nome;
-    document.getElementById("conversation").classList.add("active");
-
-    renderizarMensagens();
-    renderizarLista();
-    atualizarBotaoEnvio();
-}
-
-function voltarListaWhatsapp() {
-    document.getElementById("conversation").classList.remove("active");
-    renderizarLista();
-
-    if (gravandoAudio) pararGravacaoAudio(false);
-}
-
-function renderizarMensagens() {
-    const area = document.getElementById("messages");
-    area.innerHTML = "";
-
-    conversaAtual.mensagens.forEach((m, index) => {
-        const div = document.createElement("div");
-        div.className = "msg " + (m.tipo === "sent" ? "sent" : "received");
-
-        if (m.audio) {
-            div.innerHTML = `
-                <div class="audio-bubble">
-                    <button class="audio-play" onclick="tocarAudio(${index})">▶</button>
-                    <div class="audio-wave">
-                        <span></span><span></span><span></span><span></span>
-                        <span></span><span></span><span></span><span></span>
-                    </div>
-                    <div class="audio-duration">${escapeHtml(m.duracao || "0:01")}</div>
-                </div>
-                <span class="msg-time">${escapeHtml(m.hora || "")}</span>
-            `;
-        } else if (m.image) {
-            div.innerHTML = `
-                <img class="msg-image" src="${escapeAttr(m.image)}">
-                ${m.texto ? escapeHtml(m.texto) : ""}
-                <span class="msg-time">${escapeHtml(m.hora || "")}</span>
-            `;
-        } else if (m.receipt) {
-            div.innerHTML = montarComprovanteBolha(m.receipt) + `<span class="msg-time">${escapeHtml(m.hora || "")}</span>`;
-        } else {
-            div.innerHTML = `
-                ${escapeHtml(m.texto || "")}
-                <span class="msg-time">${escapeHtml(m.hora || "")}</span>
-            `;
-        }
-
-        area.appendChild(div);
-    });
-
-    area.scrollTop = area.scrollHeight;
-    ajustarInterfaceCelular();
-}
-
-function atualizarBotaoEnvio() {
-    const input = document.getElementById("msgInput");
-    const micBtn = document.getElementById("micBtn");
-    const sendBtn = document.getElementById("sendBtn");
-
-    if (!input || !micBtn || !sendBtn) return;
-
-    if (gravandoAudio) {
-        micBtn.style.display = "flex";
-        sendBtn.style.display = "none";
-        return;
-    }
-
-    if (input.value.trim().length > 0) {
-        micBtn.style.display = "none";
-        sendBtn.style.display = "flex";
-    } else {
-        sendBtn.style.display = "none";
-        micBtn.style.display = "flex";
-    }
-}
-
-function abrirEmojiFake() {
-    const input = document.getElementById("msgInput");
-    if (!input) return;
-
-    input.value += "😀";
-    input.focus();
-
-    atualizarBotaoEnvio();
-}
-
-function enviarMensagem() {
-    const input = document.getElementById("msgInput");
-    const texto = input.value.trim();
-
-    if (!texto || !conversaAtual) return;
-
-    const hora = pegarHora();
-
-    conversaAtual.mensagens.push({
-        tipo: "sent",
-        texto: texto,
-        hora: hora
-    });
-
-    conversaAtual.ultima = texto;
-    conversaAtual.hora = hora;
-
-    input.value = "";
-    renderizarMensagens();
-    renderizarLista();
-    atualizarBotaoEnvio();
-
-    setTimeout(() => respostaFakeTexto(conversaAtual.id), 800);
-}
-
-function respostaFakeTexto(id) {
-    const contato = contatos.find(c => c.id === id);
-    if (!contato) return;
-
-    const respostas = ["Entendi.", "Certo, vou verificar.", "Beleza.", "Pode deixar.", "Mensagem recebida."];
-    const resposta = respostas[Math.floor(Math.random() * respostas.length)];
-    const hora = pegarHora();
-
-    contato.mensagens.push({ tipo: "received", texto: resposta, hora: hora });
-    contato.ultima = resposta;
-    contato.hora = hora;
-
-    if (conversaAtual && conversaAtual.id === id) renderizarMensagens();
-    else contato.naoLidas++;
-
-    renderizarLista();
-}
-
-function enterEnviar(e) {
-    if (e.key === "Enter") enviarMensagem();
-}
-
-/* FOTO */
-function abrirSeletorFoto() {
-    if (!conversaAtual) return;
-    document.getElementById("photoInput").click();
-}
-
-function selecionarFotoWhatsapp(event) {
-    const file = event.target.files[0];
-    if (!file || !conversaAtual) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        enviarFotoWhatsapp(e.target.result, "Foto compartilhada");
-    };
-
-    reader.readAsDataURL(file);
-    event.target.value = "";
-}
-
-function enviarFotoWhatsapp(url, texto = "") {
-    if (!conversaAtual) return;
-
-    const hora = pegarHora();
-
-    conversaAtual.mensagens.push({
-        tipo: "sent",
-        image: url,
-        texto: texto,
-        hora: hora
-    });
-
-    conversaAtual.ultima = "📷 Foto";
-    conversaAtual.hora = hora;
-
-    renderizarMensagens();
-    renderizarLista();
-}
-
-function tirarFotoDoJogo() {
-    if (!conversaAtual) {
-        abrirWhatsappSemLoading();
-        conversaAtual = contatos[0];
-        abrirConversa(conversaAtual.id);
-    }
-
-    try {
-        if (window.Android && window.Android.captureGamePhoto) {
-            window.Android.captureGamePhoto();
-            return;
-        }
-
-        if (window.cefQuery) {
-            window.cefQuery({
-                request: JSON.stringify({
-                    type: "capture_game_photo",
-                    data: ""
-                })
-            });
-            return;
-        }
-    } catch(e) {}
-
-    const fotoFake = "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop";
-    enviarFotoWhatsapp(fotoFake, "Foto do jogo");
-}
-
-function receberFotoJogo(url) {
-    if (!conversaAtual) {
-        abrirWhatsappSemLoading();
-        conversaAtual = contatos[0];
-        abrirConversa(conversaAtual.id);
-    }
-
-    enviarFotoWhatsapp(url, "Foto do jogo");
-}
-
-/* ÁUDIO */
-function segurarAudio(event) {
-    event.preventDefault();
-
-    if (!conversaAtual) return;
-
-    const input = document.getElementById("msgInput");
-    if (input && input.value.trim().length > 0) return;
-
-    audioSegurando = true;
-    iniciarGravacaoAudio();
-}
-
-function soltarAudio(event) {
-    event.preventDefault();
-
-    if (!audioSegurando) return;
-
-    audioSegurando = false;
-    pararGravacaoAudio(true);
-}
-
-function cancelarAudio(event) {
-    event.preventDefault();
-
-    if (!audioSegurando) return;
-
-    audioSegurando = false;
-    pararGravacaoAudio(true);
-}
-
-async function iniciarGravacaoAudio() {
-    const micBtn = document.getElementById("micBtn");
-
-    if (gravandoAudio) return;
-
-    try {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            iniciarAudioFakeVisual();
-            return;
-        }
-
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-        audioChunks = [];
-        mediaRecorder = new MediaRecorder(stream);
-
-        mediaRecorder.ondataavailable = function(event) {
-            if (event.data && event.data.size > 0) {
-                audioChunks.push(event.data);
-            }
-        };
-
-        mediaRecorder.onstop = function() {
-            const segundos = Math.max(1, Math.floor((Date.now() - audioStartTime) / 1000));
-            const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-            const audioUrl = URL.createObjectURL(audioBlob);
-
-            stream.getTracks().forEach(track => track.stop());
-
-            enviarAudioMensagem(audioUrl, segundos);
-        };
-
-        audioStartTime = Date.now();
-        mediaRecorder.start();
-
-        gravandoAudio = true;
-        micBtn.classList.add("recording");
-        micBtn.innerText = "■";
-
-        atualizarBotaoEnvio();
-
-    } catch (e) {
-        iniciarAudioFakeVisual();
-    }
-}
-
-function iniciarAudioFakeVisual() {
-    const micBtn = document.getElementById("micBtn");
-
-    audioStartTime = Date.now();
-    gravandoAudio = true;
-
-    micBtn.classList.add("recording");
-    micBtn.innerText = "■";
-
-    atualizarBotaoEnvio();
-}
-
-function pararGravacaoAudio(enviar = true) {
-    const micBtn = document.getElementById("micBtn");
-
-    if (!gravandoAudio) return;
-
-    const segundos = Math.max(1, Math.floor((Date.now() - audioStartTime) / 1000));
-
-    if (mediaRecorder && mediaRecorder.state !== "inactive") {
-        mediaRecorder.stop();
-    } else if (enviar) {
-        enviarAudioMensagem("", segundos);
-    }
-
-    gravandoAudio = false;
-
-    micBtn.classList.remove("recording");
-    micBtn.innerText = "🎙";
-
-    atualizarBotaoEnvio();
-}
-
-function enviarAudioMensagem(audioUrl = "", segundos = 1) {
-    if (!conversaAtual) return;
-
-    const hora = pegarHora();
-    const duracao = formatarDuracaoAudio(segundos);
-
-    conversaAtual.mensagens.push({
-        tipo: "sent",
-        audio: true,
-        audioUrl: audioUrl,
-        duracao: duracao,
-        hora: hora
-    });
-
-    conversaAtual.ultima = "🎙 Áudio";
-    conversaAtual.hora = hora;
-
-    renderizarMensagens();
-    renderizarLista();
-    atualizarBotaoEnvio();
-}
-
-function tocarAudio(index) {
-    if (!conversaAtual) return;
-
-    const msg = conversaAtual.mensagens[index];
-
-    if (!msg || !msg.audio) return;
-
-    if (!msg.audioUrl) {
-        console.log("Áudio fake de teste.");
-        return;
-    }
-
-    if (audioAtual) {
-        audioAtual.pause();
-        audioAtual.currentTime = 0;
-    }
-
-    audioAtual = new Audio(msg.audioUrl);
-    audioAtual.play();
-}
-
-function formatarDuracaoAudio(segundos) {
-    const min = Math.floor(segundos / 60);
-    const sec = segundos % 60;
-    return min + ":" + String(sec).padStart(2, "0");
-}
+#whatsapp-screen.theme-dark{background:#071015;color:white}
+#whatsapp-screen.theme-light{background:#f5f5f5;color:#111}
+.wa-loading{position:absolute;inset:0;display:none;z-index:150;background:#071015;align-items:center;justify-content:center;flex-direction:column}
+.wa-loading.active{display:flex}
+.wa-logo{width:55px;height:55px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:14px}
+.wa-loader{width:70px;height:3px;background:rgba(255,255,255,.15);border-radius:10px;overflow:hidden}
+.wa-loader span{display:block;width:40%;height:100%;background:#25d366;animation:load 1s infinite}
+@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+.wa-header{height:72px;background:#071015;border-bottom:1px solid rgba(0,255,180,.15);padding:29px 10px 0}
+.wa-top{height:22px;display:flex;align-items:center;justify-content:space-between}
+.wa-title{font-size:14px;font-weight:bold}
+.wa-actions{font-size:13px;display:flex;gap:8px}
+.wa-tabs{display:grid;grid-template-columns:repeat(3,1fr);font-size:8px;color:#7f8c94;text-align:center;font-weight:bold;margin-top:5px}
+.wa-tab.active{color:#00c79a;border-bottom:2px solid #00c79a;padding-bottom:5px}
+.wa-list{position:absolute;top:72px;left:0;right:0;bottom:0;overflow-y:auto;background:#071015}
+.chat-item{height:55px;padding:7px 9px;display:flex;gap:8px;align-items:center;border-bottom:1px solid rgba(255,255,255,.04)}
+.avatar,.conv-avatar,.my-photo{overflow:hidden}
+.avatar img,.conv-avatar img,.my-photo img{width:100%;height:100%;object-fit:cover}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(145deg,#209cff,#004d87);display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0;font-size:13px}
+.chat-info{flex:1;min-width:0}
+.chat-row{display:flex;justify-content:space-between;gap:5px}
+.chat-name{font-size:11px;font-weight:bold;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.chat-time{font-size:7px;color:#00c79a}
+.chat-last{font-size:8px;color:#9aa5aa;margin-top:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.badge{min-width:14px;height:14px;background:#00c79a;color:#071015;border-radius:10px;font-size:7px;display:flex;align-items:center;justify-content:center}
+#conversation{position:absolute;inset:0;display:none;background:#071015;z-index:90}
+#conversation.active{display:block}
+.conv-header{height:58px;padding:25px 7px 5px;background:#0a171f;display:flex;align-items:center;gap:7px}
+.back{font-size:20px}
+.conv-avatar{width:31px;height:31px;border-radius:50%;background:#005c8a;display:flex;justify-content:center;align-items:center;font-weight:bold;font-size:14px;flex-shrink:0}
+.conv-name{flex:1;font-size:12px;font-weight:bold;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.messages{position:absolute;top:58px;left:0;right:0;bottom:50px;overflow-y:auto;padding:8px;background:#071015}
+.msg{max-width:76%;padding:7px 8px;margin-bottom:6px;font-size:10px;line-height:13px;border-radius:9px;word-wrap:break-word}
+.msg.received{background:#111f27;margin-right:auto;border-top-left-radius:2px}
+.msg.sent{background:#005c4b;margin-left:auto;border-top-right-radius:2px}
+.msg-time{display:block;text-align:right;font-size:7px;opacity:.65;margin-top:4px}
+.input-area{position:absolute;left:0;right:0;bottom:0;height:50px;display:flex;align-items:center;gap:5px;padding:5px 6px;background:#071015}
+.message-box{flex:1;height:37px;min-width:0;border-radius:20px;background:#202c33;display:flex;align-items:center;padding:0 5px;gap:3px}
+.message-box input{flex:1;min-width:0;height:100%;border:none;outline:none;background:transparent;color:white;font-size:12px;padding:0 3px}
+.emoji-btn,.attach-btn,.camera-btn{width:22px;height:22px;border:none;background:transparent;color:#aebac1;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mic-btn,.send-btn{width:38px;height:38px;border:none;border-radius:50%;background:#00c853;color:white;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.send-btn{display:none}
+.msg-image{width:110px;max-height:130px;border-radius:8px;object-fit:cover;display:block;margin-bottom:4px}
+.audio-bubble{display:flex;align-items:center;gap:5px;min-width:105px}
+.audio-play{width:23px;height:23px;border:none;border-radius:50%;background:rgba(255,255,255,.18);color:white;font-size:9px}
+.audio-wave{flex:1;height:15px;display:flex;align-items:center;gap:2px}
+.audio-wave span{width:3px;border-radius:4px;background:rgba(255,255,255,.75);display:block}
+.audio-wave span:nth-child(1){height:5px}.audio-wave span:nth-child(2){height:10px}.audio-wave span:nth-child(3){height:7px}.audio-wave span:nth-child(4){height:14px}.audio-wave span:nth-child(5){height:6px}.audio-wave span:nth-child(6){height:11px}.audio-wave span:nth-child(7){height:8px}.audio-wave span:nth-child(8){height:13px}
+.audio-duration{font-size:7px;opacity:.75;min-width:20px;text-align:right}
+.receipt-box{background:rgba(255,255,255,.08);border-radius:9px;padding:7px;border:1px solid rgba(255,255,255,.08)}
+.receipt-title{font-size:10px;font-weight:bold;margin-bottom:5px}.receipt-line{font-size:8px;margin:3px 0;opacity:.9}
+
+/* CONTACTS */
+#contacts-screen{background:#f5f5f7;color:#111;padding-top:34px}
+.contacts-header{height:54px;padding:8px 14px 0;display:flex;align-items:center;justify-content:space-between}
+.contacts-title{font-size:25px;font-weight:800;letter-spacing:-1px}.contacts-add-btn{width:32px;height:32px;border:none;border-radius:50%;background:#007aff;color:white;font-size:24px}
+.contacts-search{height:34px;margin:0 12px;background:#e3e3e8;border-radius:10px;display:flex;align-items:center;padding:0 9px;gap:6px}
+.contacts-search input{flex:1;height:100%;border:none;outline:none;background:transparent;font-size:13px;color:#111}
+.contacts-list{position:absolute;top:104px;left:0;right:0;bottom:53px;overflow-y:auto;padding:0 10px 8px}
+.contact-item{height:54px;background:white;border-radius:14px;margin-bottom:7px;padding:7px 8px;display:flex;align-items:center;gap:9px}
+.contact-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#007aff,#34c759);color:white;font-size:17px;font-weight:bold;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-info{flex:1;min-width:0}.contact-name{font-size:14px;font-weight:700;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.contact-number{margin-top:2px;font-size:11px;color:#666}
+.contact-call-btn{width:32px;height:32px;border:none;border-radius:50%;background:#34c759;color:white;font-size:15px}
+.contacts-bottom{position:absolute;left:0;right:0;bottom:0;height:53px;background:rgba(250,250,250,.96);border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(3,1fr)}
+.contacts-tab{display:flex;align-items:center;justify-content:center;text-align:center;color:#777;font-size:9px}.contacts-tab.active{color:#007aff;font-weight:bold}
+#contact-details-screen{position:absolute;inset:0;background:#f5f5f7;color:#111;display:none;z-index:180;padding-top:34px}
+#contact-details-screen.active{display:block}.contact-details-top{height:44px;padding:0 14px;display:flex;align-items:center;justify-content:space-between}
+.contact-back,.contact-delete{color:#007aff;font-size:13px;font-weight:bold}.contact-delete{color:#ff3b30}
+.contact-details-body{padding:10px 16px;text-align:center}.contact-big-avatar{width:86px;height:86px;border-radius:50%;margin:5px auto 10px;background:linear-gradient(145deg,#007aff,#34c759);color:white;font-size:38px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+.contact-details-name{font-size:22px;font-weight:800}.contact-details-number{margin-top:4px;font-size:13px;color:#666}
+.contact-action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}.contact-action-grid button{height:55px;background:white;border-radius:14px;border:none;color:#007aff;font-size:11px;font-weight:bold}.contact-action-grid span{display:block;font-size:20px;margin-bottom:3px}
+.contact-info-card{margin-top:16px;background:white;border-radius:14px;text-align:left;overflow:hidden}.contact-info-row{padding:10px 12px;border-bottom:1px solid #eee}.contact-info-row:last-child{border-bottom:none}.contact-info-row small{display:block;font-size:10px;color:#777}.contact-info-row b{display:block;margin-top:3px;font-size:13px;color:#007aff}
+#contact-modal{position:absolute;inset:0;background:rgba(0,0,0,.38);display:none;align-items:flex-end;z-index:220}#contact-modal.active{display:flex}
+.contact-modal-card{width:100%;background:#f5f5f7;border-top-left-radius:22px;border-top-right-radius:22px;padding:13px 14px 18px}.contact-modal-title{color:#111;font-size:18px;font-weight:800;margin-bottom:12px}.contact-modal-card label{display:block;font-size:11px;color:#666;margin:8px 0 4px}.contact-modal-card input{width:100%;height:36px;border:none;outline:none;border-radius:10px;background:white;padding:0 10px;font-size:13px;color:#111}.contact-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.contact-modal-actions button{height:37px;border:none;border-radius:11px;font-size:13px;font-weight:bold}.contact-modal-actions button:first-child{background:#e5e5ea;color:#111}.contact-modal-actions button:last-child{background:#007aff;color:white}
+
+/* CALL */
+#call-screen{position:absolute;inset:0;background:radial-gradient(circle at top,rgba(255,255,255,.16),transparent 40%),linear-gradient(160deg,#1c1c1e,#050505);color:white;display:none;z-index:250;padding-top:55px;text-align:center}
+#call-screen.active{display:block}.call-status{font-size:13px;opacity:.75;margin-bottom:8px}.call-name{font-size:25px;font-weight:800}.call-number{margin-top:5px;font-size:13px;opacity:.7}.call-avatar{width:95px;height:95px;border-radius:50%;background:linear-gradient(145deg,#007aff,#34c759);margin:35px auto 20px;font-size:42px;font-weight:bold;display:flex;align-items:center;justify-content:center}.call-timer{font-size:15px;opacity:.85}.call-buttons{position:absolute;left:22px;right:22px;bottom:62px;display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.call-buttons button{width:55px;height:55px;border-radius:50%;border:none;font-size:23px;margin:auto;background:rgba(255,255,255,.18);color:white}.call-buttons .end-call{background:#ff3b30}
+
+/* BANK */
+#bank-screen{background:#7c1bbd;color:white;overflow-y:auto;padding:34px 12px 12px}
+.bank-top{display:flex;justify-content:space-between;align-items:center}.bank-title{font-size:15px;font-weight:bold}.small-btn{background:rgba(255,255,255,.12);padding:5px 8px;border-radius:8px;font-size:9px}
+.bank-card{margin-top:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:11px}.bank-label{font-size:9px;opacity:.82}.bank-balance{margin-top:5px;font-size:20px;font-weight:bold}
+.bank-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px}.bank-action{height:42px;border:none;border-radius:12px;background:rgba(255,255,255,.18);color:white;font-size:8px;font-weight:bold}
+.pix-form{margin-top:11px;display:none}.pix-form.active{display:block}.bank-input{width:100%;height:29px;margin-top:6px;border:none;outline:none;border-radius:9px;padding:0 8px;font-size:9px;color:#111}.bank-btn{width:100%;height:31px;margin-top:9px;border:none;border-radius:10px;background:#fff;color:#7c1bbd;font-size:10px;font-weight:bold}
+.bank-history{margin-top:12px}.bank-history-title{font-size:11px;font-weight:bold;margin-bottom:6px}.bank-item{background:rgba(0,0,0,.15);border-radius:10px;padding:7px;margin-bottom:6px}.bank-item-title{font-size:9px;font-weight:bold}.bank-item-desc{font-size:7px;opacity:.78;margin-top:3px}
+#receipt-modal{position:absolute;inset:0;z-index:220;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:14px}#receipt-modal.active{display:flex}.receipt-modal-card{width:100%;background:#fff;color:#111;border-radius:16px;padding:12px}.receipt-modal-title{font-size:13px;font-weight:bold;color:#7c1bbd;margin-bottom:8px}.receipt-modal-line{font-size:9px;margin:5px 0}.receipt-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}.receipt-modal-actions button{height:29px;border:none;border-radius:9px;background:#7c1bbd;color:white;font-size:9px;font-weight:bold}.receipt-modal-actions button:last-child{background:#333}
+
+/* CALC + SETTINGS */
+#calc-screen{background:#09090b;padding:34px 12px 12px}.calc-top{height:34px;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:bold}.calc-display{height:95px;display:flex;align-items:flex-end;justify-content:flex-end;font-size:31px;padding-bottom:8px;overflow:hidden}.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.calc-btn{height:39px;border:none;border-radius:50%;background:#2b2b2d;color:white;font-size:15px}.calc-btn.gray{background:#a5a5a5;color:black}.calc-btn.orange{background:#ff9f0a}.calc-btn.zero{grid-column:span 2;border-radius:24px;text-align:left;padding-left:16px}
+.settings-screen{background:#0b0b0d;padding:34px 12px 12px}.settings-top{height:34px;display:flex;align-items:center;justify-content:space-between}.settings-title{font-size:13px;font-weight:bold}.setting-group{margin-top:10px}.setting-label{font-size:9px;color:#8b9499;margin-bottom:4px}.setting-input,.setting-select{width:100%;height:29px;border:none;outline:none;border-radius:8px;background:#18191d;color:white;font-size:9px;padding:0 8px}.save-btn,.reset-btn{width:100%;height:31px;border:none;border-radius:10px;margin-top:12px;background:#00a884;color:white;font-weight:bold;font-size:10px}.reset-btn{height:29px;margin-top:7px;background:#2b2b2b}
+</style>
+</head>
+<body>
+<div id="phone-wrapper">
+<div class="phone"><div class="screen" id="phoneScreen">
+<div class="notch"></div>
+<div class="status-bar"><div id="miniTime">12:00</div><div>⌁ ◖ ▰</div></div>
+
+<div class="home" id="home-screen">
+  <div class="clock-area"><div class="clock"><div id="hourText">12</div><div id="minuteText">00</div></div><div class="date" id="dateText">Hoje</div></div>
+  <div class="apps">
+    <div class="app-icon" onclick="abrirWhatsapp()"><div class="icon whatsapp">☎</div><span>WhatsApp</span></div>
+    <div class="app-icon" onclick="abrirBanco()"><div class="icon bank">Nu</div><span>Banco</span></div>
+    <div class="app-icon" onclick="abrirContatos()"><div class="icon contacts">👤</div><span>Contatos</span></div>
+    <div class="app-icon" onclick="abrirCalculadora()"><div class="icon calc">+</div><span>Calculadora</span></div>
+    <div class="app-icon" onclick="abrirConfigCelular()"><div class="icon settings">⚙</div><span>Ajustes</span></div>
+  </div>
+  <div class="dock">
+    <div class="icon whatsapp" onclick="abrirWhatsapp()">☎</div>
+    <div class="icon contacts" onclick="abrirContatos()">👤</div>
+    <div class="icon bank" onclick="abrirBanco()">Nu</div>
+    <div class="icon calc" onclick="abrirCalculadora()">+</div>
+    <div class="icon settings" onclick="abrirConfigCelular()">⚙</div>
+  </div>
+</div>
+
+<div class="screen-app theme-dark" id="whatsapp-screen">
+  <div class="wa-loading" id="wa-loading-screen"><div class="wa-logo">☎</div><div class="wa-loader"><span></span></div></div>
+  <div class="wa-header"><div class="wa-top"><div class="wa-title">WhatsApp</div><div class="wa-actions"><span onclick="tirarFotoDoJogo()">📷</span><span onclick="abrirConfigWhatsapp()">⚙</span></div></div><div class="wa-tabs"><div class="wa-tab active">CHATS</div><div class="wa-tab">STATUS</div><div class="wa-tab">LIGAÇÕES</div></div></div>
+  <div class="wa-list" id="wa-list"></div>
+  <div id="conversation">
+    <div class="conv-header"><div class="back" onclick="voltarListaWhatsapp()">‹</div><div class="conv-avatar" id="convAvatar">A</div><div class="conv-name" id="convName">Contato</div><div>⋮</div></div>
+    <div class="messages" id="messages"></div>
+    <div class="input-area"><div class="message-box"><button class="emoji-btn" onclick="abrirEmojiFake()">☻</button><input id="msgInput" placeholder="Mensagem" oninput="atualizarBotaoEnvio()" onkeydown="enterEnviar(event)"><button class="attach-btn" onclick="abrirSeletorFoto()">📎</button><button class="camera-btn" onclick="tirarFotoDoJogo()">📷</button></div><button class="mic-btn" id="micBtn" onpointerdown="segurarAudio(event)" onpointerup="soltarAudio(event)" onpointercancel="cancelarAudio(event)" onpointerleave="cancelarAudio(event)">🎙</button><button class="send-btn" id="sendBtn" onclick="enviarMensagem()">➤</button></div>
+  </div>
+  <div class="home-line" onclick="voltarHome()"></div>
+</div>
+
+<div class="screen-app" id="contacts-screen">
+  <div class="contacts-header"><div class="contacts-title">Contatos</div><button class="contacts-add-btn" onclick="abrirModalContato()">+</button></div>
+  <div class="contacts-search"><span>🔍</span><input id="contactsSearch" placeholder="Buscar" oninput="renderizarContatos()"></div>
+  <div class="contacts-list" id="contactsList"></div>
+  <div class="contacts-bottom"><div class="contacts-tab active">👥<br>Contatos</div><div class="contacts-tab">★<br>Favoritos</div><div class="contacts-tab">⌕<br>Recentes</div></div>
+  <div class="home-line" onclick="voltarHome()"></div>
+</div>
+
+<div id="contact-details-screen">
+  <div class="contact-details-top"><div class="contact-back" onclick="fecharDetalhesContato()">‹ Contatos</div><div class="contact-delete" onclick="apagarContatoAtual()">Apagar</div></div>
+  <div class="contact-details-body"><div class="contact-big-avatar" id="contactDetailsAvatar">D</div><div class="contact-details-name" id="contactDetailsName">Nome</div><div class="contact-details-number" id="contactDetailsNumber">000</div><div class="contact-action-grid"><button onclick="ligarContatoAtual()"><span>📞</span>ligar</button><button onclick="mensagemContatoAtual()"><span>💬</span>mensagem</button><button onclick="favoritarContatoAtual()"><span>★</span>favorito</button></div><div class="contact-info-card"><div class="contact-info-row"><small>celular</small><b id="contactDetailsCell">000</b></div><div class="contact-info-row"><small>observação</small><b id="contactDetailsNote">Contato salvo no telefone</b></div></div></div>
+</div>
+
+<div id="contact-modal"><div class="contact-modal-card"><div class="contact-modal-title">Novo Contato</div><label>Nome</label><input id="contactInputName" placeholder="Ex: João"><label>Número</label><input id="contactInputNumber" placeholder="Ex: 555-1234"><label>Observação</label><input id="contactInputNote" placeholder="Opcional"><div class="contact-modal-actions"><button onclick="fecharModalContato()">Cancelar</button><button onclick="salvarNovoContato()">Salvar</button></div></div></div>
+
+<div id="call-screen"><div class="call-status" id="callStatus">ligando...</div><div class="call-name" id="callName">Nome</div><div class="call-number" id="callNumber">000</div><div class="call-avatar" id="callAvatar">D</div><div class="call-timer" id="callTimer">00:00</div><div class="call-buttons"><button>🔇</button><button class="end-call" onclick="encerrarLigacao()">✕</button><button>🔊</button></div><div class="home-line"></div></div>
+
+<div class="screen-app" id="bank-screen">
+  <div class="bank-top"><div class="bank-title">Banco Roxo</div><div class="small-btn" onclick="voltarHome()">Home</div></div>
+  <div class="bank-card"><div class="bank-label">Saldo disponível</div><div class="bank-balance" id="bankBalance">R$ 0,00</div><div class="bank-actions"><button class="bank-action" onclick="togglePixForm()">Pix</button><button class="bank-action" onclick="mostrarSaldo()">Saldo</button><button class="bank-action" onclick="compartilharUltimoComprovante()">Compartilhar</button></div></div>
+  <div class="pix-form" id="pixForm"><input class="bank-input" id="pixKey" placeholder="Chave Pix / Nome"><input class="bank-input" id="pixValue" placeholder="Valor. Ex: 120.50" inputmode="decimal"><input class="bank-input" id="pixDesc" placeholder="Descrição opcional"><button class="bank-btn" onclick="enviarPix()">Enviar Pix</button></div>
+  <div class="bank-history"><div class="bank-history-title">Últimas movimentações</div><div id="bankHistory"></div></div>
+</div>
+
+<div id="receipt-modal"><div class="receipt-modal-card"><div class="receipt-modal-title">Comprovante Pix</div><div id="receiptContent"></div><div class="receipt-modal-actions"><button onclick="compartilharComprovanteWhatsapp()">WhatsApp</button><button onclick="fecharComprovante()">Fechar</button></div></div></div>
+
+<div class="screen-app" id="calc-screen">
+  <div class="calc-top"><span>Calculadora</span><span class="small-btn" onclick="voltarHome()">Home</span></div><div class="calc-display" id="calcDisplay">0</div>
+  <div class="calc-grid"><button class="calc-btn gray" onclick="calcClear()">AC</button><button class="calc-btn gray" onclick="calcToggle()">±</button><button class="calc-btn gray" onclick="calcPercent()">%</button><button class="calc-btn orange" onclick="calcInput('/')">÷</button><button class="calc-btn" onclick="calcInput('7')">7</button><button class="calc-btn" onclick="calcInput('8')">8</button><button class="calc-btn" onclick="calcInput('9')">9</button><button class="calc-btn orange" onclick="calcInput('*')">×</button><button class="calc-btn" onclick="calcInput('4')">4</button><button class="calc-btn" onclick="calcInput('5')">5</button><button class="calc-btn" onclick="calcInput('6')">6</button><button class="calc-btn orange" onclick="calcInput('-')">−</button><button class="calc-btn" onclick="calcInput('1')">1</button><button class="calc-btn" onclick="calcInput('2')">2</button><button class="calc-btn" onclick="calcInput('3')">3</button><button class="calc-btn orange" onclick="calcInput('+')">+</button><button class="calc-btn zero" onclick="calcInput('0')">0</button><button class="calc-btn" onclick="calcInput('.')">,</button><button class="calc-btn orange" onclick="calcResult()">=</button></div><div class="home-line" onclick="voltarHome()"></div>
+</div>
+
+<div class="screen-app settings-screen" id="phone-settings-screen"><div class="settings-top"><div class="settings-title">Config. Celular</div><div class="small-btn" onclick="voltarHome()">Home</div></div><div class="setting-group"><div class="setting-label">Fundo do celular por link</div><input class="setting-input" id="phoneInputWallpaper" placeholder="https://site.com/fundo.png"></div><div class="setting-group"><div class="setting-label">Texto embaixo do celular</div><input class="setting-input" id="phoneInputLocation" placeholder="New Empire Way"></div><button class="save-btn" onclick="salvarConfigCelular()">Salvar Celular</button><button class="reset-btn" onclick="resetarConfigCelular()">Resetar Celular</button><div class="home-line" onclick="voltarHome()"></div></div>
+<div class="screen-app settings-screen" id="wa-settings-screen"><div class="settings-top"><div class="settings-title">Config. WhatsApp</div><div class="small-btn" onclick="abrirWhatsappSemLoading()">Voltar</div></div><div class="setting-group"><div class="setting-label">Nome</div><input class="setting-input" id="waInputName"></div><div class="setting-group"><div class="setting-label">Tema</div><select class="setting-select" id="waInputTheme"><option value="dark">Preto</option><option value="light">Branco</option></select></div><button class="save-btn" onclick="salvarConfigWhatsapp()">Salvar WhatsApp</button><button class="reset-btn" onclick="resetarConfigWhatsapp()">Resetar</button><div class="home-line" onclick="voltarHome()"></div></div>
+<input type="file" id="photoInput" accept="image/*" style="display:none" onchange="selecionarFotoWhatsapp(event)">
+</div></div></div>
+
+<script>
+let contatos=[], conversaAtual=null;
+let contatosTelefone=[];
+let contatoAtualIndex=-1, ligacaoTimer=null, ligacaoSegundos=0;
+let waConfig={nome:"Deivyd",tema:"dark"};
+let phoneConfig={wallpaper:"https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",location:"New Empire Way"};
+let bankData={saldo:2500,historico:[],ultimoComprovante:null};
+let gravandoAudio=false, mediaRecorder=null, audioChunks=[], audioStartTime=0, audioAtual=null, audioSegurando=false;
+let calcValor="0";
+
+function enviarEventoPawn(type,data){let payload=JSON.stringify({app:"phone",type:type,data:data||{}});try{if(window.cefQuery){window.cefQuery({request:payload});return}}catch(e){}try{if(window.Android&&window.Android.onCefEvent){window.Android.onCefEvent(payload);return}}catch(e){}console.log("PHONE_EVENT:",payload)}
+function escapeHtml(t){return String(t).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function escapeAttr(t){return escapeHtml(t)}
+function pegarHora(){let d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function dataCompleta(){let d=new Date();return String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear()+" "+pegarHora()}
+function formatMoney(v){return"R$ "+Number(v).toFixed(2).replace(".",",")}
+function gerarIdComprovante(){return"PIX-"+Date.now().toString().slice(-8)}
+
+function atualizarHora(){let d=new Date(),h=String(d.getHours()).padStart(2,"0"),m=String(d.getMinutes()).padStart(2,"0");miniTime.innerText=h+":"+m;hourText.innerText=h;minuteText.innerText=m;dateText.innerText=d.toLocaleDateString("pt-BR",{day:"numeric",month:"long",year:"numeric"})}
+setInterval(atualizarHora,1000);atualizarHora();
+
+function fecharTodasTelas(){["whatsapp-screen","bank-screen","calc-screen","wa-settings-screen","phone-settings-screen","contacts-screen"].forEach(id=>document.getElementById(id).classList.remove("active"));conversation.classList.remove("active");contact-details-screen?.classList?.remove("active");document.getElementById("contact-details-screen").classList.remove("active");document.getElementById("contact-modal").classList.remove("active");document.getElementById("call-screen").classList.remove("active");fecharComprovante()}
+function abrirTela(id){document.getElementById("home-screen").style.display="none";fecharTodasTelas();document.getElementById(id).classList.add("active")}
+function voltarHome(){document.getElementById("home-screen").style.display="block";fecharTodasTelas();if(gravandoAudio)pararGravacaoAudio(false)}
+function mostrarCelular(){document.getElementById("phone-wrapper").style.display="block"}
+function fecharCelular(){document.getElementById("phone-wrapper").style.display="none";if(gravandoAudio)pararGravacaoAudio(false)}
+function toggleCelular(){let p=document.getElementById("phone-wrapper");p.style.display=p.style.display==="none"?"block":"none"}
+
+/* WHATSAPP */
+function criarConversasPadrao(){contatos=[{id:1,nome:"Atendente",avatar:"A",ultima:"Olá, como posso ajudar?",hora:"Agora",naoLidas:1,mensagens:[{tipo:"received",texto:"Olá, como posso ajudar?",hora:"06:36"}]},{id:2,nome:"Mecânico",avatar:"M",ultima:"Traga o veículo na oficina.",hora:"Ontem",naoLidas:0,mensagens:[{tipo:"received",texto:"Traga o veículo na oficina.",hora:"18:22"}]},{id:3,nome:"Banco Roxo",avatar:"N",ultima:"Seu banco digital.",hora:"Seg",naoLidas:0,mensagens:[{tipo:"received",texto:"Bem-vindo ao Banco Roxo.",hora:"12:10"}]}]}
+function abrirWhatsapp(){abrirTela("whatsapp-screen");document.getElementById("wa-loading-screen").classList.add("active");setTimeout(()=>{document.getElementById("wa-loading-screen").classList.remove("active");renderizarLista();atualizarBotaoEnvio()},700)}
+function abrirWhatsappSemLoading(){abrirTela("whatsapp-screen");renderizarLista();atualizarBotaoEnvio()}
+function abrirConfigWhatsapp(){abrirTela("wa-settings-screen");waInputName.value=waConfig.nome;waInputTheme.value=waConfig.tema}
+function salvarConfigWhatsapp(){waConfig.nome=waInputName.value.trim()||"Sem Nome";waConfig.tema=waInputTheme.value;localStorage.setItem("wa_config",JSON.stringify(waConfig));aplicarConfigWhatsapp()}
+function resetarConfigWhatsapp(){waConfig={nome:"Deivyd",tema:"dark"};localStorage.removeItem("wa_config");aplicarConfigWhatsapp();abrirConfigWhatsapp()}
+function carregarConfigWhatsapp(){let s=localStorage.getItem("wa_config");if(s){try{waConfig=JSON.parse(s)}catch(e){}}aplicarConfigWhatsapp()}
+function aplicarConfigWhatsapp(){let wa=document.getElementById("whatsapp-screen");wa.classList.remove("theme-dark","theme-light");wa.classList.add(waConfig.tema==="light"?"theme-light":"theme-dark")}
+function renderizarLista(){let lista=document.getElementById("wa-list");lista.innerHTML="";contatos.forEach(c=>{lista.innerHTML+=`<div class="chat-item" onclick="abrirConversa(${c.id})"><div class="avatar">${escapeHtml(c.avatar)}</div><div class="chat-info"><div class="chat-row"><div class="chat-name">${escapeHtml(c.nome)}</div><div class="chat-time">${escapeHtml(c.hora)}</div></div><div class="chat-row"><div class="chat-last">${escapeHtml(c.ultima)}</div>${c.naoLidas>0?`<div class="badge">${c.naoLidas}</div>`:""}</div></div></div>`})}
+function abrirConversa(id){conversaAtual=contatos.find(c=>c.id===id);if(!conversaAtual)return;conversaAtual.naoLidas=0;convAvatar.innerText=conversaAtual.avatar;convName.innerText=conversaAtual.nome;conversation.classList.add("active");renderizarMensagens();renderizarLista();atualizarBotaoEnvio()}
+function voltarListaWhatsapp(){conversation.classList.remove("active");renderizarLista()}
+function renderizarMensagens(){let area=messages;area.innerHTML="";conversaAtual.mensagens.forEach((m,index)=>{let div=document.createElement("div");div.className="msg "+(m.tipo==="sent"?"sent":"received");if(m.audio){div.innerHTML=`<div class="audio-bubble"><button class="audio-play" onclick="tocarAudio(${index})">▶</button><div class="audio-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="audio-duration">${escapeHtml(m.duracao||"0:01")}</div></div><span class="msg-time">${escapeHtml(m.hora||"")}</span>`}else if(m.image){div.innerHTML=`<img class="msg-image" src="${escapeAttr(m.image)}">${m.texto?escapeHtml(m.texto):""}<span class="msg-time">${escapeHtml(m.hora||"")}</span>`}else if(m.receipt){div.innerHTML=montarComprovanteBolha(m.receipt)+`<span class="msg-time">${escapeHtml(m.hora||"")}</span>`}else{div.innerHTML=`${escapeHtml(m.texto||"")}<span class="msg-time">${escapeHtml(m.hora||"")}</span>`}area.appendChild(div)});area.scrollTop=area.scrollHeight}
+function atualizarBotaoEnvio(){if(!msgInput||!micBtn||!sendBtn)return;if(gravandoAudio){micBtn.style.display="flex";sendBtn.style.display="none";return}if(msgInput.value.trim().length>0){micBtn.style.display="none";sendBtn.style.display="flex"}else{sendBtn.style.display="none";micBtn.style.display="flex"}}
+function abrirEmojiFake(){msgInput.value+="😀";atualizarBotaoEnvio()}
+function enviarMensagem(){let texto=msgInput.value.trim();if(!texto||!conversaAtual)return;let hora=pegarHora();conversaAtual.mensagens.push({tipo:"sent",texto,hora});conversaAtual.ultima=texto;conversaAtual.hora=hora;msgInput.value="";renderizarMensagens();renderizarLista();atualizarBotaoEnvio();enviarEventoPawn("whatsapp_send",{to:conversaAtual.nome,text:texto})}
+function enterEnviar(e){if(e.key==="Enter")enviarMensagem()}
+function receiveWhatsappMessageFromPawn(nome,texto){let c=contatos.find(x=>x.nome.toLowerCase()===String(nome).toLowerCase());if(!c){c={id:Date.now(),nome:String(nome),avatar:String(nome).charAt(0).toUpperCase(),ultima:"",hora:"",naoLidas:0,mensagens:[]};contatos.push(c)}let hora=pegarHora();c.mensagens.push({tipo:"received",texto:String(texto),hora});c.ultima=String(texto);c.hora=hora;if(conversaAtual&&conversaAtual.id===c.id)renderizarMensagens();else c.naoLidas++;renderizarLista()}
+function sendWhatsAppFromPawn(nome,texto){let c=contatos.find(x=>x.nome.toLowerCase()===String(nome).toLowerCase());if(!c){c={id:Date.now(),nome:String(nome),avatar:String(nome).charAt(0).toUpperCase(),ultima:"",hora:"",naoLidas:0,mensagens:[]};contatos.push(c)}let hora=pegarHora();c.mensagens.push({tipo:"sent",texto:String(texto),hora});c.ultima=String(texto);c.hora=hora;renderizarLista()}
+function abrirSeletorFoto(){if(conversaAtual)photoInput.click()}
+function selecionarFotoWhatsapp(e){let file=e.target.files[0];if(!file||!conversaAtual)return;let r=new FileReader();r.onload=x=>enviarFotoWhatsapp(x.target.result,"Foto compartilhada");r.readAsDataURL(file);e.target.value=""}
+function enviarFotoWhatsapp(url,texto=""){let hora=pegarHora();conversaAtual.mensagens.push({tipo:"sent",image:url,texto,hora});conversaAtual.ultima="📷 Foto";conversaAtual.hora=hora;renderizarMensagens();renderizarLista()}
+function tirarFotoDoJogo(){enviarEventoPawn("capture_game_photo",{})}
+function receberFotoJogo(url){if(!conversaAtual)abrirWhatsappSemLoading();if(!conversaAtual)abrirConversa(contatos[0].id);enviarFotoWhatsapp(url,"Foto do jogo")}
+function segurarAudio(e){e.preventDefault();if(!conversaAtual||msgInput.value.trim().length>0)return;audioSegurando=true;iniciarGravacaoAudio()}
+function soltarAudio(e){e.preventDefault();if(!audioSegurando)return;audioSegurando=false;pararGravacaoAudio(true)}
+function cancelarAudio(e){e.preventDefault();if(!audioSegurando)return;audioSegurando=false;pararGravacaoAudio(true)}
+async function iniciarGravacaoAudio(){if(gravandoAudio)return;try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){iniciarAudioFakeVisual();return}let stream=await navigator.mediaDevices.getUserMedia({audio:true});audioChunks=[];mediaRecorder=new MediaRecorder(stream);mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data)};mediaRecorder.onstop=()=>{let s=Math.max(1,Math.floor((Date.now()-audioStartTime)/1000));let blob=new Blob(audioChunks,{type:"audio/webm"});let url=URL.createObjectURL(blob);stream.getTracks().forEach(t=>t.stop());enviarAudioMensagem(url,s)};audioStartTime=Date.now();mediaRecorder.start();gravandoAudio=true;micBtn.classList.add("recording");micBtn.innerText="■";atualizarBotaoEnvio()}catch(e){iniciarAudioFakeVisual()}}
+function iniciarAudioFakeVisual(){audioStartTime=Date.now();gravandoAudio=true;micBtn.classList.add("recording");micBtn.innerText="■";atualizarBotaoEnvio()}
+function pararGravacaoAudio(enviar=true){if(!gravandoAudio)return;let s=Math.max(1,Math.floor((Date.now()-audioStartTime)/1000));if(mediaRecorder&&mediaRecorder.state!=="inactive")mediaRecorder.stop();else if(enviar)enviarAudioMensagem("",s);gravandoAudio=false;micBtn.classList.remove("recording");micBtn.innerText="🎙";atualizarBotaoEnvio()}
+function enviarAudioMensagem(url="",segundos=1){let hora=pegarHora();conversaAtual.mensagens.push({tipo:"sent",audio:true,audioUrl:url,duracao:formatarDuracaoAudio(segundos),hora});conversaAtual.ultima="🎙 Áudio";conversaAtual.hora=hora;renderizarMensagens();renderizarLista();atualizarBotaoEnvio();enviarEventoPawn("whatsapp_audio",{to:conversaAtual.nome,duration:segundos})}
+function tocarAudio(i){let m=conversaAtual.mensagens[i];if(!m||!m.audio||!m.audioUrl)return;if(audioAtual){audioAtual.pause();audioAtual.currentTime=0}audioAtual=new Audio(m.audioUrl);audioAtual.play()}
+function formatarDuracaoAudio(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+
+/* CONTATOS */
+function abrirContatos(){abrirTela("contacts-screen");carregarContatosTelefone();renderizarContatos()}
+function carregarContatosTelefone(){let s=localStorage.getItem("phone_contacts");if(s){try{contatosTelefone=JSON.parse(s)}catch(e){}}if(!Array.isArray(contatosTelefone)||contatosTelefone.length===0)contatosTelefone=[{nome:"Atendente",numero:"100",nota:"Suporte da cidade",fav:false},{nome:"Polícia",numero:"190",nota:"Emergência",fav:true},{nome:"Mecânico",numero:"2222",nota:"Oficina",fav:false},{nome:"Banco Roxo",numero:"4002",nota:"Banco digital",fav:false}]}
+function salvarContatosTelefone(){localStorage.setItem("phone_contacts",JSON.stringify(contatosTelefone))}
+function inicialContato(n){return(!n||!n.length)?"?":n.trim().charAt(0).toUpperCase()}
+function renderizarContatos(){let lista=contactsList,busca=contactsSearch.value.toLowerCase().trim();lista.innerHTML="";let arr=contatosTelefone.map((c,i)=>({...c,index:i})).filter(c=>c.nome.toLowerCase().includes(busca)||c.numero.toLowerCase().includes(busca)).sort((a,b)=>a.nome.localeCompare(b.nome));if(!arr.length){lista.innerHTML=`<div style="margin-top:35px;text-align:center;color:#777;font-size:13px;">Nenhum contato encontrado</div>`;return}arr.forEach(c=>{lista.innerHTML+=`<div class="contact-item" onclick="abrirDetalhesContato(${c.index})"><div class="contact-avatar">${inicialContato(c.nome)}</div><div class="contact-info"><div class="contact-name">${c.fav?"★ ":""}${escapeHtml(c.nome)}</div><div class="contact-number">${escapeHtml(c.numero)}</div></div><button class="contact-call-btn" onclick="event.stopPropagation(); iniciarLigacaoContato(${c.index});">📞</button></div>`})}
+function abrirDetalhesContato(i){contatoAtualIndex=i;let c=contatosTelefone[i];if(!c)return;contactDetailsAvatar.innerText=inicialContato(c.nome);contactDetailsName.innerText=c.nome;contactDetailsNumber.innerText=c.numero;contactDetailsCell.innerText=c.numero;contactDetailsNote.innerText=c.nota||"Contato salvo no telefone";document.getElementById("contact-details-screen").classList.add("active")}
+function fecharDetalhesContato(){document.getElementById("contact-details-screen").classList.remove("active")}
+function abrirModalContato(){contactInputName.value="";contactInputNumber.value="";contactInputNote.value="";document.getElementById("contact-modal").classList.add("active")}
+function fecharModalContato(){document.getElementById("contact-modal").classList.remove("active")}
+function salvarNovoContato(){let nome=contactInputName.value.trim(),numero=contactInputNumber.value.trim(),nota=contactInputNote.value.trim();if(!nome)return alert("Digite o nome.");if(!numero)return alert("Digite o número.");contatosTelefone.push({nome,numero,nota:nota||"Contato salvo no telefone",fav:false});salvarContatosTelefone();fecharModalContato();renderizarContatos();enviarEventoPawn("add_contact",{nome,numero,nota})}
+function apagarContatoAtual(){if(contatoAtualIndex<0||!contatosTelefone[contatoAtualIndex])return;let c=contatosTelefone[contatoAtualIndex];contatosTelefone.splice(contatoAtualIndex,1);contatoAtualIndex=-1;salvarContatosTelefone();fecharDetalhesContato();renderizarContatos();enviarEventoPawn("remove_contact",c)}
+function favoritarContatoAtual(){if(contatoAtualIndex<0)return;contatosTelefone[contatoAtualIndex].fav=!contatosTelefone[contatoAtualIndex].fav;salvarContatosTelefone();abrirDetalhesContato(contatoAtualIndex);renderizarContatos()}
+function ligarContatoAtual(){if(contatoAtualIndex>=0)iniciarLigacaoContato(contatoAtualIndex)}
+function mensagemContatoAtual(){if(contatoAtualIndex<0)return;let c=contatosTelefone[contatoAtualIndex];receiveWhatsappMessageFromPawn(c.nome,"Olá");abrirWhatsappSemLoading();abrirConversa((contatos.find(x=>x.nome===c.nome)||contatos[0]).id);enviarEventoPawn("message_contact",c)}
+function iniciarLigacaoContato(i){let c=contatosTelefone[i];if(!c)return;contatoAtualIndex=i;ligacaoSegundos=0;callStatus.innerText="ligando...";callName.innerText=c.nome;callNumber.innerText=c.numero;callAvatar.innerText=inicialContato(c.nome);callTimer.innerText="00:00";document.getElementById("call-screen").classList.add("active");if(ligacaoTimer)clearInterval(ligacaoTimer);setTimeout(()=>callStatus.innerText="em chamada",1200);ligacaoTimer=setInterval(()=>{ligacaoSegundos++;callTimer.innerText=String(Math.floor(ligacaoSegundos/60)).padStart(2,"0")+":"+String(ligacaoSegundos%60).padStart(2,"0")},1000);enviarEventoPawn("call_contact",c)}
+function encerrarLigacao(){if(ligacaoTimer){clearInterval(ligacaoTimer);ligacaoTimer=null}let c=contatosTelefone[contatoAtualIndex];document.getElementById("call-screen").classList.remove("active");if(c)enviarEventoPawn("end_call",c)}
+function setContactsFromPawn(json){try{let arr=typeof json==="string"?JSON.parse(json):json;contatosTelefone=arr.map(c=>({nome:String(c.nome||c.name||"Sem Nome"),numero:String(c.numero||c.number||"000"),nota:String(c.nota||c.note||"Contato salvo no telefone"),fav:!!c.fav}));salvarContatosTelefone();renderizarContatos()}catch(e){console.log(e)}}
+function addContactFromPawn(nome,numero,nota){contatosTelefone.push({nome:String(nome||"Sem Nome"),numero:String(numero||"000"),nota:String(nota||"Contato salvo no telefone"),fav:false});salvarContatosTelefone();renderizarContatos()}
+function startCallFromPawn(nome,numero){let i=contatosTelefone.findIndex(c=>c.numero===String(numero));if(i<0){contatosTelefone.push({nome:String(nome||"Ligação"),numero:String(numero||"000"),nota:"Ligação recebida",fav:false});i=contatosTelefone.length-1;salvarContatosTelefone();renderizarContatos()}iniciarLigacaoContato(i)}
 
 /* BANCO */
-function carregarBanco() {
-    const salvo = localStorage.getItem("bank_data");
+function abrirBanco(){abrirTela("bank-screen");renderizarBanco()}
+function carregarBanco(){let s=localStorage.getItem("bank_data");if(s){try{bankData=JSON.parse(s)}catch(e){}}}
+function salvarBanco(){localStorage.setItem("bank_data",JSON.stringify(bankData))}
+function renderizarBanco(){bankBalance.innerText=formatMoney(bankData.saldo);bankHistory.innerHTML="";if(!bankData.historico.length){bankHistory.innerHTML=`<div class="bank-item"><div class="bank-item-title">Nenhuma movimentação</div><div class="bank-item-desc">Seu histórico aparecerá aqui.</div></div>`;return}bankData.historico.slice().reverse().forEach(i=>bankHistory.innerHTML+=`<div class="bank-item"><div class="bank-item-title">${i.tipo||"Pix enviado"} - ${formatMoney(i.valor)}</div><div class="bank-item-desc">${escapeHtml(i.destino||"")} • ${escapeHtml(i.data||"")}</div></div>`)}
+function togglePixForm(){pixForm.classList.toggle("active")}
+function mostrarSaldo(){renderizarBanco()}
+function enviarPix(){let key=pixKey.value.trim(),val=parseFloat(String(pixValue.value).replace(",",".")),desc=pixDesc.value.trim();if(!key)return alert("Digite a chave Pix ou nome.");if(!val||val<=0)return alert("Digite um valor válido.");if(val>bankData.saldo)return alert("Saldo insuficiente.");bankData.saldo-=val;let c={id:gerarIdComprovante(),tipo:"Pix enviado",destino:key,valor:val,descricao:desc||"Pix enviado",data:dataCompleta(),nome:waConfig.nome};bankData.ultimoComprovante=c;bankData.historico.push(c);salvarBanco();renderizarBanco();pixKey.value=pixValue.value=pixDesc.value="";mostrarComprovante(c);enviarEventoPawn("bank_pix",c)}
+function mostrarComprovante(c){receiptContent.innerHTML=`<div class="receipt-modal-line"><b>ID:</b> ${escapeHtml(c.id)}</div><div class="receipt-modal-line"><b>Destino:</b> ${escapeHtml(c.destino)}</div><div class="receipt-modal-line"><b>Valor:</b> ${formatMoney(c.valor)}</div><div class="receipt-modal-line"><b>Data:</b> ${escapeHtml(c.data)}</div>`;document.getElementById("receipt-modal").classList.add("active")}
+function fecharComprovante(){document.getElementById("receipt-modal").classList.remove("active")}
+function compartilharComprovanteWhatsapp(){if(!bankData.ultimoComprovante)return;abrirWhatsappSemLoading();abrirConversa(3);contatos[2].mensagens.push({tipo:"sent",receipt:bankData.ultimoComprovante,hora:pegarHora()});renderizarMensagens();fecharComprovante()}
+function compartilharUltimoComprovante(){if(!bankData.ultimoComprovante)return alert("Nenhum comprovante.");mostrarComprovante(bankData.ultimoComprovante)}
+function montarComprovanteBolha(c){return`<div class="receipt-box"><div class="receipt-title">Comprovante Pix</div><div class="receipt-line"><b>ID:</b> ${escapeHtml(c.id)}</div><div class="receipt-line"><b>Para:</b> ${escapeHtml(c.destino)}</div><div class="receipt-line"><b>Valor:</b> ${formatMoney(c.valor)}</div></div>`}
+function setBankFromPawn(saldo){bankData.saldo=Number(saldo)||0;salvarBanco();renderizarBanco()}
+function addBankHistoryFromPawn(tipo,destino,valor,desc){let c={id:gerarIdComprovante(),tipo:String(tipo||"Movimentação"),destino:String(destino||""),valor:Number(valor)||0,descricao:String(desc||""),data:dataCompleta()};bankData.historico.push(c);bankData.ultimoComprovante=c;salvarBanco();renderizarBanco()}
 
-    if (salvo) {
-        try {
-            bankData = JSON.parse(salvo);
-        } catch(e) {}
-    }
-}
+/* CALC SETTINGS */
+function abrirCalculadora(){abrirTela("calc-screen")}
+function updateCalc(){calcDisplay.innerText=calcValor.replaceAll("*","×").replaceAll("/","÷")}
+function calcInput(v){if(calcValor==="Erro")calcValor="0";let ops=["+","-","*","/"],last=calcValor[calcValor.length-1];if(calcValor==="0"&&!ops.includes(v)&&v!==".")calcValor=v;else if(ops.includes(v)&&ops.includes(last))calcValor=calcValor.slice(0,-1)+v;else calcValor+=v;updateCalc()}
+function calcClear(){calcValor="0";updateCalc()}function calcToggle(){if(calcValor==="0")return;calcValor=calcValor.startsWith("-")?calcValor.substring(1):"-"+calcValor;updateCalc()}function calcPercent(){try{calcValor=String(eval(calcValor)/100);updateCalc()}catch{calcValor="Erro";updateCalc()}}function calcResult(){try{let r=eval(calcValor);calcValor=isFinite(r)?String(parseFloat(r.toFixed(8))):"Erro";updateCalc()}catch{calcValor="Erro";updateCalc()}}
+function abrirConfigCelular(){abrirTela("phone-settings-screen");phoneInputWallpaper.value=phoneConfig.wallpaper;phoneInputLocation.value=phoneConfig.location}
+function carregarConfigCelular(){let s=localStorage.getItem("phone_config");if(s){try{phoneConfig=JSON.parse(s)}catch(e){}}aplicarConfigCelular()}
+function salvarConfigCelular(){phoneConfig.wallpaper=phoneInputWallpaper.value.trim()||phoneConfig.wallpaper;phoneConfig.location=phoneInputLocation.value.trim()||"";localStorage.setItem("phone_config",JSON.stringify(phoneConfig));aplicarConfigCelular()}
+function resetarConfigCelular(){localStorage.removeItem("phone_config");phoneConfig={wallpaper:"https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=600&auto=format&fit=crop",location:"New Empire Way"};aplicarConfigCelular();abrirConfigCelular()}
+function aplicarConfigCelular(){phoneScreen.style.background=`linear-gradient(135deg, rgba(255,255,255,.08), transparent 32%),url("${phoneConfig.wallpaper}")`;phoneScreen.style.backgroundSize="cover";phoneScreen.style.backgroundPosition="center"}
 
-function salvarBanco() {
-    localStorage.setItem("bank_data", JSON.stringify(bankData));
-}
+window.mostrarCelular=mostrarCelular;window.fecharCelular=fecharCelular;window.toggleCelular=toggleCelular;window.abrirWhatsapp=abrirWhatsapp;window.abrirBanco=abrirBanco;window.abrirContatos=abrirContatos;window.abrirCalculadora=abrirCalculadora;window.setContactsFromPawn=setContactsFromPawn;window.addContactFromPawn=addContactFromPawn;window.startCallFromPawn=startCallFromPawn;window.receiveWhatsappMessageFromPawn=receiveWhatsappMessageFromPawn;window.sendWhatsAppFromPawn=sendWhatsAppFromPawn;window.setBankFromPawn=setBankFromPawn;window.addBankHistoryFromPawn=addBankHistoryFromPawn;window.receberFotoJogo=receberFotoJogo;
 
-function renderizarBanco() {
-    document.getElementById("bankBalance").innerText = formatMoney(bankData.saldo);
-
-    const history = document.getElementById("bankHistory");
-    history.innerHTML = "";
-
-    if (bankData.historico.length === 0) {
-        history.innerHTML = `<div class="bank-item"><div class="bank-item-title">Nenhuma movimentação</div><div class="bank-item-desc">Seu histórico aparecerá aqui.</div></div>`;
-        return;
-    }
-
-    bankData.historico.slice().reverse().forEach(item => {
-        const div = document.createElement("div");
-        div.className = "bank-item";
-        div.innerHTML = `
-            <div class="bank-item-title">Pix enviado - ${formatMoney(item.valor)}</div>
-            <div class="bank-item-desc">Para: ${escapeHtml(item.destino)} • ${escapeHtml(item.data)}</div>
-        `;
-        history.appendChild(div);
-    });
-
-    ajustarInterfaceCelular();
-}
-
-function togglePixForm() {
-    document.getElementById("pixForm").classList.toggle("active");
-}
-
-function mostrarSaldo() {
-    renderizarBanco();
-}
-
-function enviarPix() {
-    const key = document.getElementById("pixKey").value.trim();
-    const value = parseFloat(String(document.getElementById("pixValue").value).replace(",", "."));
-    const desc = document.getElementById("pixDesc").value.trim();
-
-    if (!key) {
-        alert("Digite a chave Pix ou nome.");
-        return;
-    }
-
-    if (!value || value <= 0) {
-        alert("Digite um valor válido.");
-        return;
-    }
-
-    if (value > bankData.saldo) {
-        alert("Saldo insuficiente.");
-        return;
-    }
-
-    bankData.saldo -= value;
-
-    const comprovante = {
-        id: gerarIdComprovante(),
-        destino: key,
-        valor: value,
-        descricao: desc || "Pix enviado",
-        data: dataCompleta(),
-        nome: waConfig.nome
-    };
-
-    bankData.ultimoComprovante = comprovante;
-    bankData.historico.push(comprovante);
-
-    salvarBanco();
-    renderizarBanco();
-
-    document.getElementById("pixKey").value = "";
-    document.getElementById("pixValue").value = "";
-    document.getElementById("pixDesc").value = "";
-
-    mostrarComprovante(comprovante);
-}
-
-function mostrarComprovante(c) {
-    const box = document.getElementById("receiptContent");
-
-    box.innerHTML = `
-        <div class="receipt-modal-line"><b>ID:</b> ${escapeHtml(c.id)}</div>
-        <div class="receipt-modal-line"><b>Pagador:</b> ${escapeHtml(c.nome)}</div>
-        <div class="receipt-modal-line"><b>Destino:</b> ${escapeHtml(c.destino)}</div>
-        <div class="receipt-modal-line"><b>Valor:</b> ${formatMoney(c.valor)}</div>
-        <div class="receipt-modal-line"><b>Descrição:</b> ${escapeHtml(c.descricao)}</div>
-        <div class="receipt-modal-line"><b>Data:</b> ${escapeHtml(c.data)}</div>
-    `;
-
-    document.getElementById("receipt-modal").classList.add("active");
-}
-
-function fecharComprovante() {
-    document.getElementById("receipt-modal").classList.remove("active");
-}
-
-function compartilharComprovanteWhatsapp() {
-    if (!bankData.ultimoComprovante) return;
-
-    const contatoBanco = contatos.find(c => c.nome === "Banco Roxo") || contatos[0];
-
-    abrirWhatsappSemLoading();
-    abrirConversa(contatoBanco.id);
-
-    const hora = pegarHora();
-
-    contatoBanco.mensagens.push({
-        tipo: "sent",
-        receipt: bankData.ultimoComprovante,
-        hora: hora
-    });
-
-    contatoBanco.ultima = "📄 Comprovante Pix";
-    contatoBanco.hora = hora;
-
-    renderizarMensagens();
-    renderizarLista();
-    fecharComprovante();
-}
-
-function compartilharUltimoComprovante() {
-    if (!bankData.ultimoComprovante) {
-        alert("Nenhum comprovante para compartilhar.");
-        return;
-    }
-
-    mostrarComprovante(bankData.ultimoComprovante);
-}
-
-function montarComprovanteBolha(c) {
-    return `
-        <div class="receipt-box">
-            <div class="receipt-title">Comprovante Pix</div>
-            <div class="receipt-line"><b>ID:</b> ${escapeHtml(c.id)}</div>
-            <div class="receipt-line"><b>Para:</b> ${escapeHtml(c.destino)}</div>
-            <div class="receipt-line"><b>Valor:</b> ${formatMoney(c.valor)}</div>
-            <div class="receipt-line"><b>Data:</b> ${escapeHtml(c.data)}</div>
-        </div>
-    `;
-}
-
-/* CALCULADORA */
-let calcValor = "0";
-
-function updateCalc() {
-    document.getElementById("calcDisplay").innerText =
-        calcValor.replaceAll("*", "×").replaceAll("/", "÷");
-}
-
-function calcInput(v) {
-    if (calcValor === "Erro") calcValor = "0";
-
-    const ops = ["+", "-", "*", "/"];
-    const last = calcValor[calcValor.length - 1];
-
-    if (calcValor === "0" && !ops.includes(v) && v !== ".") {
-        calcValor = v;
-    } else if (ops.includes(v) && ops.includes(last)) {
-        calcValor = calcValor.slice(0, -1) + v;
-    } else {
-        calcValor += v;
-    }
-
-    updateCalc();
-}
-
-function calcClear() {
-    calcValor = "0";
-    updateCalc();
-}
-
-function calcToggle() {
-    if (calcValor === "0") return;
-    calcValor = calcValor.startsWith("-") ? calcValor.substring(1) : "-" + calcValor;
-    updateCalc();
-}
-
-function calcPercent() {
-    try {
-        calcValor = String(eval(calcValor) / 100);
-        updateCalc();
-    } catch {
-        calcValor = "Erro";
-        updateCalc();
-    }
-}
-
-function calcResult() {
-    try {
-        let r = eval(calcValor);
-        calcValor = isFinite(r) ? String(parseFloat(r.toFixed(8))) : "Erro";
-        updateCalc();
-    } catch {
-        calcValor = "Erro";
-        updateCalc();
-    }
-}
-
-/* UTIL */
-function pegarHora() {
-    const d = new Date();
-    return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
-}
-
-function dataCompleta() {
-    const d = new Date();
-    return String(d.getDate()).padStart(2, "0") + "/" +
-           String(d.getMonth() + 1).padStart(2, "0") + "/" +
-           d.getFullYear() + " " + pegarHora();
-}
-
-function formatMoney(v) {
-    return "R$ " + Number(v).toFixed(2).replace(".", ",");
-}
-
-function gerarIdComprovante() {
-    return "PIX-" + Date.now().toString().slice(-8);
-}
-
-function escapeHtml(t) {
-    return String(t)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-function escapeAttr(t) {
-    return String(t)
-        .replaceAll("&", "&amp;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
-}
-
-/* CEF */
-function mostrarCelular() {
-    document.getElementById("phone-wrapper").style.display = "block";
-    setTimeout(ajustarInterfaceCelular, 50);
-}
-
-function fecharCelular() {
-    document.getElementById("phone-wrapper").style.display = "none";
-    if (gravandoAudio) pararGravacaoAudio(false);
-}
-
-function toggleCelular() {
-    const p = document.getElementById("phone-wrapper");
-    p.style.display = p.style.display === "none" ? "block" : "none";
-
-    if (p.style.display === "none" && gravandoAudio) pararGravacaoAudio(false);
-
-    setTimeout(ajustarInterfaceCelular, 50);
-}
-
-window.mostrarCelular = mostrarCelular;
-window.fecharCelular = fecharCelular;
-window.toggleCelular = toggleCelular;
-window.abrirWhatsapp = abrirWhatsapp;
-window.abrirBanco = abrirBanco;
-window.abrirCalculadora = abrirCalculadora;
-window.abrirConfigCelular = abrirConfigCelular;
-window.abrirConfigWhatsapp = abrirConfigWhatsapp;
-window.receberFotoJogo = receberFotoJogo;
-
-/* INIT */
-criarConversasPadrao();
-carregarConfigWhatsapp();
-carregarConfigCelular();
-carregarBanco();
-updateCalc();
-atualizarBotaoEnvio();
-ajustarInterfaceCelular();
-
-setTimeout(ajustarInterfaceCelular, 100);
-setTimeout(ajustarInterfaceCelular, 500);
-setTimeout(ajustarInterfaceCelular, 1000);
+criarConversasPadrao();carregarConfigWhatsapp();carregarConfigCelular();carregarBanco();carregarContatosTelefone();renderizarContatos();renderizarBanco();updateCalc();atualizarBotaoEnvio();
 </script>
-
-</body>
-</html>
+</body></html>
